@@ -1,0 +1,476 @@
+﻿.card {
+  overflow: hidden;
+  border: 1px solid rgba(143, 173, 177, 0.18);
+  border-radius: 11px;
+  background:
+    radial-gradient(
+      circle at 82% 12%,
+      rgba(54, 181, 166, 0.045),
+      transparent 39%
+    ),
+    linear-gradient(
+      140deg,
+      rgba(14, 24, 31, 0.98),
+      rgba(7, 15, 21, 0.98)
+    );
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px;
+  border-bottom: 1px solid rgba(143, 173, 177, 0.12);
+}
+
+.header > div {
+  display: flex;
+  gap: 8px;
+}
+
+.header > div > span {
+  color: #5edccd;
+  font-size: 17px;
+}
+
+.header h2,
+.addSection h3,
+.timelineSection h3 {
+  margin: 0;
+  color: #f4f8f8;
+  font-weight: 500;
+}
+
+.header h2 {
+  font-size: 17px;
+}
+
+.header p,
+.addSection header p,
+.timelineSection header p {
+  margin: 6px 0 0;
+  color: rgba(203, 215, 216, 0.54);
+  font-size: 10px;
+}
+
+.header > strong {
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: rgba(53, 196, 178, 0.1);
+  color: #64dfcf;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.periodPanel {
+  display: grid;
+  grid-template-columns:
+    minmax(190px, 1fr)
+    minmax(150px, 0.7fr)
+    minmax(150px, 0.7fr);
+  align-items: end;
+  gap: 16px;
+  margin: 20px;
+  padding: 17px;
+  border: 1px solid rgba(143, 173, 177, 0.15);
+  border-radius: 9px;
+  background: rgba(6, 14, 20, 0.58);
+}
+
+.periodIntro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #61ddce;
+}
+
+.periodIntro div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.periodIntro strong {
+  color: rgba(240, 246, 246, 0.86);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.periodIntro span {
+  color: rgba(201, 213, 214, 0.51);
+  font-size: 9px;
+}
+
+.periodPanel label,
+.addGrid label,
+.editorGrid label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.periodPanel label > span,
+.addGrid label > span,
+.editorGrid label > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(215, 225, 226, 0.65);
+  font-size: 9px;
+}
+
+.periodPanel input,
+.addGrid input,
+.addGrid select,
+.addGrid textarea,
+.editorGrid input,
+.editorGrid select,
+.editorGrid textarea {
+  width: 100%;
+  border: 1px solid rgba(143, 173, 177, 0.2);
+  border-radius: 7px;
+  outline: none;
+  background: rgba(6, 14, 20, 0.82);
+  color: #edf4f4;
+  font-size: 10px;
+}
+
+.periodPanel input,
+.addGrid input,
+.addGrid select,
+.editorGrid input,
+.editorGrid select {
+  height: 42px;
+  padding: 0 11px;
+}
+
+.addGrid textarea,
+.editorGrid textarea {
+  min-height: 79px;
+  padding: 11px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.periodPanel input:focus,
+.addGrid input:focus,
+.addGrid select:focus,
+.addGrid textarea:focus,
+.editorGrid input:focus,
+.editorGrid select:focus,
+.editorGrid textarea:focus {
+  border-color: rgba(86, 220, 204, 0.67);
+  box-shadow: 0 0 0 3px rgba(86, 220, 204, 0.05);
+}
+
+.addGrid select option,
+.editorGrid select option {
+  background: #091218;
+}
+
+.addSection,
+.timelineSection {
+  padding: 20px;
+  border-top: 1px solid rgba(143, 173, 177, 0.12);
+}
+
+.addSection > header,
+.timelineSection > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: #5edccd;
+}
+
+.addSection h3,
+.timelineSection h3 {
+  font-size: 14px;
+}
+
+.addGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 17px;
+}
+
+.titleField,
+.descriptionField {
+  grid-column: span 2;
+}
+
+.addGrid em {
+  color: #59ddcc;
+  font-style: normal;
+}
+
+.checkbox {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row !important;
+  align-self: end;
+  gap: 9px !important;
+  min-height: 42px;
+}
+
+.checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #54dac9;
+}
+
+.addButton {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 17px;
+  padding: 0 17px;
+  border: 0;
+  border-radius: 7px;
+  background: linear-gradient(
+    100deg,
+    #65dfd3,
+    #35c9b7
+  );
+  color: #031513;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.emptyState {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #5cdacb;
+  text-align: center;
+}
+
+.emptyState strong {
+  margin-top: 13px;
+  color: rgba(239, 245, 245, 0.82);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.emptyState p {
+  max-width: 350px;
+  margin: 7px 0 0;
+  color: rgba(202, 214, 215, 0.5);
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  margin-top: 17px;
+}
+
+.timeline::before {
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 13px;
+  width: 1px;
+  background: rgba(88, 218, 202, 0.24);
+  content: "";
+}
+
+.milestone {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.timelineMarker {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding-top: 22px;
+}
+
+.timelineMarker span {
+  width: 11px;
+  height: 11px;
+  border: 2px solid #071015;
+  border-radius: 50%;
+  background: #5dddd0;
+  box-shadow: 0 0 11px rgba(93, 221, 208, 0.42);
+}
+
+.milestoneContent {
+  padding: 15px;
+  border: 1px solid rgba(143, 173, 177, 0.15);
+  border-radius: 9px;
+  background: rgba(6, 14, 20, 0.62);
+}
+
+.milestoneHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 14px;
+}
+
+.milestoneHeading > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.milestoneHeading strong {
+  overflow: hidden;
+  color: rgba(241, 246, 246, 0.87);
+  font-size: 11px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.milestoneHeading span {
+  color: #5edccb;
+  font-size: 8px;
+}
+
+.removeButton {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(224, 126, 139, 0.7);
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background: rgba(173, 42, 63, 0.12);
+  color: #ff8797;
+}
+
+.editorGrid {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 1.5fr)
+    repeat(3, minmax(115px, 0.8fr));
+  gap: 12px;
+}
+
+.editorGrid .titleField {
+  grid-column: span 2;
+}
+
+.editorGrid .descriptionField {
+  grid-column: 1 / -1;
+}
+
+.visibilityButton {
+  display: inline-flex;
+  min-height: 33px;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 0 11px;
+  border: 1px solid rgba(143, 173, 177, 0.17);
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(202, 214, 215, 0.52);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.visibilityButton.visible {
+  border-color: rgba(76, 216, 199, 0.25);
+  background: rgba(49, 183, 167, 0.08);
+  color: #62dece;
+}
+
+@media (max-width: 1050px) {
+  .addGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .editorGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .descriptionField {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .periodPanel {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  .addGrid,
+  .editorGrid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+  .titleField,
+  .descriptionField,
+  .editorGrid .titleField,
+  .editorGrid .descriptionField {
+    grid-column: auto;
+  }
+
+  .checkbox {
+    align-self: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .periodPanel {
+    margin: 15px;
+  }
+
+  .addSection,
+  .timelineSection {
+    padding: 16px;
+  }
+
+  .milestone {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .timeline::before {
+    left: 9px;
+  }
+
+  .milestoneContent {
+    padding: 13px;
+  }
+}

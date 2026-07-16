@@ -1,0 +1,108 @@
+﻿.pagination {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+  padding: 17px 21px;
+  border: 1px solid
+    rgba(143, 173, 177, 0.18);
+  border-radius: 10px;
+  background:
+    rgba(8, 15, 20, 0.9);
+}
+
+.pagination p {
+  margin: 0;
+  color:
+    rgba(202, 214, 215, 0.62);
+  font-size: 10px;
+}
+
+.pages,
+.pageGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pages button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color:
+    rgba(222, 230, 231, 0.75);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.pages button:hover:not(:disabled) {
+  border-color:
+    rgba(84, 218, 202, 0.25);
+  color: #65ded0;
+}
+
+.pages button.activePage {
+  border-color:
+    rgba(83, 219, 202, 0.65);
+  background:
+    rgba(46, 177, 161, 0.11);
+  color: #68e0d2;
+}
+
+.pages button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ellipsis {
+  color:
+    rgba(202, 214, 215, 0.42);
+}
+
+.pageSize {
+  display: flex;
+  height: 39px;
+  min-width: 115px;
+  align-items: center;
+  justify-self: end;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid
+    rgba(143, 173, 177, 0.18);
+  border-radius: 7px;
+}
+
+.pageSize select {
+  width: 100%;
+  border: 0;
+  outline: none;
+  appearance: none;
+  background: transparent;
+  color:
+    rgba(228, 235, 235, 0.76);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.pageSize select option {
+  background: #091116;
+}
+
+@media (max-width: 720px) {
+  .pagination {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .pageSize {
+    justify-self: center;
+  }
+}

@@ -1,0 +1,556 @@
+﻿.page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 45px;
+  color: #edf5f6;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #71838b;
+  font-size: 12px;
+}
+
+.breadcrumbs a {
+  color: #9eacb1;
+  text-decoration: none;
+}
+
+.breadcrumbs strong {
+  color: #edf4f5;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.headingIntro,
+.headingActions {
+  display: flex;
+  align-items: center;
+}
+
+.headingIntro {
+  gap: 18px;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.heading p {
+  margin: 6px 0 0;
+  color: #85959b;
+  font-size: 12px;
+}
+
+.backButton {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #263d46;
+  border-radius: 9px;
+  color: #c1ccd0;
+  background: #07171e;
+}
+
+.headingActions {
+  gap: 9px;
+}
+
+.primaryButton,
+.secondaryButton,
+.headingActions button {
+  min-height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid #29404a;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.secondaryButton,
+.headingActions button {
+  color: #cad4d7;
+  background: #07171e;
+}
+
+.primaryButton {
+  border-color: #3ed6c7;
+  color: #041816;
+  background:
+    linear-gradient(
+      135deg,
+      #4fdfd1,
+      #23bcae
+    );
+}
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(350px, 0.95fr);
+  gap: 17px;
+}
+
+.successCard,
+.sideCard {
+  border: 1px solid #1b3039;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      145deg,
+      #091b23,
+      #05141a
+    );
+}
+
+.successCard {
+  min-height: 760px;
+  padding: 38px 45px 24px;
+}
+
+.successHero {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.successSymbol {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  border: 4px solid #20c8b8;
+  border-radius: 50%;
+  color: #2bd4c3;
+  background:
+    radial-gradient(
+      circle,
+      rgb(43 212 195 / 10%),
+      transparent 66%
+    );
+}
+
+.sparkleOne,
+.sparkleTwo {
+  position: absolute;
+  color: #2bd4c3;
+  font-size: 22px;
+}
+
+.sparkleOne {
+  top: -27px;
+  right: -19px;
+}
+
+.sparkleTwo {
+  top: 9px;
+  right: -43px;
+  color: #527985;
+  font-size: 15px;
+}
+
+.successHero h2 {
+  margin: 27px 0 0;
+  font-size: 28px;
+}
+
+.successHero p {
+  margin: 8px 0 0;
+  color: #91a0a5;
+  font-size: 16px;
+}
+
+.nextInfo {
+  max-width: 550px;
+  margin: 27px auto 0;
+  padding: 20px;
+  border: 1px solid #223741;
+  border-radius: 10px;
+  background: #0a1a22;
+}
+
+.nextInfo h3 {
+  margin: 0 0 15px;
+  font-size: 14px;
+}
+
+.nextInfo > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 11px;
+  color: #b6c3c7;
+  font-size: 11px;
+}
+
+.nextInfo > div > span {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #2cd3c1;
+  background: rgb(44 211 193 / 10%);
+}
+
+.offerInformation {
+  margin-top: 38px;
+}
+
+.offerInformation h3 {
+  margin: 0 0 19px;
+  font-size: 15px;
+}
+
+.informationGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 38px;
+}
+
+.informationGrid dl {
+  margin: 0;
+}
+
+.informationGrid dl > div {
+  display: grid;
+  grid-template-columns:
+    145px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 10px 0;
+}
+
+.informationGrid dt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #82939a;
+  font-size: 10px;
+}
+
+.informationGrid dd {
+  margin: 0;
+  color: #d5dfe2;
+  font-size: 11px;
+}
+
+.totalValue {
+  color: #3ed7c6 !important;
+  font-weight: 800;
+}
+
+.sentStatus {
+  display: inline-flex;
+  padding: 5px 10px;
+  border: 1px solid #17664e;
+  border-radius: 20px;
+  color: #38d69e;
+  background: rgb(56 214 158 / 8%);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.successCard blockquote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  margin: 46px 0 0;
+  color: #9aa9ae;
+  font-size: 12px;
+  text-align: center;
+}
+
+.successCard blockquote span {
+  color: #2cd0be;
+  font-size: 30px;
+}
+
+.mainFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 45px;
+  padding-top: 22px;
+  border-top: 1px solid #1a3039;
+}
+
+.previousButton {
+  min-height: 45px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid #263e47;
+  border-radius: 8px;
+  color: #c2ced1;
+  background: #07171e;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sideCard {
+  padding: 20px;
+}
+
+.sideCard h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.sideCard > p {
+  margin: 7px 0 0;
+  color: #7d8e95;
+  font-size: 11px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  margin-top: 17px;
+}
+
+.timeline article {
+  position: relative;
+  display: grid;
+  grid-template-columns:
+    34px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  min-height: 66px;
+}
+
+.timeline article:not(:last-child)::after {
+  position: absolute;
+  top: 32px;
+  left: 16px;
+  width: 1px;
+  height: 34px;
+  content: "";
+  background: #29434c;
+}
+
+.timeline article > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #35505a;
+  border-radius: 50%;
+  color: #b9c6ca;
+  background: #07181e;
+  font-size: 12px;
+}
+
+.timeline article strong,
+.timeline article small {
+  display: block;
+}
+
+.timeline article strong {
+  color: #e0e8ea;
+  font-size: 12px;
+}
+
+.timeline article small {
+  margin-top: 6px;
+  color: #7d8e95;
+  font-size: 10px;
+}
+
+.timeline article em {
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #9aabb0;
+  background: #1b2b34;
+  font-size: 9px;
+  font-style: normal;
+}
+
+.timeline .completedStep > span {
+  border-color: #19c7b5;
+  color: #03201c;
+  background:
+    linear-gradient(
+      135deg,
+      #36d7c6,
+      #0eaa9e
+    );
+}
+
+.timeline .completedStep em {
+  color: #35d4a0;
+  background: rgb(53 212 160 / 13%);
+}
+
+.shareField {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.shareField input {
+  min-width: 0;
+  min-height: 45px;
+  padding: 0 12px;
+  border: 1px solid #29404a;
+  border-radius: 8px;
+  color: #c6d1d4;
+  background: #06161c;
+  font: inherit;
+  font-size: 11px;
+}
+
+.shareField button,
+.shareActions a,
+.shareActions button {
+  min-height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  border: 1px solid #29404a;
+  border-radius: 8px;
+  color: #b6c4c8;
+  background: #0a1a22;
+  font: inherit;
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.shareActions {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 11px;
+}
+
+.tipHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.tipHeading > svg {
+  color: #f3c32e;
+}
+
+.tipHeading p {
+  margin: 7px 0 0;
+  color: #a9b6ba;
+  font-size: 11px;
+}
+
+.tipCard ul {
+  margin: 17px 0 0;
+  padding-left: 31px;
+  color: #9dabb0;
+  font-size: 10px;
+  line-height: 2;
+}
+
+.tipCard li::marker {
+  color: #2ac8b7;
+}
+
+@media (max-width: 1150px) {
+  .heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .headingActions {
+    flex-wrap: wrap;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .successCard {
+    padding: 28px 20px 20px;
+  }
+
+  .informationGrid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .headingActions,
+  .mainFooter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .headingActions > *,
+  .mainFooter > * {
+    width: 100%;
+  }
+
+  .shareActions {
+    grid-template-columns: 1fr;
+  }
+
+  .shareField {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .breadcrumbs,
+  .headingActions,
+  .sidebar,
+  .mainFooter,
+  .backButton {
+    display: none !important;
+  }
+
+  .page {
+    color: #111111;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .successCard {
+    border-color: #dddddd;
+    color: #111111;
+    background: #ffffff;
+  }
+}

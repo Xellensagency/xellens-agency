@@ -1,0 +1,524 @@
+﻿import {
+  CalendarDays,
+  Clock3,
+  Crown,
+  UsersRound,
+} from "lucide-react";
+import type {
+  CreateProjectOptions,
+  ProjectDraft,
+  ProjectMilestoneDraft,
+  ProjectServiceAssignments,
+  ProjectServiceDraft,
+  ProjectTeamMemberDraft,
+} from "@/lib/dashboard/projects/create-project-types";
+import styles from "./CreateProjectWizard.module.css";
+
+type ProjectPreviewProps = {
+  options: CreateProjectOptions;
+  draft: ProjectDraft;
+  services: ProjectServiceDraft[];
+  milestones: ProjectMilestoneDraft[];
+  ownerId: string;
+  teamMembers?: ProjectTeamMemberDraft[];
+  serviceAssignments?: ProjectServiceAssignments;
+};
+
+const currencyFormatter =
+  new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
+
+const dateFormatter =
+  new Intl.DateTimeFormat("sv-SE", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+const statusLabels: Record<string, string> = {
+  planning: "Planering",
+  ongoing: "Pågående",
+  waiting_customer: "Väntar på kund",
+  production: "I produktion",
+  paused: "Pausad",
+};
+
+const roleLabels: Record<string, string> = {
+  project_lead: "Projektledare",
+  account_manager: "Kundansvarig",
+  designer: "Designer",
+  developer: "Utvecklare",
+  seo: "SEO-specialist",
+  marketing: "Marknadsföring",
+  content: "Innehåll & copy",
+  photo_video: "Foto & video",
+  support: "Support",
+  observer: "Observatör",
+  other: "Annan roll",
+};
+
+function formatDate(value: string) {
+  if (!value) {
+    return "Ej valt";
+  }
+
+  return dateFormatter.format(
+    new Date(`${value}T12:00:00`)
+  );
+}
+
+function calculateSubtotal(
+  service: ProjectServiceDraft
+) {
+  return (
+    service.quantity *
+    service.unitPriceExVat *
+    (1 - service.discountPercent / 100)
+  );
+}
+
+function getInitials(value: string) {
+  return (
+    value
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase() || "XA"
+  );
+}
+
+export default function ProjectPreview({
+  options,
+  draft,
+  services,
+  milestones,
+  ownerId,
+  teamMembers = [],
+  serviceAssignments = {},
+}: ProjectPreviewProps) {
+  const safeTeamMembers =
+    teamMembers ?? [];
+
+  const safeServiceAssignments =
+    serviceAssignments ?? {};
+  const customer =
+    options.customers.find(
+      (item) => item.id === draft.customerId
+    );
+
+  const selectedCategories =
+    options.categories.filter(
+      (item) =>
+        (draft.categoryIds ?? []).includes(
+          item.id
+        )
+    );
+
+  const categoryNames =
+    selectedCategories.length > 0
+      ? selectedCategories
+          .map((item) => item.name)
+          .join(", ")
+      : "Ingen kategori";
+
+  const owner =
+    options.team_members.find(
+      (member) => member.id === ownerId
+    );
+
+  const selectedTeam =
+    safeTeamMembers
+      .map((assignment) => ({
+        assignment,
+        profile:
+          options.team_members.find(
+            (member) =>
+              member.id ===
+              assignment.profileId
+          ),
+      }))
+      .filter(
+        (item) => Boolean(item.profile)
+      );
+
+  const servicesTotal = services.reduce(
+    (total, service) =>
+      total + calculateSubtotal(service),
+    0
+  );
+
+  const assignedServices =
+    Object.values(safeServiceAssignments).filter(
+      (assignment) =>
+        Boolean(assignment.assignedTo)
+    ).length;
+
+  const sortedMilestones = [
+    ...milestones,
+  ].sort((first, second) =>
+    `${first.dueDate}T${first.dueTime}`.localeCompare(
+      `${second.dueDate}T${second.dueTime}`
+    )
+  );
+
+  const initials =
+    getInitials(
+      draft.title || "Xellens Agency"
+    );
+
+  return (
+    <aside className={styles.previewColumn}>
+      <section className={styles.previewCard}>
+        <header className={styles.previewHeader}>
+          <h2>Projektöversikt</h2>
+          <span>Förhandsvisning</span>
+        </header>
+
+        <div className={styles.previewHero}>
+          <span
+            className={
+              styles.previewInitials
+            }
+          >
+            {initials}
+          </span>
+
+          <div>
+            <small>
+              {customer?.name ||
+                "Ingen kund vald"}
+            </small>
+
+            <strong>
+              {draft.title ||
+                "Nytt projekt"}
+            </strong>
+
+            <span>
+              {categoryNames}
+            </span>
+          </div>
+        </div>
+
+        <dl className={styles.previewDetails}>
+          <div>
+            <dt>Kund</dt>
+            <dd>
+              {customer?.name || "Ej valt"}
+            </dd>
+          </div>
+
+          <div>
+            <dt>Kategori</dt>
+            <dd>
+              {categoryNames}
+            </dd>
+          </div>
+
+          <div>
+            <dt>Startdatum</dt>
+            <dd>
+              {formatDate(draft.startDate)}
+            </dd>
+          </div>
+
+          <div>
+            <dt>Slutdatum</dt>
+            <dd>
+              {formatDate(draft.endDate)}
+            </dd>
+          </div>
+
+          <div>
+            <dt>Budget</dt>
+            <dd>
+              {currencyFormatter.format(
+                Number(
+                  draft.budgetExVat
+                ) || 0
+              )}
+            </dd>
+          </div>
+
+          <div>
+            <dt>Status</dt>
+            <dd className={styles.statusValue}>
+              {statusLabels[draft.status] ??
+                draft.status}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className={styles.servicesPreview}>
+        <header>
+          <h2>Tjänster som ingår</h2>
+
+          <span>
+            {services.length} tjänster
+          </span>
+        </header>
+
+        {services.length === 0 ? (
+          <div className={styles.emptyServices}>
+            <strong>
+              Inga tjänster valda
+            </strong>
+
+            <p>
+              Lägg till tjänster i steg två.
+            </p>
+          </div>
+        ) : (
+          <div
+            className={
+              styles.previewServiceList
+            }
+          >
+            {services.map((service) => (
+              <div
+                className={
+                  styles.previewService
+                }
+                key={service.id}
+              >
+                <span>✓</span>
+
+                <div>
+                  <strong>
+                    {service.name}
+                  </strong>
+
+                  <small>
+                    {service.quantity} ×{" "}
+                    {currencyFormatter.format(
+                      service.unitPriceExVat
+                    )}
+                  </small>
+                </div>
+
+                <b>
+                  {currencyFormatter.format(
+                    calculateSubtotal(
+                      service
+                    )
+                  )}
+                </b>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <footer>
+          <span>Total, exkl. moms</span>
+
+          <strong>
+            {currencyFormatter.format(
+              servicesTotal
+            )}
+          </strong>
+        </footer>
+      </section>
+
+      <section className={styles.timelinePreview}>
+        <header>
+          <h2>Tidsplan</h2>
+
+          <span>
+            {milestones.length} deadlines
+          </span>
+        </header>
+
+        {sortedMilestones.length === 0 ? (
+          <div className={styles.emptyTimeline}>
+            <CalendarDays
+              size={25}
+              strokeWidth={1.4}
+            />
+
+            <strong>
+              Ingen tidsplan ännu
+            </strong>
+
+            <p>
+              Lägg till deadlines i steg tre.
+            </p>
+          </div>
+        ) : (
+          <div
+            className={
+              styles.timelinePreviewList
+            }
+          >
+            {sortedMilestones
+              .slice(0, 4)
+              .map((milestone) => (
+                <div
+                  className={
+                    styles.timelinePreviewItem
+                  }
+                  key={milestone.id}
+                >
+                  <span
+                    className={
+                      styles.timelinePreviewDot
+                    }
+                  />
+
+                  <div>
+                    <strong>
+                      {milestone.title}
+                    </strong>
+
+                    <small>
+                      <Clock3
+                        size={11}
+                        strokeWidth={1.7}
+                      />
+
+                      {formatDate(
+                        milestone.dueDate
+                      )}
+
+                      {milestone.dueTime
+                        ? ` · ${milestone.dueTime}`
+                        : ""}
+                    </small>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+      </section>
+
+      <section className={styles.teamPreview}>
+        <header>
+          <h2>Team</h2>
+
+          <span>
+            {safeTeamMembers.length +
+              (owner ? 1 : 0)}
+            {" "}personer
+          </span>
+        </header>
+
+        {!owner &&
+        selectedTeam.length === 0 ? (
+          <div className={styles.emptyTeamPreview}>
+            <UsersRound
+              size={25}
+              strokeWidth={1.4}
+            />
+
+            <strong>
+              Inget team valt
+            </strong>
+
+            <p>
+              Välj projektledare och team i
+              steg fyra.
+            </p>
+          </div>
+        ) : (
+          <div className={styles.teamPreviewList}>
+            {owner && (
+              <div
+                className={
+                  styles.teamPreviewItem
+                }
+              >
+                <span
+                  className={
+                    styles.teamPreviewAvatar
+                  }
+                >
+                  {getInitials(
+                    owner.full_name
+                  )}
+                </span>
+
+                <div>
+                  <strong>
+                    {owner.full_name}
+                  </strong>
+
+                  <small>
+                    <Crown
+                      size={10}
+                      strokeWidth={1.7}
+                    />
+                    Projektledare
+                  </small>
+                </div>
+              </div>
+            )}
+
+            {selectedTeam.map(
+              ({ assignment, profile }) =>
+                profile && (
+                  <div
+                    className={
+                      styles.teamPreviewItem
+                    }
+                    key={profile.id}
+                  >
+                    <span
+                      className={
+                        styles.teamPreviewAvatar
+                      }
+                    >
+                      {getInitials(
+                        profile.full_name
+                      )}
+                    </span>
+
+                    <div>
+                      <strong>
+                        {profile.full_name}
+                      </strong>
+
+                      <small>
+                        {roleLabels[
+                          assignment
+                            .memberRole
+                        ] ||
+                          assignment.memberRole}
+                      </small>
+                    </div>
+                  </div>
+                )
+            )}
+
+            {services.length > 0 && (
+              <div
+                className={
+                  styles.assignmentSummary
+                }
+              >
+                <span>
+                  Tjänsteansvar fördelat
+                </span>
+
+                <strong>
+                  {assignedServices} av{" "}
+                  {services.length}
+                </strong>
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+    </aside>
+  );
+}
+
+
+
+
+

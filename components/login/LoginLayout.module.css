@@ -1,0 +1,122 @@
+﻿.page {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 14% 48%,
+      rgba(92, 37, 174, 0.18),
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 84% 52%,
+      rgba(72, 24, 140, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(125deg, #080b16 0%, #050711 48%, #02040a 100%);
+  color: #ffffff;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(400px, 0.92fr);
+  align-items: center;
+  gap: clamp(48px, 8vw, 120px);
+  width: min(1180px, calc(100% - 80px));
+  min-height: 100svh;
+  margin: 0 auto;
+}
+
+.formArea {
+  position: relative;
+  min-width: 0;
+  min-height: 570px;
+}
+
+.glowOne,
+.glowTwo {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+.glowOne {
+  top: -230px;
+  left: -180px;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(
+    circle,
+    rgba(134, 56, 240, 0.22),
+    transparent 67%
+  );
+}
+
+.glowTwo {
+  right: -270px;
+  bottom: -300px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(
+    circle,
+    rgba(102, 32, 207, 0.14),
+    transparent 66%
+  );
+}
+
+.gridPattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.11;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to right, black, transparent 85%);
+}
+
+.footer {
+  position: absolute;
+  z-index: 3;
+  bottom: 24px;
+  left: 50%;
+  color: rgba(225, 220, 238, 0.34);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 900px) {
+  .page {
+    overflow-y: auto;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 0;
+    width: min(680px, calc(100% - 44px));
+    padding-bottom: 85px;
+  }
+
+  .formArea {
+    min-height: 0;
+  }
+
+  .footer {
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: min(100% - 30px, 680px);
+  }
+
+  .gridPattern {
+    background-size: 42px 42px;
+  }
+}

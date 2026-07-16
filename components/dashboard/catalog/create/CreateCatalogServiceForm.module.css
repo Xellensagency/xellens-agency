@@ -1,0 +1,524 @@
+﻿.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 45px;
+  color: #edf5f6;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.backButton,
+.saveButton,
+.mobileSaveButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 39px;
+  padding: 0 13px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.backButton {
+  border: 1px solid #29404a;
+  color: #aebdc2;
+  background: #07171e;
+}
+
+.saveButton,
+.mobileSaveButton {
+  border: 1px solid #42d5c7;
+  color: #031414;
+  background: #42d5c7;
+  cursor: pointer;
+  font: inherit;
+}
+
+.saveButton:disabled,
+.mobileSaveButton:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 14px;
+  border: 1px solid;
+  border-radius: 9px;
+  font-size: 9px;
+}
+
+.success {
+  border-color: #2d625b;
+  color: #55debf;
+  background: rgb(31 121 101 / 13%);
+}
+
+.error {
+  border-color: #6a3539;
+  color: #f19599;
+  background: rgb(151 53 59 / 13%);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px;
+  border: 1px solid #1b3039;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(10 30 37 / 98%),
+      rgb(5 18 24 / 98%)
+    );
+}
+
+.hero > span {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 11px;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 10%);
+}
+
+.hero small {
+  display: block;
+  margin-bottom: 3px;
+  color: #42d5c7;
+  font-size: 8px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.hero p {
+  margin: 5px 0 0;
+  color: #75868e;
+  font-size: 9px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    290px;
+  align-items: start;
+  gap: 14px;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.card,
+.summaryCard {
+  overflow: hidden;
+  border: 1px solid #1b3039;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgb(10 27 34 / 98%),
+      rgb(5 18 24 / 98%)
+    );
+}
+
+.card > header,
+.summaryCard > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid #1b3039;
+}
+
+.card > header > span,
+.summaryCard > header > svg {
+  color: #42d5c7;
+}
+
+.card header h2,
+.summaryCard header h2 {
+  margin: 0;
+  font-size: 12px;
+}
+
+.card header p,
+.summaryCard header p {
+  margin: 4px 0 0;
+  color: #71828b;
+  font-size: 8px;
+}
+
+.kindOptions {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 15px;
+}
+
+.kindOptions button {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid #263b44;
+  border-radius: 9px;
+  color: #aebcc1;
+  background: #07181e;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.kindOptions button > span {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 9%);
+}
+
+.kindOptions button:nth-child(2) > span {
+  color: #b885f5;
+  background: rgb(184 133 245 / 10%);
+}
+
+.kindOptions strong {
+  display: block;
+  color: #edf5f6;
+  font-size: 10px;
+}
+
+.kindOptions small {
+  display: block;
+  margin-top: 4px;
+  color: #71828b;
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.kindOptions .selectedKind {
+  border-color: #42d5c7;
+  box-shadow:
+    0 0 0 3px rgb(66 213 199 / 7%);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  padding: 16px;
+}
+
+.formGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGrid label > span {
+  color: #aebbc0;
+  font-size: 8px;
+}
+
+.formGrid label em {
+  margin-left: 3px;
+  color: #ef8389;
+  font-style: normal;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formGrid input,
+.formGrid select,
+.formGrid textarea {
+  width: 100%;
+  min-height: 39px;
+  padding: 0 10px;
+  border: 1px solid #29404a;
+  border-radius: 7px;
+  outline: none;
+  color: #edf5f6;
+  background: #06161c;
+  font: inherit;
+  font-size: 9px;
+}
+
+.formGrid textarea {
+  min-height: 115px;
+  padding: 10px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.formGrid input:focus,
+.formGrid select:focus,
+.formGrid textarea:focus {
+  border-color: #42d5c7;
+  box-shadow:
+    0 0 0 3px rgb(66 213 199 / 7%);
+}
+
+.formGrid input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.suffixInput {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #29404a;
+  border-radius: 7px;
+  background: #06161c;
+}
+
+.suffixInput:focus-within {
+  border-color: #42d5c7;
+  box-shadow:
+    0 0 0 3px rgb(66 213 199 / 7%);
+}
+
+.suffixInput input {
+  border: 0;
+  box-shadow: none !important;
+}
+
+.suffixInput > span {
+  padding: 0 10px;
+  color: #72838b;
+  font-size: 8px;
+}
+
+.pricingModes {
+  display: flex;
+  gap: 7px;
+  padding: 15px 16px 0;
+}
+
+.pricingModes button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #29404a;
+  border-radius: 7px;
+  color: #86969e;
+  background: #07171d;
+  cursor: pointer;
+  font: inherit;
+  font-size: 8px;
+}
+
+.pricingModes .selectedMode {
+  border-color: #42d5c7;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 8%);
+}
+
+.toggleList {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 16px;
+}
+
+.toggleList label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 13px 0;
+  border-bottom: 1px solid #1b3039;
+  cursor: pointer;
+}
+
+.toggleList label:last-child {
+  border-bottom: 0;
+}
+
+.toggleList strong {
+  display: block;
+  font-size: 9px;
+}
+
+.toggleList small {
+  display: block;
+  margin-top: 3px;
+  color: #71828b;
+  font-size: 8px;
+}
+
+.toggleList input {
+  width: 17px;
+  height: 17px;
+  accent-color: #42d5c7;
+}
+
+.summaryColumn {
+  position: sticky;
+  top: 85px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summaryCard {
+  padding-bottom: 15px;
+}
+
+.summaryIcon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  margin: 17px auto 0;
+  border-radius: 13px;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 10%);
+}
+
+.summaryCard > h3 {
+  margin: 11px 15px 0;
+  text-align: center;
+  font-size: 13px;
+}
+
+.kindBadge {
+  display: table;
+  margin: 7px auto 0;
+  padding: 5px 8px;
+  border-radius: 5px;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 9%);
+  font-size: 8px;
+}
+
+.summaryCard dl {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 16px 15px 0;
+  padding-top: 14px;
+  border-top: 1px solid #1b3039;
+}
+
+.summaryCard dl div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.summaryCard dt,
+.summaryCard dd {
+  margin: 0;
+  font-size: 8px;
+}
+
+.summaryCard dt {
+  color: #71828b;
+}
+
+.summaryCard dd {
+  color: #cbd5d8;
+  font-weight: 700;
+}
+
+.summaryCard .totalRow {
+  margin-top: 3px;
+  padding-top: 10px;
+  border-top: 1px solid #29404a;
+}
+
+.totalRow dt {
+  color: #c2ced2;
+  font-weight: 700;
+}
+
+.totalRow dd {
+  color: #42d5c7;
+  font-size: 13px;
+}
+
+.summaryStatus {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #2e5752;
+  border-radius: 7px;
+  color: #4fd9b6;
+  background: rgb(37 119 112 / 10%);
+  font-size: 8px;
+}
+
+.mobileSaveButton {
+  display: none;
+  width: 100%;
+}
+
+@media (max-width: 950px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryColumn {
+    position: static;
+  }
+
+  .saveButton {
+    display: none;
+  }
+
+  .mobileSaveButton {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 650px) {
+  .kindOptions,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fullWidth {
+    grid-column: auto;
+  }
+
+  .topbar {
+    align-items: stretch;
+  }
+
+  .backButton {
+    flex: 1;
+  }
+}

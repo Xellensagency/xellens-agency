@@ -1,0 +1,74 @@
+﻿.shell {
+  display: grid;
+  grid-template-columns: 262px minmax(0, 1fr);
+  min-height: 100svh;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(39, 139, 132, 0.035),
+      transparent 34%
+    ),
+    #02070c;
+  color: #f4f7f7;
+}
+
+.workspace {
+  min-width: 0;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.content {
+  min-width: 0;
+  padding: 0 40px 40px;
+}
+
+.overlay {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .shell {
+    display: block;
+  }
+
+  .workspace {
+    width: 100%;
+  }
+
+  .overlay {
+    position: fixed;
+    z-index: 50;
+    inset: 0;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: rgba(0, 4, 7, 0.73);
+    cursor: default;
+    backdrop-filter: blur(4px);
+    animation: overlayIn 180ms ease;
+  }
+}
+
+@media (max-width: 720px) {
+  .content {
+    padding: 0 18px 30px;
+  }
+}
+
+@media (max-width: 390px) {
+  .content {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

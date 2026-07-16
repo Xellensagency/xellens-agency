@@ -1,0 +1,192 @@
+﻿.card {
+  min-width: 0;
+  min-height: 345px;
+  padding: 23px;
+  border: 1px solid rgba(143, 173, 177, 0.18);
+  border-radius: 11px;
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(66, 188, 174, 0.035),
+      transparent 44%
+    ),
+    linear-gradient(
+      140deg,
+      rgba(14, 23, 29, 0.98),
+      rgba(7, 15, 20, 0.98)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.015),
+    0 14px 40px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 17px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #f5f8f8;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.header a {
+  color: #62dfd0;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.header a:hover {
+  text-decoration: underline;
+}
+
+.list {
+  display: grid;
+}
+
+.deadline {
+  display: grid;
+  grid-template-columns: 59px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 68px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(143, 173, 177, 0.12);
+}
+
+.deadline:last-child {
+  border-bottom: 0;
+}
+
+.dateBox {
+  display: grid;
+  width: 56px;
+  height: 57px;
+  place-content: center;
+  border: 1px solid rgba(135, 167, 171, 0.17);
+  border-radius: 7px;
+  background: rgba(7, 14, 19, 0.55);
+  text-align: center;
+}
+
+.dateBox strong {
+  color: #f5f7f7;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.dateBox span {
+  margin-top: 5px;
+  color: rgba(211, 220, 221, 0.65);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.details {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.details strong {
+  overflow: hidden;
+  color: rgba(245, 248, 248, 0.91);
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.details span {
+  color: rgba(207, 218, 219, 0.6);
+  font-size: 12px;
+}
+
+.badge {
+  justify-self: end;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.green {
+  background: rgba(45, 176, 126, 0.13);
+  color: #68dfa9;
+}
+
+.orange {
+  background: rgba(205, 139, 41, 0.13);
+  color: #ffc052;
+}
+
+.blue {
+  background: rgba(48, 136, 219, 0.14);
+  color: #68b6ff;
+}
+
+.purple {
+  background: rgba(133, 84, 209, 0.15);
+  color: #b78cff;
+}
+
+@media (max-width: 560px) {
+  .card {
+    min-height: 0;
+    padding: 19px;
+  }
+
+  .deadline {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 12px;
+    padding: 11px 0;
+  }
+
+  .dateBox {
+    width: 50px;
+    height: 52px;
+  }
+
+  .badge {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -2px;
+  }
+
+  .details strong {
+    white-space: normal;
+  }
+}
+
+.emptyState {
+  display: flex;
+  min-height: 245px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  padding: 30px;
+  color: rgba(210, 221, 222, 0.55);
+  text-align: center;
+}
+
+.emptyState strong {
+  color: rgba(235, 241, 241, 0.78);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.emptyState span {
+  max-width: 290px;
+  font-size: 11px;
+  line-height: 1.6;
+}

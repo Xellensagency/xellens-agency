@@ -1,0 +1,13 @@
+﻿.grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.08fr)
+    minmax(0, 0.92fr);
+  gap: 18px;
+}
+
+@media (max-width: 1050px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

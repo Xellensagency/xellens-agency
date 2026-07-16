@@ -1,0 +1,443 @@
+﻿.tableCard,
+.emptyCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid
+    rgba(143, 173, 177, 0.18);
+  border-radius: 10px;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(63, 185, 170, 0.035),
+      transparent 42%
+    ),
+    linear-gradient(
+      140deg,
+      rgba(13, 22, 28, 0.98),
+      rgba(7, 15, 20, 0.98)
+    );
+}
+
+.tableHeader,
+.row {
+  display: grid;
+  grid-template-columns:
+    minmax(250px, 2fr)
+    minmax(155px, 1fr)
+    120px
+    125px
+    125px
+    130px
+    34px;
+  align-items: center;
+  gap: 15px;
+}
+
+.tableHeader {
+  min-height: 51px;
+  padding: 0 20px;
+  border-bottom: 1px solid
+    rgba(143, 173, 177, 0.12);
+  color:
+    rgba(199, 211, 212, 0.57);
+  font-size: 9px;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.rows {
+  padding: 0 8px;
+}
+
+.row {
+  min-height: 73px;
+  padding: 9px 12px;
+  border-bottom: 1px solid
+    rgba(143, 173, 177, 0.1);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row:hover {
+  background:
+    rgba(59, 187, 172, 0.025);
+}
+
+.projectCell,
+.customerCell,
+.deadlineCell,
+.membersCell {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.projectCell {
+  gap: 14px;
+}
+
+.thumbnail {
+  display: grid;
+  width: 92px;
+  height: 54px;
+  flex: 0 0 92px;
+  overflow: hidden;
+  place-items: center;
+  border: 1px solid
+    rgba(160, 187, 189, 0.13);
+  border-radius: 5px;
+  background:
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(82, 221, 198, 0.24),
+      transparent 40%
+    ),
+    #071015;
+  background-position: center;
+  background-size: cover;
+}
+
+.thumbnail span {
+  color:
+    rgba(239, 246, 246, 0.8);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.projectText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.projectText a {
+  overflow: hidden;
+  color:
+    rgba(246, 249, 249, 0.94);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.projectText a:hover {
+  color: #65ded0;
+}
+
+.projectText span {
+  color:
+    rgba(204, 215, 216, 0.57);
+  font-size: 10px;
+}
+
+.customerCell {
+  gap: 10px;
+}
+
+.customerAvatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border: 1px solid
+    rgba(211, 225, 226, 0.36);
+  border-radius: 50%;
+  background: #050a0d;
+  color:
+    rgba(241, 246, 246, 0.9);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.customerCell strong {
+  overflow: hidden;
+  color:
+    rgba(229, 236, 236, 0.79);
+  font-size: 10px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  display: inline-flex;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.status.green {
+  background:
+    rgba(40, 174, 137, 0.14);
+  color: #61dfa9;
+}
+
+.status.purple {
+  background:
+    rgba(133, 84, 209, 0.16);
+  color: #b68aff;
+}
+
+.status.blue {
+  background:
+    rgba(48, 136, 219, 0.15);
+  color: #68b7ff;
+}
+
+.status.orange {
+  background:
+    rgba(205, 139, 41, 0.14);
+  color: #ffbd51;
+}
+
+.status.gray {
+  background:
+    rgba(126, 145, 148, 0.13);
+  color:
+    rgba(207, 218, 219, 0.68);
+}
+
+.deadlineCell {
+  gap: 8px;
+  color:
+    rgba(204, 215, 216, 0.62);
+  font-size: 9px;
+}
+
+.deadlineCell svg {
+  flex: 0 0 auto;
+}
+
+.memberStack {
+  display: flex;
+  align-items: center;
+}
+
+.member,
+.moreMembers {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
+  place-items: center;
+  margin-left: -6px;
+  border: 2px solid #091116;
+  border-radius: 50%;
+  background:
+    linear-gradient(
+      145deg,
+      #264b48,
+      #10211f
+    );
+  color: #dff9f5;
+  font-size: 7px;
+  font-weight: 700;
+}
+
+.member:first-child {
+  margin-left: 0;
+}
+
+.moreMembers {
+  background: #0c151a;
+  color:
+    rgba(222, 230, 231, 0.7);
+}
+
+.noMembers,
+.updatedCell {
+  color:
+    rgba(201, 212, 213, 0.57);
+  font-size: 9px;
+}
+
+.moreButton {
+  display: grid;
+  width: 32px;
+  height: 36px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color:
+    rgba(208, 218, 219, 0.66);
+  cursor: pointer;
+}
+
+.moreButton:hover {
+  background:
+    rgba(75, 206, 191, 0.07);
+  color: #65ded0;
+}
+
+.emptyCard {
+  display: flex;
+  min-height: 330px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 45px 25px;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 1px solid
+    rgba(83, 218, 202, 0.22);
+  border-radius: 50%;
+  background:
+    rgba(49, 183, 167, 0.1);
+  color: #62ded0;
+  font-size: 28px;
+}
+
+.emptyCard h2 {
+  margin: 19px 0 0;
+  color: #f1f6f6;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.emptyCard p {
+  max-width: 350px;
+  margin: 9px 0 0;
+  color:
+    rgba(203, 215, 216, 0.57);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.emptyCard a {
+  margin-top: 20px;
+  padding: 11px 17px;
+  border-radius: 7px;
+  background: #5bd7c8;
+  color: #041311;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 1280px) {
+  .tableCard {
+    overflow-x: auto;
+  }
+
+  .tableHeader,
+  .row {
+    min-width: 1080px;
+  }
+}
+
+@media (max-width: 800px) {
+  .tableCard {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .tableHeader {
+    display: none;
+  }
+
+  .rows {
+    display: grid;
+    gap: 13px;
+    padding: 0;
+  }
+
+  .row {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    grid-template-columns:
+      minmax(0, 1fr) auto;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid
+      rgba(143, 173, 177, 0.18);
+    border-radius: 10px;
+    background:
+      linear-gradient(
+        140deg,
+        rgba(13, 22, 28, 0.98),
+        rgba(7, 15, 20, 0.98)
+      );
+  }
+
+  .projectCell {
+    grid-column: 1 / -1;
+    padding-right: 34px;
+  }
+
+  .customerCell,
+  .statusCell,
+  .deadlineCell,
+  .membersCell,
+  .updatedCell {
+    position: relative;
+    display: flex;
+    min-height: 39px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    padding-top: 17px;
+  }
+
+  .customerCell::before,
+  .statusCell::before,
+  .deadlineCell::before,
+  .membersCell::before,
+  .updatedCell::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color:
+      rgba(191, 204, 205, 0.45);
+    font-size: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    content: attr(data-label);
+  }
+
+  .moreButton {
+    position: absolute;
+    top: 15px;
+    right: 12px;
+  }
+
+  .thumbnail {
+    width: 74px;
+    height: 50px;
+    flex-basis: 74px;
+  }
+
+  .projectText a {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .customerCell,
+  .statusCell,
+  .deadlineCell,
+  .membersCell,
+  .updatedCell {
+    grid-column: 1;
+  }
+}

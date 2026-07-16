@@ -1,0 +1,945 @@
+﻿.page {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 45px;
+  color: #edf5f6;
+}
+
+.topbar,
+.actions,
+.hero,
+.card > header,
+.summary header {
+  display: flex;
+  align-items: center;
+}
+
+.topbar {
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.actions {
+  gap: 8px;
+}
+
+.backButton,
+.primaryButton,
+.secondaryButton {
+  min-height: 39px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.backButton,
+.secondaryButton {
+  border: 1px solid #29404a;
+  color: #afbdc2;
+  background: #07171e;
+}
+
+.primaryButton {
+  border: 1px solid #42d5c7;
+  color: #031716;
+  background: #42d5c7;
+}
+
+.primaryButton:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid;
+  border-radius: 9px;
+  font-size: 9px;
+}
+
+.error {
+  border-color: #69373b;
+  color: #ee9297;
+  background: rgb(151 53 59 / 12%);
+}
+
+.success {
+  border-color: #2d625b;
+  color: #55debf;
+  background: rgb(31 121 101 / 12%);
+}
+
+.hero {
+  gap: 13px;
+  padding: 18px;
+  border: 1px solid #1b3039;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(10 30 37 / 98%),
+      rgb(5 18 24 / 98%)
+    );
+}
+
+.hero > span {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 10%);
+}
+
+.hero small {
+  color: #42d5c7;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 3px 0 0;
+  font-size: 18px;
+}
+
+.hero p {
+  margin: 5px 0 0;
+  color: #75868e;
+  font-size: 9px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid #1b3039;
+  border-radius: 10px;
+  background: #07171e;
+}
+
+.steps button {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-right: 1px solid #1b3039;
+  color: #71828a;
+  background: transparent;
+  font: inherit;
+  font-size: 8px;
+}
+
+.steps button:last-child {
+  border-right: 0;
+}
+
+.steps button > span {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #30464f;
+  border-radius: 50%;
+}
+
+.steps .activeStep {
+  color: #dffaf6;
+  background: rgb(66 213 199 / 7%);
+}
+
+.steps .activeStep > span {
+  border-color: #42d5c7;
+  color: #031716;
+  background: #42d5c7;
+}
+
+.steps .completedStep {
+  color: #42d5c7;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    285px;
+  align-items: start;
+  gap: 14px;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.card,
+.summary > section {
+  overflow: hidden;
+  border: 1px solid #1b3039;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgb(10 27 34 / 98%),
+      rgb(5 18 24 / 98%)
+    );
+}
+
+.card > header,
+.summary header {
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid #1b3039;
+}
+
+.card > header > svg,
+.summary header > svg {
+  color: #42d5c7;
+}
+
+.card h2,
+.summary h2 {
+  margin: 0;
+  font-size: 12px;
+}
+
+.card header p,
+.summary header p {
+  margin: 4px 0 0;
+  color: #71828b;
+  font-size: 8px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  padding: 16px;
+}
+
+.formGrid label,
+.review label,
+.itemRow label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGrid label > span,
+.review label > span,
+.itemRow label > span {
+  color: #aebbc0;
+  font-size: 8px;
+}
+
+.formGrid em {
+  margin-left: 3px;
+  color: #ef8389;
+  font-style: normal;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formGrid input,
+.formGrid select,
+.formGrid textarea,
+.review textarea,
+.servicePicker select,
+.itemRow input,
+.itemRow select {
+  width: 100%;
+  min-height: 39px;
+  padding: 0 10px;
+  border: 1px solid #29404a;
+  border-radius: 7px;
+  outline: 0;
+  color: #edf5f6;
+  background: #06161c;
+  font: inherit;
+  font-size: 8px;
+}
+
+.formGrid textarea,
+.review textarea {
+  min-height: 90px;
+  padding: 10px;
+  resize: vertical;
+}
+
+.recurringContent {
+  padding: 16px;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.toggleRow input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: #42d5c7;
+}
+
+.toggleRow strong,
+.toggleRow small {
+  display: block;
+}
+
+.toggleRow strong {
+  color: #d9e4e7;
+  font-size: 9px;
+}
+
+.toggleRow small {
+  margin-top: 4px;
+  color: #71828b;
+  font-size: 8px;
+}
+
+.recurringContent > .formGrid {
+  margin-top: 15px;
+  padding: 15px 0 0;
+  border-top: 1px solid #1b3039;
+}
+
+.servicePicker {
+  display: grid;
+  grid-template-columns:
+    minmax(220px, 1fr)
+    auto
+    auto;
+  gap: 8px;
+  padding: 15px;
+  border-bottom: 1px solid #1b3039;
+}
+
+.servicePicker button {
+  min-height: 39px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid #2c514f;
+  border-radius: 7px;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 7%);
+  font: inherit;
+  font-size: 8px;
+}
+
+.servicePicker button:disabled {
+  opacity: 0.45;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns:
+    28px
+    minmax(190px, 2fr)
+    70px
+    80px
+    110px
+    75px
+    75px
+    105px
+    32px;
+  align-items: end;
+  gap: 8px;
+  padding: 13px;
+  border-bottom: 1px solid #172a32;
+}
+
+.itemRow:last-child {
+  border-bottom: 0;
+}
+
+.rowNumber {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  border-radius: 50%;
+  color: #42d5c7;
+  background: rgb(66 213 199 / 9%);
+  font-size: 8px;
+}
+
+.lineTotal {
+  min-height: 39px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.lineTotal span {
+  color: #71828b;
+  font-size: 7px;
+}
+
+.lineTotal strong {
+  margin-top: 4px;
+  font-size: 8px;
+}
+
+.removeButton {
+  width: 31px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #62363b;
+  border-radius: 7px;
+  color: #ec858b;
+  background: rgb(151 53 59 / 9%);
+}
+
+.emptyItems {
+  padding: 55px 20px;
+  color: #71828b;
+  text-align: center;
+}
+
+.emptyItems svg {
+  color: #42d5c7;
+}
+
+.emptyItems strong {
+  display: block;
+  margin-top: 10px;
+  color: #c8d3d6;
+  font-size: 10px;
+}
+
+.emptyItems p {
+  margin: 5px 0 0;
+  font-size: 8px;
+}
+
+.review {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 16px;
+}
+
+.review > div {
+  padding: 12px;
+  border: 1px solid #20363f;
+  border-radius: 8px;
+  background: #07181e;
+}
+
+.review > div span,
+.review > div strong {
+  display: block;
+}
+
+.review > div span {
+  color: #71828b;
+  font-size: 7px;
+}
+
+.review > div strong {
+  margin-top: 5px;
+  font-size: 8px;
+}
+
+.summary {
+  position: sticky;
+  top: 85px;
+}
+
+.summary dl {
+  margin: 0;
+  padding: 15px;
+}
+
+.summary dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid #172a32;
+}
+
+.summary dt,
+.summary dd {
+  margin: 0;
+  font-size: 8px;
+}
+
+.summary dt {
+  color: #71828b;
+}
+
+.summary dd {
+  color: #cbd6d9;
+  font-weight: 700;
+}
+
+.summary .totalRow {
+  margin-top: 5px;
+  padding-top: 14px;
+  border-bottom: 0;
+}
+
+.totalRow dt,
+.totalRow dd {
+  color: #42d5c7;
+  font-size: 11px;
+}
+
+.recurringBadge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 15px 15px;
+  padding: 10px;
+  border: 1px solid #2e5752;
+  border-radius: 7px;
+  color: #4fd9b6;
+  background: rgb(37 119 112 / 10%);
+  font-size: 8px;
+}
+
+@media (max-width: 1150px) {
+  .itemRow {
+    grid-template-columns:
+      28px
+      minmax(180px, 2fr)
+      repeat(3, minmax(80px, 1fr))
+      32px;
+  }
+
+  .itemRow label:nth-of-type(5),
+  .itemRow label:nth-of-type(6),
+  .lineTotal {
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    position: static;
+  }
+
+  .servicePicker {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .topbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .steps,
+  .formGrid,
+  .review {
+    grid-template-columns: 1fr;
+  }
+
+  .steps button {
+    border-right: 0;
+    border-bottom: 1px solid #1b3039;
+  }
+
+  .fullWidth {
+    grid-column: auto;
+  }
+
+  .itemRow {
+    grid-template-columns:
+      28px 1fr 32px;
+  }
+
+  .itemRow label,
+  .lineTotal {
+    grid-column: 2;
+    grid-row: auto !important;
+  }
+
+  .removeButton {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+
+
+/* READABILITY START */
+
+/* Sidhuvud och navigering */
+.backButton,
+.primaryButton,
+.secondaryButton {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 12px;
+}
+
+.feedback {
+  padding: 14px 16px;
+  font-size: 12px;
+}
+
+.hero {
+  padding: 22px;
+}
+
+.hero > span {
+  width: 54px;
+  height: 54px;
+}
+
+.hero small {
+  font-size: 10px;
+}
+
+.hero h1 {
+  margin-top: 4px;
+  font-size: 23px;
+}
+
+.hero p {
+  margin-top: 7px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Stegen högst upp */
+.steps button {
+  min-height: 62px;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.steps button > span {
+  width: 29px;
+  height: 29px;
+  font-size: 11px;
+}
+
+/* Kortens rubriker */
+.card > header,
+.summary header {
+  gap: 12px;
+  padding: 19px;
+}
+
+.card h2,
+.summary h2 {
+  font-size: 15px;
+}
+
+.card header p,
+.summary header p {
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* Formulärfält */
+.formGrid {
+  gap: 16px;
+  padding: 19px;
+}
+
+.formGrid label,
+.review label,
+.itemRow label {
+  gap: 8px;
+}
+
+.formGrid label > span,
+.review label > span,
+.itemRow label > span {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.formGrid input,
+.formGrid select,
+.formGrid textarea,
+.review textarea,
+.servicePicker select,
+.itemRow input,
+.itemRow select {
+  min-height: 46px;
+  padding: 0 13px;
+  font-size: 12px;
+}
+
+.formGrid textarea,
+.review textarea {
+  min-height: 115px;
+  padding: 13px;
+  line-height: 1.55;
+}
+
+/* Månadsfakturering */
+.recurringContent {
+  padding: 19px;
+}
+
+.toggleRow {
+  gap: 11px;
+}
+
+.toggleRow input {
+  width: 18px;
+  height: 18px;
+}
+
+.toggleRow strong {
+  font-size: 12px;
+}
+
+.toggleRow small {
+  margin-top: 5px;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+/* Fakturarader */
+.servicePicker {
+  padding: 18px;
+}
+
+.servicePicker button {
+  min-height: 44px;
+  padding: 0 15px;
+  font-size: 11px;
+}
+
+.itemRow {
+  padding: 16px;
+}
+
+.rowNumber {
+  width: 31px;
+  height: 31px;
+  font-size: 10px;
+}
+
+.lineTotal span {
+  font-size: 10px;
+}
+
+.lineTotal strong {
+  font-size: 11px;
+}
+
+.removeButton {
+  width: 36px;
+  height: 44px;
+}
+
+.emptyItems {
+  padding: 65px 20px;
+}
+
+.emptyItems strong {
+  font-size: 13px;
+}
+
+.emptyItems p {
+  margin-top: 7px;
+  font-size: 11px;
+}
+
+/* Granskning */
+.review {
+  gap: 13px;
+  padding: 19px;
+}
+
+.review > div {
+  padding: 15px;
+}
+
+.review > div span {
+  font-size: 10px;
+}
+
+.review > div strong {
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+/* Sammanfattning till höger */
+.summary dl {
+  padding: 18px;
+}
+
+.summary dl > div {
+  padding: 12px 0;
+}
+
+.summary dt,
+.summary dd {
+  font-size: 11px;
+}
+
+.totalRow dt,
+.totalRow dd {
+  font-size: 15px;
+}
+
+.recurringBadge {
+  margin: 0 18px 18px;
+  padding: 12px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+/* READABILITY END */
+
+.catalogPicker {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  padding: 18px;
+  border-bottom: 1px solid #1b3039;
+}
+
+.pickerGroup {
+  padding: 15px;
+  border: 1px solid #223a43;
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      145deg,
+      rgb(8 27 34 / 96%),
+      rgb(5 19 25 / 96%)
+    );
+}
+
+.pickerGroup > div:first-child {
+  margin-bottom: 12px;
+}
+
+.pickerGroup strong,
+.pickerGroup span {
+  display: block;
+}
+
+.pickerGroup strong {
+  color: #dce8ea;
+  font-size: 12px;
+}
+
+.pickerGroup span {
+  margin-top: 5px;
+  color: #74868e;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.pickerControls {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+  gap: 8px;
+}
+
+.pickerControls select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #29404a;
+  border-radius: 7px;
+  outline: 0;
+  color: #edf5f6;
+  background: #06161c;
+  font: inherit;
+  font-size: 11px;
+}
+
+.pickerControls button,
+.customItemButton {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 14px;
+  border: 1px solid #2d625b;
+  border-radius: 7px;
+  color: #52dac6;
+  background: rgb(40 133 119 / 10%);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pickerControls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.customItemButton {
+  grid-column: 1 / -1;
+  justify-self: start;
+  border-color: #354b55;
+  color: #b7c4c8;
+  background: #07181e;
+}
+
+@media (max-width: 900px) {
+  .catalogPicker {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pickerControls {
+    grid-template-columns: 1fr;
+  }
+
+  .pickerControls button,
+  .customItemButton {
+    width: 100%;
+  }
+}
