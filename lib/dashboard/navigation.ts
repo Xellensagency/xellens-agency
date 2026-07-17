@@ -1,7 +1,11 @@
-﻿import type { LucideIcon } from "lucide-react";
+﻿import type {
+  LucideIcon,
+} from "lucide-react";
+
 import {
   LayoutDashboard,
   BriefcaseBusiness,
+  PanelsTopLeft,
   FileText,
   ReceiptText,
   Users,
@@ -19,7 +23,8 @@ export type DashboardNavigationItem = {
   icon: LucideIcon;
 };
 
-export const dashboardNavigation: DashboardNavigationItem[] = [
+export const dashboardNavigation:
+DashboardNavigationItem[] = [
   {
     label: "Dashboard",
     href: "/dashboard",
@@ -29,6 +34,11 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
     label: "Projekt",
     href: "/dashboard/projekt",
     icon: BriefcaseBusiness,
+  },
+  {
+    label: "Designförslag",
+    href: "/dashboard/designforslag",
+    icon: PanelsTopLeft,
   },
   {
     label: "Offerter",
@@ -76,4 +86,3 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
     icon: PackageCheck,
   },
 ];
-

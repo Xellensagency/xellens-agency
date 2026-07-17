@@ -1,0 +1,254 @@
+﻿.topbar {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(119, 158, 162, 0.13);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3, 8, 13, 0.97),
+      rgba(3, 8, 13, 0.9)
+    );
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 31px;
+}
+
+.title {
+  color: #f1f5f5;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.menuButton {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(139, 172, 175, 0.2);
+  border-radius: 8px;
+  background: rgba(12, 20, 26, 0.9);
+  color: rgba(239, 244, 244, 0.88);
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.iconButton {
+  position: relative;
+  display: grid;
+  width: 65px;
+  height: 72px;
+  place-items: center;
+  border-left: 1px solid rgba(119, 158, 162, 0.1);
+  color: rgba(239, 244, 244, 0.84);
+  text-decoration: none;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
+}
+
+.iconButton:hover {
+  color: #65ded0;
+  background: rgba(59, 198, 181, 0.045);
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  display: grid;
+  width: 14px;
+  height: 14px;
+  place-items: center;
+  border: 2px solid #04090e;
+  border-radius: 50%;
+  color: #021211;
+  background: #54d9c9;
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.profile {
+  display: flex;
+  min-width: 225px;
+  height: 72px;
+  align-items: center;
+  gap: 11px;
+  padding: 0 23px;
+  border-left: 1px solid rgba(119, 158, 162, 0.1);
+  color: #f2f5f5;
+  text-decoration: none;
+  transition: background 160ms ease;
+}
+
+.profile:hover {
+  background: rgba(59, 198, 181, 0.04);
+}
+
+.avatar {
+  display: grid;
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
+  place-items: center;
+  border: 1px solid rgba(92, 218, 203, 0.31);
+  border-radius: 50%;
+  color: #71e0d3;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(74, 192, 179, 0.2),
+      rgba(11, 64, 59, 0.22)
+    );
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.profileText {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 3px;
+}
+
+.profileText strong {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileText small {
+  overflow: hidden;
+  color: rgba(207, 218, 219, 0.58);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile svg {
+  color: rgba(211, 222, 223, 0.58);
+}
+
+@media (max-width: 1100px) {
+  .left {
+    padding-left: 20px;
+  }
+
+  .menuButton {
+    display: grid;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    min-height: 64px;
+  }
+
+  .left {
+    gap: 11px;
+    padding-left: 14px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .actions {
+    min-height: 64px;
+  }
+
+  .iconButton {
+    width: 48px;
+    height: 64px;
+  }
+
+  .notificationBadge {
+    top: 12px;
+    right: 10px;
+  }
+
+  .profile {
+    min-width: 54px;
+    width: 54px;
+    height: 64px;
+    padding: 0 9px;
+  }
+
+  .profileText,
+  .profile > svg {
+    display: none;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+}
+
+/* === XELLENS TOPBAR TEXT START === */
+
+.title {
+  font-size: 19px;
+}
+
+.profileText strong {
+  font-size: 14px;
+}
+
+.profileText small {
+  font-size: 11px;
+}
+
+/* === XELLENS TOPBAR TEXT END === */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: rgba(217, 226, 227, 0.58);
+  font-size: 14px;
+}
+
+.breadcrumbs a {
+  color: rgba(229, 236, 236, 0.76);
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: #61dfd0;
+}
+
+.breadcrumbs span {
+  color: #f2f6f6;
+}
+
+.breadcrumbs svg {
+  color: rgba(166, 188, 190, 0.4);
+}
+
+@media (max-width: 720px) {
+  .breadcrumbs {
+    gap: 7px;
+    font-size: 11px;
+  }
+
+  .breadcrumbs a:nth-of-type(2),
+  .breadcrumbs svg:nth-of-type(2) {
+    display: none;
+  }
+}

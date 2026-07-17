@@ -1,0 +1,229 @@
+﻿.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns:
+    minmax(420px, 1.05fr)
+    minmax(440px, 0.95fr);
+  background: #f4f7fb;
+}
+
+.brandPanel {
+  position: relative;
+  overflow: hidden;
+  padding: 54px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(57, 138, 195, 0.34),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #061d3e 0%,
+      #07366f 53%,
+      #082b56 100%
+    );
+}
+
+.brandPanel::after {
+  content: "";
+  position: absolute;
+  right: -180px;
+  bottom: -220px;
+  width: 520px;
+  height: 520px;
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.brandContent {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logoMark {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  color: #07366f;
+  background: #ffffff;
+  font-size: 27px;
+  font-weight: 850;
+}
+
+.logo div:last-child {
+  display: grid;
+}
+
+.logo strong {
+  font-size: 22px;
+  line-height: 23px;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  color: #a9bfd7;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.brandText {
+  margin: auto 0;
+}
+
+.brandText > span {
+  color: #9fc0df;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.brandText h1 {
+  margin: 20px 0 22px;
+  max-width: 560px;
+  font-size:
+    clamp(44px, 5vw, 70px);
+  line-height: 1.04;
+  letter-spacing: -2.4px;
+}
+
+.brandText p {
+  max-width: 530px;
+  margin: 0;
+  color: #c5d5e6;
+  font-size: 16px;
+  line-height: 27px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 12px;
+}
+
+.features div {
+  min-height: 78px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+  border-radius: 11px;
+  padding: 14px;
+  background:
+    rgba(255, 255, 255, 0.055);
+}
+
+.features b {
+  color: #8eb5d7;
+  font-size: 10px;
+}
+
+.features span {
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.loginPanel {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  padding: 44px;
+}
+
+.loginCard {
+  width: min(100%, 430px);
+  border: 1px solid #e0e7ef;
+  border-radius: 18px;
+  padding: 42px;
+  background: #ffffff;
+  box-shadow:
+    0 24px 70px
+    rgba(18, 47, 79, 0.11);
+}
+
+.eyebrow {
+  color: #467aa9;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.8px;
+}
+
+.loginCard h2 {
+  margin: 11px 0 9px;
+  color: #122b4c;
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.intro {
+  margin: 0 0 27px;
+  color: #718195;
+  font-size: 13px;
+  line-height: 21px;
+}
+
+.accessError {
+  margin-bottom: 18px;
+  border: 1px solid #f0c8c8;
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #9d3030;
+  background: #fff5f5;
+  font-size: 12px;
+}
+
+.copyright {
+  margin: 28px 0 0;
+  color: #91a0b0;
+  font-size: 10px;
+}
+
+@media (max-width: 920px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .brandPanel {
+    min-height: 410px;
+    padding: 35px 25px;
+  }
+
+  .brandText {
+    margin: 70px 0;
+  }
+
+  .brandText h1 {
+    font-size: 45px;
+  }
+
+  .features {
+    display: none;
+  }
+
+  .loginPanel {
+    padding: 34px 18px;
+  }
+
+  .loginCard {
+    box-sizing: border-box;
+    padding: 30px 24px;
+  }
+}

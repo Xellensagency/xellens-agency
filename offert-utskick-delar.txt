@@ -1,0 +1,491 @@
+﻿FIL: components\dashboard\offers\create\CreateOfferWizard.tsx
+TOTALT ANTAL RADER: 577
+
+    1: "use client";
+    2: 
+    3: import Link from "next/link";
+    4: 
+    5: import {
+    6:   useState,
+    7:   useTransition,
+    8: } from "react";
+    9: 
+   10: import { useRouter } from "next/navigation";
+   11: 
+   12: import {
+   13:   ArrowLeft,
+   14:   ArrowRight,
+   15:   CheckCircle2,
+   16:   Save,
+   17:   Send,
+   18:   TriangleAlert,
+   19: } from "lucide-react";
+   20: 
+   21: import {
+   22:   saveOfferAction,
+   23: } from "@/app/dashboard/offerter/actions";
+   24: 
+   25: import type {
+   26:   CreateOfferOptions,
+   27:   OfferAddonDraft,
+   28:   OfferDiscountDraft,
+   29:   OfferDraft,
+   30:   OfferServiceDraft,
+   31: } from "@/lib/dashboard/offers/create-offer-types";
+   32: 
+   33: import OfferAddons from "./OfferAddons";
+   34: import OfferInformation from "./OfferInformation";
+   35: import OfferPreview from "./OfferPreview";
+   36: import OfferServices from "./OfferServices";
+   37: import OfferSteps from "./OfferSteps";
+   38: import OfferSummary from "./OfferSummary";
+   39: 
+   40: import styles from "./CreateOfferWizard.module.css";
+   41: 
+   42: type CreateOfferWizardProps = {
+   43:   options: CreateOfferOptions;
+   44: };
+   45: 
+   46: type Feedback = {
+   47:   type: "success" | "error";
+   48:   message: string;
+   49: };
+   50: 
+   51: const initialDraft: OfferDraft = {
+   52:   customerMode: "existing",
+   53:   customerId: "",
+   54:   contactId: "",
+   55: 
+   56:   newCustomerType: "company",
+   57:   newCustomerName: "",
+   58:   newCustomerEmail: "",
+   59:   newCustomerPhone: "",
+   60: 
+   61:   existingProjectId: "",
+   62:   title: "",
+   63:   description: "",
+   64:   categoryId: "",
+   65:   desiredStartDate: "",
+   66:   internalNote: "",
+   67: 
+   68:   validDays: "30",
+   69:   language: "sv",
+   70:   currency: "SEK",
+   71: 
+   72:   customerMessage:
+   73:     "Tack för er förfrågan. Här kommer vårt offertförslag baserat på era önskemål.",
+   74: 
+   75:   paymentTerms:
+   76:     "30 % betalas vid projektstart. Resterande belopp faktureras enligt överenskommen betalningsplan.",
+   77: 
+   78:   termsText:
+   79:     "Offerten gäller under angiven giltighetstid. Två korrigeringsrundor ingår om inget annat anges. Ändringar utanför avtalad omfattning offereras separat.",
+   80: 
+   81:   includeDetailedPricing: true,
+   82:   showVat: true,
+   83:   includePdf: true,
+   84:   sendCopyToSelf: true,
+   85: };
+   86: 
+   87: export default function CreateOfferWizard({
+   88:   options,
+   89: }: CreateOfferWizardProps) {
+   90:   const router = useRouter();
+   91: 
+   92:   const [
+   93:     isSaving,
+   94:     startSaving,
+   95:   ] = useTransition();
+   96: 
+   97:   const [
+   98:     activeStep,
+   99:     setActiveStep,
+  100:   ] = useState(1);
+  101: 
+  102:   const [draft, setDraft] =
+  103:     useState<OfferDraft>(
+  104:       initialDraft
+  105:     );
+  106: 
+  107:   const [
+  108:     selectedServices,
+  109:     setSelectedServices,
+  110:   ] = useState<
+  111:     OfferServiceDraft[]
+  112:   >([]);
+  113: 
+  114:   const [
+  115:     selectedAddons,
+  116:     setSelectedAddons,
+  117:   ] = useState<
+  118:     OfferAddonDraft[]
+  119:   >([]);
+  120: 
+  121:   const [
+  122:     discount,
+  123:     setDiscount,
+  124:   ] = useState<OfferDiscountDraft>({
+  125:     mode: "none",
+  126:     value: 0,
+  127:     label: "",
+  128:     code: "",
+  129:   });
+  130: 
+  131:   const [
+  132:     savedOfferId,
+  133:     setSavedOfferId,
+  134:   ] = useState<string | null>(
+  135:     null
+  136:   );
+  137: 
+  138:   const [
+  139:     savedOfferNumber,
+  140:     setSavedOfferNumber,
+  141:   ] = useState("");
+  142: 
+  143:   const [
+  144:     feedback,
+  145:     setFeedback,
+  146:   ] = useState<Feedback | null>(
+  147:     null
+  148:   );
+  149: 
+  150:   function updateDraft<
+  151:     K extends keyof OfferDraft
+  152:   >(
+  153:     field: K,
+  154:     value: OfferDraft[K]
+  155:   ) {
+  156:     setDraft((current) => ({
+  157:       ...current,
+  158:       [field]: value,
+  159:     }));
+  160: 
+  161:     setFeedback(null);
+  162:   }
+  163: 
+  164:   function changeStep(step: number) {
+  165:     const safeStep = Math.min(
+  166:       Math.max(step, 1),
+  167:       4
+  168:     );
+  169: 
+  170:     setActiveStep(safeStep);
+  171:     setFeedback(null);
+  172: 
+  173:     window.scrollTo({
+  174:       top: 0,
+  175:       behavior: "smooth",
+  176:     });
+  177:   }
+  178: 
+  179:   const customerIsReady =
+  180:     draft.customerMode ===
+  181:     "existing"
+  182:       ? Boolean(draft.customerId)
+  183:       : Boolean(
+  184:           draft.newCustomerName.trim()
+  185:         );
+  186: 
+  187:   const informationIsReady =
+  188:     customerIsReady &&
+  189:     Boolean(draft.title.trim());
+  190: 
+  191:   const servicesAreReady =
+  192:     selectedServices.length > 0;
+  193: 
+  194:   const currentStepIsReady =
+  195:     activeStep === 1
+  198:         ? servicesAreReady
+  199:         : true;
+  200: 
+  201:   function getValidationError() {
+  202:     if (!customerIsReady) {
+  203:       return draft.customerMode ===
+  204:         "existing"
+  205:         ? "Välj en kund innan offerten sparas."
+  206:         : "Ange kundens namn innan offerten sparas.";
+  207:     }
+  208: 
+  209:     if (!draft.title.trim()) {
+  210:       return "Ange en offert- eller projekttitel.";
+  211:     }
+  212: 
+  213:     if (
+  214:       selectedServices.length === 0
+  215:     ) {
+  216:       return "Lägg till minst en tjänst i offerten.";
+  217:     }
+  218: 
+  219:     return null;
+  220:   }
+  221: 
+  222:   function persistOffer(
+  223:     sendNow: boolean
+  224:   ) {
+  225:     const validationError =
+  226:       getValidationError();
+  227: 
+  228:     if (validationError) {
+  229:       setFeedback({
+  230:         type: "error",
+  231:         message: validationError,
+  232:       });
+  233: 
+  234:       return;
+  235:     }
+  236: 
+  237:     setFeedback(null);
+  238: 
+  239:     startSaving(() => {
+  240:       void (async () => {
+  241:         const result =
+  242:           await saveOfferAction({
+  243:             offerId: savedOfferId,
+  244:             sendNow,
+  245:             payload: {
+  246:               draft,
+  247:               services:
+  248:                 selectedServices,
+  249:               addons:
+  250:                 selectedAddons,
+  251:               discount,
+  252:             },
+  253:           });
+  254: 
+  255:         if (
+  256:           !result.ok ||
+  257:           !result.offerId
+  258:         ) {
+  259:           setFeedback({
+  260:             type: "error",
+  261:             message:
+  262:               result.error ||
+  263:               "Offerten kunde inte sparas.",
+  264:           });
+  265: 
+  266:           return;
+  267:         }
+  268: 
+  269:         setSavedOfferId(
+  270:           result.offerId
+  271:         );
+  272: 
+  273:         setSavedOfferNumber(
+  274:           result.offerNumber || ""
+  275:         );
+  276: 
+  277:         if (sendNow) {
+  278:           router.push(
+  279:             `/dashboard/offerter?sent=${encodeURIComponent(
+  280:               result.offerNumber ||
+  281:                 result.offerId
+  282:             )}`
+  283:           );
+  284: 
+  285:           router.refresh();
+  286:           return;
+  287:         }
+  288: 
+  289:         setFeedback({
+  290:           type: "success",
+  291:           message:
+  292:             result.offerNumber
+  293:               ? `Utkast ${result.offerNumber} är sparat.`
+  294:               : "Offertutkastet är sparat.",
+  295:         });
+  296:       })();
+  297:     });
+  298:   }
+  299: 
+  300:   function handlePrimaryAction() {
+  301:     if (activeStep < 4) {
+  302:       if (!currentStepIsReady) {
+  303:         const validationError =
+  304:           getValidationError();
+  305: 
+  306:         setFeedback({
+  307:           type: "error",
+  308:           message:
+  309:             validationError ||
+  310:             "Fyll i de obligatoriska uppgifterna.",
+  311:         });
+  312: 
+  313:         return;
+  314:       }
+  315: 
+  316:       changeStep(activeStep + 1);
+  317:       return;
+  318:     }
+  319: 
+  320:     persistOffer(true);
+  321:   }
+  322: 
+  323:   const primaryLabel =
+  324:     activeStep === 4
+  325:       ? isSaving
+  326:         ? "Skickar..."
+  327:         : "Skicka offert"
+  328:       : "Nästa steg";
+  329: 
+  330:   return (
+  331:     <div className={styles.page}>
+  332:       <div className={styles.topActions}>
+  333:         <Link
+  334:           href="/dashboard/offerter"
+  335:           className={styles.backButton}
+  336:         >
+  337:           <ArrowLeft size={17} />
+  338:           Till offerter
+  339:         </Link>
+  340: 
+  341:         <div>
+  342:           {savedOfferNumber && (
+  343:             <span
+  344:               className={
+  345:                 styles.savedOfferNumber
+  346:               }
+  347:             >
+  348:               {savedOfferNumber}
+  349:             </span>
+  350:           )}
+  351: 
+  352:           <button
+  353:             type="button"
+  354:             className={styles.draftButton}
+  355:             disabled={isSaving}
+  356:             onClick={() =>
+  357:               persistOffer(false)
+  358:             }
+  359:           >
+  360:             <Save size={17} />
+  361: 
+  362:             {isSaving
+  363:               ? "Sparar..."
+  364:               : "Spara utkast"}
+  365:           </button>
+  366: 
+  367:           <button
+  368:             type="button"
+  369:             className={styles.nextButton}
+  370:             disabled={
+  371:               isSaving ||
+  372:               (activeStep < 4 &&
+  373:                 !currentStepIsReady)
+  374:             }
+  375:             onClick={
+  376:               handlePrimaryAction
+  377:             }
+  378:           >
+  379:             {activeStep === 4 ? (
+  380:               <Send size={17} />
+  381:             ) : null}
+  382: 
+  383:             {primaryLabel}
+  384: 
+  385:             {activeStep < 4 && (
+  386:               <ArrowRight size={17} />
+  387:             )}
+  388:           </button>
+  389:         </div>
+  390:       </div>
+  391: 
+  392:       {feedback && (
+  393:         <div
+  394:           className={[
+  395:             styles.feedback,
+  396:             feedback.type ===
+  397:             "success"
+  398:               ? styles.feedbackSuccess
+  399:               : styles.feedbackError,
+  400:           ]
+  401:             .filter(Boolean)
+  402:             .join(" ")}
+  403:         >
+  404:           {feedback.type ===
+  405:           "success" ? (
+  406:             <CheckCircle2 size={18} />
+  407:           ) : (
+  408:             <TriangleAlert size={18} />
+  409:           )}
+  410: 
+  411:           <span>
+  412:             {feedback.message}
+  413:           </span>
+  414:         </div>
+  415:       )}
+  416: 
+  417:       <OfferSteps
+  418:         activeStep={activeStep}
+  419:         onStepChange={changeStep}
+  507:                 onClick={() =>
+  508:                   changeStep(
+  509:                     activeStep - 1
+  510:                   )
+  511:                 }
+  512:               >
+  513:                 <ArrowLeft size={17} />
+  514:                 Föregående
+  515:               </button>
+  516:             )}
+  517: 
+  518:             <button
+  519:               type="button"
+  520:               className={
+  521:                 styles.draftButton
+  522:               }
+  523:               disabled={isSaving}
+  524:               onClick={() =>
+  525:                 persistOffer(false)
+  526:               }
+  527:             >
+  528:               <Save size={16} />
+  529: 
+  530:               {isSaving
+  531:                 ? "Sparar..."
+  532:                 : "Spara utkast"}
+  533:             </button>
+  534: 
+  535:             <button
+  536:               type="button"
+  537:               className={
+  538:                 styles.nextButton
+  539:               }
+  540:               disabled={
+  541:                 isSaving ||
+  542:                 (activeStep < 4 &&
+  543:                   !currentStepIsReady)
+  544:               }
+  545:               onClick={
+  546:                 handlePrimaryAction
+  547:               }
+  548:             >
+  549:               {activeStep === 4 ? (
+  550:                 <Send size={17} />
+  551:               ) : null}
+  552: 
+  553:               {primaryLabel}
+  554: 
+  555:               {activeStep < 4 && (
+  556:                 <ArrowRight
+  557:                   size={17}
+  558:                 />
+  559:               )}
+  560:             </button>
+  561:           </footer>
+  562:         </div>
+  563: 
+  564:         <OfferSummary
+  565:           options={options}
+  566:           draft={draft}
+  567:           services={
+  568:             selectedServices
+  569:           }
+  570:           addons={selectedAddons}
+  571:           discount={discount}
+  572:           activeStep={activeStep}
+  573:         />
+  574:       </div>
+  575:     </div>
+  576:   );
+  577: }

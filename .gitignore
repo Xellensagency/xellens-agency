@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -42,3 +42,18 @@ next-env.d.ts
 
 .vercel
 .env*
+
+.env.local
+
+# Lokala säkerhetskopior
+*.bak
+# === XELLENS LOCAL FILES START ===
+# Hemliga och lokala miljöfiler
+.env
+.env.*
+!.env.example
+
+# Lokala säkerhetskopior
+*.bak
+# === XELLENS LOCAL FILES END ===
+

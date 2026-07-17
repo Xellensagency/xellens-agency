@@ -1,0 +1,165 @@
+﻿.page {
+  display: grid;
+  gap: 24px;
+  padding-bottom: 42px;
+}
+
+.heading {
+  padding-top: 8px;
+}
+
+.heading span {
+  color: #57dccc;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+.heading h1 {
+  margin: 9px 0 7px;
+  color: #f5f8f8;
+  font-size: 31px;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.heading p {
+  margin: 0;
+  color: rgba(207, 219, 220, 0.66);
+  font-size: 14px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    315px;
+  gap: 20px;
+  align-items: start;
+}
+
+.formCard,
+.infoCard {
+  border: 1px solid rgba(131, 164, 168, 0.18);
+  border-radius: 9px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(11, 19, 25, 0.98),
+      rgba(5, 12, 17, 0.98)
+    );
+}
+
+.formCard {
+  padding: 25px;
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.cardHeading > svg {
+  color: #55dbcb;
+}
+
+.cardHeading h2,
+.infoCard h2 {
+  margin: 0;
+  color: #f0f5f5;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cardHeading p {
+  margin: 6px 0 0;
+  color: rgba(198, 212, 214, 0.62);
+  font-size: 12px;
+}
+
+.infoCard {
+  display: grid;
+  gap: 0;
+  padding: 24px 21px;
+}
+
+.infoCard h2 {
+  margin-bottom: 17px;
+}
+
+.infoCard > div {
+  display: grid;
+  grid-template-columns:
+    42px minmax(0, 1fr);
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(131, 164, 168, 0.11);
+}
+
+.infoCard > div:last-child {
+  border-bottom: 0;
+}
+
+.infoCard > div > span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(73, 216, 199, 0.23);
+  border-radius: 8px;
+  color: #59ddcd;
+  background: rgba(39, 175, 159, 0.07);
+}
+
+.infoCard p {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+}
+
+.infoCard strong {
+  color: rgba(237, 242, 242, 0.88);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.infoCard small {
+  color: rgba(190, 206, 208, 0.57);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+@media (max-width: 1050px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .infoCard {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    column-gap: 22px;
+  }
+
+  .infoCard h2 {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .heading h1 {
+    font-size: 27px;
+  }
+
+  .formCard {
+    padding: 19px;
+  }
+
+  .infoCard {
+    grid-template-columns: 1fr;
+  }
+
+  .infoCard h2 {
+    grid-column: auto;
+  }
+}
