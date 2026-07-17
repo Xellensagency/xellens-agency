@@ -651,17 +651,15 @@ export default function CustomersTable({
                             </td>
 
                             <td>
-                              <button
-                                type="button"
+                              <Link
+                                href={`/dashboard/kunder/${customer.id}`}
                                 className={
                                   styles.openButton
                                 }
-                                disabled
-                                title="Kundkortet byggs i nästa steg"
                                 aria-label={`Öppna ${customer.name}`}
                               >
                                 <Eye size={17} />
-                              </button>
+                              </Link>
                             </td>
                           </tr>
                         );
@@ -752,6 +750,15 @@ export default function CustomersTable({
                             </dd>
                           </div>
                         </dl>
+
+                        <Link
+                          href={`/dashboard/kunder/${customer.id}`}
+                          className={
+                            styles.mobileOpenButton
+                          }
+                        >
+                          Öppna kund
+                        </Link>
                       </article>
                     );
                   }
@@ -979,3 +986,4 @@ export default function CustomersTable({
     </div>
   );
 }
+

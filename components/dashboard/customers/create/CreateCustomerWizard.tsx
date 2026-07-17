@@ -1,7 +1,15 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import {
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
+
+import {
+  useRouter,
+} from "next/navigation";
 
 import {
   ArrowLeft,
@@ -16,6 +24,10 @@ import type {
   CustomerDraft,
   CustomerWizardStep,
 } from "@/lib/dashboard/customers/create-customer-types";
+
+import {
+  createCustomerAction,
+} from "@/app/dashboard/kunder/ny/actions";
 
 import CustomerBasicInfo from "./CustomerBasicInfo";
 import CustomerBilling from "./CustomerBilling";
@@ -102,6 +114,24 @@ const privateSteps: CustomerWizardStep[] = [
 ];
 
 export default function CreateCustomerWizard() {
+  const router =
+    useRouter();
+
+  const [
+    isPending,
+    startTransition,
+  ] = useTransition();
+
+  const [
+    saveMessage,
+    setSaveMessage,
+  ] = useState("");
+
+  const [
+    saveError,
+    setSaveError,
+  ] = useState(false);
+
   const [draft, setDraft] =
     useState<CustomerDraft>(initialDraft);
 
@@ -161,6 +191,38 @@ export default function CreateCustomerWizard() {
       : [draft.firstName, draft.lastName]
           .filter(Boolean)
           .join(" ");
+
+  function handleCreateCustomer() {
+    setSaveMessage("");
+    setSaveError(false);
+
+    startTransition(async () => {
+      const result =
+        await createCustomerAction(
+          draft,
+          contacts
+        );
+
+      setSaveMessage(
+        result.message
+      );
+
+      setSaveError(
+        !result.success
+      );
+
+      if (
+        result.success &&
+        result.customerId
+      ) {
+        router.push(
+          "/dashboard/kunder?skapad=1"
+        );
+
+        router.refresh();
+      }
+    });
+  }
 
   return (
     <div className={styles.page}>
@@ -332,6 +394,19 @@ export default function CreateCustomerWizard() {
             </section>
           )}
 
+          {saveMessage && (
+            <div
+              className={`${styles.saveMessage} ${
+                saveError
+                  ? styles.saveError
+                  : styles.saveSuccess
+              }`}
+              role="status"
+            >
+              {saveMessage}
+            </div>
+          )}
+
           <footer className={styles.actions}>
             {activeStep === 1 ? (
               <Link
@@ -371,9 +446,14 @@ export default function CreateCustomerWizard() {
               <button
                 type="button"
                 className={styles.primaryButton}
+                onClick={handleCreateCustomer}
+                disabled={isPending}
               >
                 <CheckCircle2 size={17} />
-                Skapa kund
+
+                {isPending
+                  ? "Skapar kund..."
+                  : "Skapa kund"}
               </button>
             ) : (
               <button
@@ -400,3 +480,4 @@ export default function CreateCustomerWizard() {
     </div>
   );
 }
+

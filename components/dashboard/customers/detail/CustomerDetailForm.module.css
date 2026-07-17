@@ -1,0 +1,313 @@
+﻿.page {
+  display: grid;
+  gap: 18px;
+  padding-bottom: 42px;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.heading > div:first-child {
+  display: grid;
+  gap: 7px;
+}
+
+.heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+  color: #60dbcd;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.heading span {
+  color: rgba(190, 208, 210, 0.56);
+  font-size: 11px;
+}
+
+.heading h1 {
+  margin: 0;
+  color: #f5f8f8;
+  font-size: 31px;
+  font-weight: 400;
+}
+
+.heading p {
+  margin: 0;
+  color: rgba(205, 218, 219, 0.65);
+  font-size: 13px;
+}
+
+.headingActions,
+.bottomActions {
+  display: flex;
+  gap: 11px;
+}
+
+.headingActions button,
+.bottomActions button,
+.bottomActions a,
+.addButton {
+  display: inline-flex;
+  min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.saveButton,
+.bottomActions button {
+  border: 0;
+  color: #031513;
+  background:
+    linear-gradient(
+      100deg,
+      #70dfd3,
+      #53d0bf
+    );
+  font-weight: 600;
+}
+
+.deleteButton {
+  border: 1px solid rgba(232, 82, 82, 0.42);
+  color: #f18b8b;
+  background: rgba(176, 44, 44, 0.08);
+}
+
+.card {
+  padding: 24px;
+  border: 1px solid rgba(131, 164, 168, 0.18);
+  border-radius: 9px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(11, 19, 25, 0.98),
+      rgba(5, 12, 17, 0.98)
+    );
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-bottom: 22px;
+}
+
+.cardHeading > svg {
+  color: #58ddcd;
+}
+
+.cardHeading h2 {
+  margin: 0;
+  color: #f0f5f5;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.cardHeading p {
+  margin: 5px 0 0;
+  color: rgba(192, 208, 210, 0.57);
+  font-size: 11px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.grid label {
+  display: grid;
+  gap: 8px;
+}
+
+.grid label > span {
+  color: rgba(226, 234, 234, 0.79);
+  font-size: 12px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.grid input,
+.grid select,
+.grid textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(139, 170, 174, 0.21);
+  border-radius: 8px;
+  outline: none;
+  color: #edf3f3;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13, 22, 28, 0.96),
+      rgba(7, 14, 19, 0.96)
+    );
+  font: inherit;
+  font-size: 13px;
+}
+
+.grid input,
+.grid select {
+  height: 45px;
+  padding: 0 13px;
+}
+
+.grid textarea {
+  resize: vertical;
+  padding: 13px;
+  line-height: 1.6;
+}
+
+.grid input:focus,
+.grid select:focus,
+.grid textarea:focus {
+  border-color: rgba(83, 220, 204, 0.58);
+  box-shadow:
+    0 0 0 3px rgba(74, 205, 190, 0.07);
+}
+
+.grid select option {
+  color: #eef3f3;
+  background: #071016;
+}
+
+.contactHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.addButton {
+  border: 1px solid rgba(76, 218, 201, 0.29);
+  color: #61ddce;
+  background: rgba(39, 177, 160, 0.07);
+}
+
+.contacts {
+  display: grid;
+  gap: 14px;
+}
+
+.contact {
+  position: relative;
+  padding: 20px;
+  border: 1px solid rgba(132, 164, 168, 0.15);
+  border-radius: 8px;
+  background: rgba(9, 17, 22, 0.75);
+}
+
+.removeContact {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 31px;
+  height: 31px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(220, 91, 91, 0.2);
+  border-radius: 6px;
+  color: #e88989;
+  background: rgba(156, 45, 45, 0.07);
+  cursor: pointer;
+}
+
+.primaryContact {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 15px;
+  color: rgba(216, 226, 227, 0.72);
+  font-size: 12px;
+}
+
+.primaryContact input {
+  width: 17px;
+  height: 17px;
+  accent-color: #55d9c8;
+}
+
+.empty {
+  margin: 0;
+  color: rgba(192, 208, 210, 0.55);
+  font-size: 13px;
+}
+
+.message {
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.success {
+  border: 1px solid rgba(62, 218, 179, 0.3);
+  color: #71e0c3;
+  background: rgba(31, 163, 132, 0.09);
+}
+
+.error {
+  border: 1px solid rgba(232, 101, 101, 0.3);
+  color: #ef9b9b;
+  background: rgba(179, 58, 58, 0.09);
+}
+
+.bottomActions {
+  justify-content: flex-end;
+}
+
+.bottomActions a {
+  border: 1px solid rgba(132, 164, 168, 0.2);
+  color: rgba(225, 233, 234, 0.75);
+  background: rgba(8, 15, 20, 0.72);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 760px) {
+  .heading {
+    display: grid;
+  }
+
+  .headingActions {
+    width: 100%;
+  }
+
+  .headingActions button {
+    flex: 1;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
+  }
+
+  .contactHeading {
+    display: grid;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+}

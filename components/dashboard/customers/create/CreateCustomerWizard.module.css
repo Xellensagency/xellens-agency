@@ -749,3 +749,27 @@
     min-width: 100%;
   }
 }
+
+.saveMessage {
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.saveSuccess {
+  border: 1px solid rgba(62, 218, 179, 0.3);
+  color: #71e0c3;
+  background: rgba(31, 163, 132, 0.09);
+}
+
+.saveError {
+  border: 1px solid rgba(232, 101, 101, 0.3);
+  color: #ef9b9b;
+  background: rgba(179, 58, 58, 0.09);
+}
+
+.primaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
