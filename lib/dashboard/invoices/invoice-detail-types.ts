@@ -2,6 +2,48 @@
   InvoiceDisplayStatus,
 } from "./invoice-types";
 
+export type InvoiceCompanySnapshot = {
+  name: string;
+  legalName: string | null;
+
+  organizationNumber: string | null;
+  vatNumber: string | null;
+  approvedForFTax: boolean;
+
+  address: string | null;
+  postalCode: string | null;
+  city: string | null;
+  country: string;
+
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+
+  bankName: string | null;
+  bankgiro: string | null;
+  plusgiro: string | null;
+  swishNumber: string | null;
+
+  clearingNumber: string | null;
+  accountNumber: string | null;
+  iban: string | null;
+  bicSwift: string | null;
+
+  paymentTermsDays: number;
+  defaultVatRate: number;
+  lateInterestPercent: number;
+  reminderFee: number;
+
+  invoicePrefix: string;
+  invoiceFooterText: string | null;
+
+  logoUrl: string | null;
+  logoDarkUrl: string | null;
+  primaryColor: string;
+
+  emailSenderName: string;
+};
+
 export type InvoiceDetailCustomer = {
   id: string;
   name: string;
@@ -90,6 +132,8 @@ export type InvoiceDetailData = {
     createdAt: string;
   };
 
+  company: InvoiceCompanySnapshot;
+
   customer: InvoiceDetailCustomer;
   project: InvoiceDetailProject | null;
 
@@ -97,3 +141,4 @@ export type InvoiceDetailData = {
   payments: InvoiceDetailPayment[];
   events: InvoiceDetailEvent[];
 };
+

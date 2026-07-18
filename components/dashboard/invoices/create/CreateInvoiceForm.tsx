@@ -41,6 +41,11 @@ import styles from "./CreateInvoiceForm.module.css";
 
 type CreateInvoiceFormProps = {
   options: InvoiceCreateOptions;
+
+  defaults: {
+    paymentTermsDays: number;
+    vatRate: number;
+  };
 };
 
 type Feedback = {
@@ -128,7 +133,28 @@ function lineSubtotal(
 
 export default function CreateInvoiceForm({
   options,
+  defaults,
 }: CreateInvoiceFormProps) {
+  const defaultPaymentTermsDays =
+    Math.max(
+      0,
+      Math.round(
+        Number(
+          defaults.paymentTermsDays
+        ) || 0
+      )
+    );
+
+  const defaultVatRate =
+    Math.min(
+      100,
+      Math.max(
+        0,
+        Number(
+          defaults.vatRate
+        ) || 0
+      )
+    );
   const router =
     useRouter();
 
@@ -182,13 +208,18 @@ export default function CreateInvoiceForm({
   const [
     paymentTermsDays,
     setPaymentTermsDays,
-  ] = useState(30);
+  ] = useState(
+    defaultPaymentTermsDays
+  );
 
   const [
     dueDate,
     setDueDate,
   ] = useState(
-    addDays(today, 30)
+    addDays(
+      today,
+      defaultPaymentTermsDays
+    )
   );
 
   const [
@@ -643,7 +674,7 @@ export default function CreateInvoiceForm({
 
           discountPercent: 0,
 
-          vatRate: 25,
+          vatRate: defaultVatRate,
         },
       ]
     );
@@ -2029,4 +2060,5 @@ export default function CreateInvoiceForm({
     </div>
   );
 }
+
 

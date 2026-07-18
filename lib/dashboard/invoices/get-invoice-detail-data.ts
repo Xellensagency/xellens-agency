@@ -1,4 +1,10 @@
-﻿import { createClient } from "@/lib/supabase/server";
+﻿import {
+  getCompanySettings,
+} from "@/lib/dashboard/settings/get-company-settings";
+
+import {
+  createClient,
+} from "@/lib/supabase/server";
 
 import type {
   InvoiceDisplayStatus,
@@ -154,6 +160,277 @@ export async function getInvoiceDetailData(
 
   const invoiceRow =
     invoiceResult.data as UnknownRow;
+
+  const rawCompanySnapshot =
+    invoiceRow.company_snapshot;
+
+  const companySnapshot:
+    UnknownRow | null =
+      rawCompanySnapshot &&
+      typeof rawCompanySnapshot ===
+        "object" &&
+      !Array.isArray(
+        rawCompanySnapshot
+      )
+        ? rawCompanySnapshot as
+            UnknownRow
+        : null;
+
+  const currentCompanySettings =
+    companySnapshot
+      ? null
+      : await getCompanySettings();
+
+  const company = {
+    name:
+      textValue(
+        companySnapshot
+          ?.company_name ??
+        currentCompanySettings
+          ?.companyName,
+        "Xellens Agency"
+      ),
+
+    legalName:
+      optionalText(
+        companySnapshot
+          ?.legal_name ??
+        currentCompanySettings
+          ?.legalName
+      ),
+
+    organizationNumber:
+      optionalText(
+        companySnapshot
+          ?.organization_number ??
+        currentCompanySettings
+          ?.organizationNumber
+      ),
+
+    vatNumber:
+      optionalText(
+        companySnapshot
+          ?.vat_number ??
+        currentCompanySettings
+          ?.vatNumber
+      ),
+
+    approvedForFTax:
+      companySnapshot
+        ?.approved_for_f_tax ===
+        true ||
+      currentCompanySettings
+        ?.approvedForFTax ===
+        true,
+
+    address:
+      optionalText(
+        companySnapshot
+          ?.address ??
+        currentCompanySettings
+          ?.address
+      ),
+
+    postalCode:
+      optionalText(
+        companySnapshot
+          ?.postal_code ??
+        currentCompanySettings
+          ?.postalCode
+      ),
+
+    city:
+      optionalText(
+        companySnapshot
+          ?.city ??
+        currentCompanySettings
+          ?.city
+      ),
+
+    country:
+      textValue(
+        companySnapshot
+          ?.country ??
+        currentCompanySettings
+          ?.country,
+        "Sverige"
+      ),
+
+    phone:
+      optionalText(
+        companySnapshot
+          ?.phone ??
+        currentCompanySettings
+          ?.phone
+      ),
+
+    email:
+      optionalText(
+        companySnapshot
+          ?.email ??
+        currentCompanySettings
+          ?.email
+      ),
+
+    website:
+      optionalText(
+        companySnapshot
+          ?.website ??
+        currentCompanySettings
+          ?.website
+      ),
+
+    bankName:
+      optionalText(
+        companySnapshot
+          ?.bank_name ??
+        currentCompanySettings
+          ?.bankName
+      ),
+
+    bankgiro:
+      optionalText(
+        companySnapshot
+          ?.bankgiro ??
+        currentCompanySettings
+          ?.bankgiro
+      ),
+
+    plusgiro:
+      optionalText(
+        companySnapshot
+          ?.plusgiro ??
+        currentCompanySettings
+          ?.plusgiro
+      ),
+
+    swishNumber:
+      optionalText(
+        companySnapshot
+          ?.swish_number ??
+        currentCompanySettings
+          ?.swishNumber
+      ),
+
+    clearingNumber:
+      optionalText(
+        companySnapshot
+          ?.clearing_number ??
+        currentCompanySettings
+          ?.clearingNumber
+      ),
+
+    accountNumber:
+      optionalText(
+        companySnapshot
+          ?.account_number ??
+        currentCompanySettings
+          ?.accountNumber
+      ),
+
+    iban:
+      optionalText(
+        companySnapshot
+          ?.iban ??
+        currentCompanySettings
+          ?.iban
+      ),
+
+    bicSwift:
+      optionalText(
+        companySnapshot
+          ?.bic_swift ??
+        currentCompanySettings
+          ?.bicSwift
+      ),
+
+    paymentTermsDays:
+      numberValue(
+        companySnapshot
+          ?.default_payment_terms ??
+        currentCompanySettings
+          ?.defaultPaymentTerms ??
+        30
+      ),
+
+    defaultVatRate:
+      numberValue(
+        companySnapshot
+          ?.default_vat_rate ??
+        currentCompanySettings
+          ?.defaultVatRate ??
+        25
+      ),
+
+    lateInterestPercent:
+      numberValue(
+        companySnapshot
+          ?.late_interest_percent ??
+        currentCompanySettings
+          ?.lateInterestPercent ??
+        8
+      ),
+
+    reminderFee:
+      numberValue(
+        companySnapshot
+          ?.reminder_fee ??
+        currentCompanySettings
+          ?.reminderFee ??
+        60
+      ),
+
+    invoicePrefix:
+      textValue(
+        companySnapshot
+          ?.invoice_prefix ??
+        currentCompanySettings
+          ?.invoicePrefix,
+        "F"
+      ),
+
+    invoiceFooterText:
+      optionalText(
+        companySnapshot
+          ?.invoice_footer_text ??
+        currentCompanySettings
+          ?.invoiceFooterText
+      ),
+
+    logoUrl:
+      optionalText(
+        companySnapshot
+          ?.logo_url ??
+        currentCompanySettings
+          ?.logoUrl
+      ),
+
+    logoDarkUrl:
+      optionalText(
+        companySnapshot
+          ?.logo_dark_url ??
+        currentCompanySettings
+          ?.logoDarkUrl
+      ),
+
+    primaryColor:
+      textValue(
+        companySnapshot
+          ?.primary_color ??
+        currentCompanySettings
+          ?.primaryColor,
+        "#07366F"
+      ),
+
+    emailSenderName:
+      textValue(
+        companySnapshot
+          ?.email_sender_name ??
+        currentCompanySettings
+          ?.emailSenderName,
+        "Xellens Agency"
+      ),
+  };
 
   const customerId =
     textValue(
@@ -609,6 +886,7 @@ export async function getInvoiceDetailData(
         ),
     },
 
+    company,
     customer,
     project,
     items,
@@ -616,3 +894,4 @@ export async function getInvoiceDetailData(
     events,
   };
 }
+

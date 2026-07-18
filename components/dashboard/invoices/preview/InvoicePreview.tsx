@@ -19,23 +19,6 @@ type InvoicePreviewProps = {
   data: InvoiceDetailData;
 };
 
-/*
-  Dessa uppgifter kopplas senare till Inställningar.
-  De används tills company_settings hämtas automatiskt.
-*/
-const company = {
-  name: "Xellens Agency",
-  address: "Hofverbergsgatan 2B",
-  postalCity: "254 43 Helsingborg",
-  phone: "072-942 35 37",
-  email: "info@xellensagency.com",
-  website: "xellensagency.com",
-  organizationNumber: "890101-3931",
-  vatNumber: "SE890101393101",
-  bankgiro: "5587-4879",
-  swish: "123 386 71 57",
-};
-
 function money(
   value: number,
   currency = "SEK"
@@ -77,6 +60,9 @@ function dateText(
 export default function InvoicePreview({
   data,
 }: InvoicePreviewProps) {
+  const company =
+    data.company;
+
   const paymentReference =
     data.invoice.ocrNumber ||
     data.invoice.invoiceNumber;
@@ -130,19 +116,29 @@ export default function InvoicePreview({
 
       <div className={styles.previewArea}>
         <article className={styles.invoicePaper}>
-          <div className={styles.topAccent} />
+          <div className={styles.topAccent} style={{ background: company.primaryColor }} />
 
           <header className={styles.invoiceHeader}>
             <div className={styles.brand}>
-              <div className={styles.logoMark}>
-                <span />
-                <span />
-              </div>
+              {company.logoUrl ? (
+                <img
+                  src={company.logoUrl}
+                  alt={company.name}
+                  className={styles.logoImage}
+                />
+              ) : (
+                <>
+                  <div className={styles.logoMark}>
+                    <span />
+                    <span />
+                  </div>
 
-              <div className={styles.brandText}>
-                <strong>XELLENS</strong>
-                <span>AGENCY</span>
-              </div>
+                  <div className={styles.brandText}>
+                    <strong>XELLENS</strong>
+                    <span>AGENCY</span>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className={styles.invoiceIdentity}>
@@ -216,9 +212,9 @@ export default function InvoicePreview({
 
               <p>
                 Vid betalning efter
-                förfallodatum kan
-                dröjsmålsränta debiteras
-                enligt gällande lag.
+                förfallodatum debiteras
+                dröjsmålsränta med{" "}
+                {company.lateInterestPercent} %.
               </p>
             </div>
 
@@ -370,9 +366,9 @@ export default function InvoicePreview({
               vid betalning.
             </p>
 
-            {data.invoice.description && (
+            {company.invoiceFooterText && (
               <span>
-                {data.invoice.description}
+                {company.invoiceFooterText}
               </span>
             )}
           </section>
@@ -469,7 +465,7 @@ export default function InvoicePreview({
                     <dt>Bankgiro</dt>
 
                     <dd>
-                      {company.bankgiro}
+                      {company.bankgiro || "Ej angivet"}
                     </dd>
                   </div>
 
@@ -477,7 +473,7 @@ export default function InvoicePreview({
                     <dt>Swish</dt>
 
                     <dd>
-                      {company.swish}
+                      {company.swishNumber || "Ej angivet"}
                     </dd>
                   </div>
                 </dl>
@@ -501,35 +497,76 @@ export default function InvoicePreview({
               <strong>Adress</strong>
 
               <span>{company.name}</span>
-              <span>{company.address}</span>
-              <span>{company.postalCity}</span>
+
+              {company.address && (
+                <span>{company.address}</span>
+              )}
+
+              <span>
+                {[
+                  company.postalCode,
+                  company.city,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              </span>
+
+              <span>{company.country}</span>
             </div>
 
             <div>
               <strong>Kontakt</strong>
 
-              <span>{company.phone}</span>
-              <span>{company.email}</span>
-              <span>{company.website}</span>
+              {company.phone && (
+                <span>{company.phone}</span>
+              )}
+
+              {company.email && (
+                <span>{company.email}</span>
+              )}
+
+              {company.website && (
+                <span>{company.website}</span>
+              )}
             </div>
 
             <div>
               <strong>Företagsuppgifter</strong>
 
-              <span>
-                Org.nr{" "}
-                {company.organizationNumber}
-              </span>
+              {company.organizationNumber && (
+                <span>
+                  Org.nr{" "}
+                  {company.organizationNumber}
+                </span>
+              )}
 
-              <span>
-                Godkänd för F-skatt
-              </span>
+              {company.approvedForFTax && (
+                <span>
+                  Godkänd för F-skatt
+                </span>
+              )}
             </div>
 
             <div>
-              <strong>Momsregistrering</strong>
+              <strong>Betalning</strong>
 
-              <span>{company.vatNumber}</span>
+              {company.vatNumber && (
+                <span>
+                  Momsnr {company.vatNumber}
+                </span>
+              )}
+
+              {company.iban && (
+                <span>
+                  IBAN {company.iban}
+                </span>
+              )}
+
+              {company.bicSwift && (
+                <span>
+                  BIC {company.bicSwift}
+                </span>
+              )}
 
               <span>
                 Faktura{" "}
@@ -542,3 +579,4 @@ export default function InvoicePreview({
     </div>
   );
 }
+

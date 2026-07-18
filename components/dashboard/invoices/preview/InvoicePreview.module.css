@@ -667,3 +667,17 @@
     margin: 0;
   }
 }
+
+/* === COMPANY LOGO START === */
+
+.logoImage {
+  display: block;
+  width: auto;
+  max-width: 245px;
+  height: auto;
+  max-height: 72px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* === COMPANY LOGO END === */
