@@ -210,7 +210,8 @@ export default function ProjectsTable({
           );
 
           return (
-            <article
+            <Link
+              href={`/dashboard/projekt/${project.id}`}
               className={styles.row}
               key={project.id}
             >
@@ -237,11 +238,13 @@ export default function ProjectsTable({
                 </div>
 
                 <div className={styles.projectText}>
-                  <Link
-                    href={`/dashboard/projekt/${project.id}`}
+                  <strong
+                    className={
+                      styles.projectTitle
+                    }
                   >
                     {project.title}
-                  </Link>
+                  </strong>
 
                   <span>
                     {project.category ||
@@ -348,20 +351,20 @@ export default function ProjectsTable({
                 )}
               </div>
 
-              <button
-                type="button"
+              <span
                 className={styles.moreButton}
-                aria-label={`Fler alternativ för ${project.title}`}
+                aria-hidden="true"
               >
                 <MoreHorizontal
                   size={19}
                   strokeWidth={1.8}
                 />
-              </button>
-            </article>
+              </span>
+            </Link>
           );
         })}
       </div>
     </section>
   );
 }
+
