@@ -78,7 +78,7 @@
   opacity: 0.58;
 }
 
-.actions button:last-child {
+.actions > button:last-child {
   width: 42px;
   padding: 0;
 }
@@ -498,3 +498,80 @@
 .previewButton {
   text-decoration: none;
 }
+
+/* === INVOICE SEND START === */
+
+.sendControl {
+  position: relative;
+  display: flex;
+}
+
+.sendControl > button {
+  cursor: pointer;
+}
+
+.sendControl > button:hover:not(:disabled) {
+  border-color: rgba(66, 213, 199, 0.5);
+  color: #66ded1;
+  background: rgba(40, 174, 159, 0.08);
+}
+
+.sendFeedback {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 9px);
+  right: 0;
+  display: flex;
+  width: 310px;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 11px 13px;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  box-shadow:
+    0 16px 38px rgba(0, 0, 0, 0.28);
+}
+
+.sendFeedbackSuccess {
+  border-color: rgba(66, 213, 169, 0.3);
+  color: #77dfbb;
+  background: #09231d;
+}
+
+.sendFeedbackError {
+  border-color: rgba(236, 102, 102, 0.32);
+  color: #f0a0a0;
+  background: #281316;
+}
+
+.spinner {
+  animation:
+    invoiceSendSpin 0.8s linear infinite;
+}
+
+@keyframes invoiceSendSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .sendControl {
+    width: 100%;
+  }
+
+  .sendControl > button {
+    width: 100%;
+  }
+
+  .sendFeedback {
+    position: static;
+    width: auto;
+    margin-top: 8px;
+  }
+}
+
+/* === INVOICE SEND END === */

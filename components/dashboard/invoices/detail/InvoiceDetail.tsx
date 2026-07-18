@@ -14,7 +14,6 @@ import {
   Mail,
   ReceiptText,
   RotateCcw,
-  Send,
 } from "lucide-react";
 
 import type {
@@ -24,6 +23,8 @@ import type {
 import type {
   InvoiceDetailData,
 } from "@/lib/dashboard/invoices/invoice-detail-types";
+
+import SendInvoiceButton from "./SendInvoiceButton";
 
 import styles from "./InvoiceDetail.module.css";
 
@@ -180,16 +181,25 @@ export default function InvoiceDetail({
         </div>
 
         <div className={styles.actions}>
-          <button
-            type="button"
-            disabled
-            title="Utskick kopplas i nästa steg"
-          >
-            <Send size={17} />
-            {data.invoice.sentAt
-              ? "Skicka igen"
-              : "Skicka faktura"}
-          </button>
+          <SendInvoiceButton
+            invoiceId={
+              data.invoice.id
+            }
+            invoiceNumber={
+              data.invoice
+                .invoiceNumber
+            }
+            recipientEmail={
+              data.invoice
+                .deliveryEmail ||
+              data.customer
+                .billingEmail ||
+              data.customer.email
+            }
+            sentAt={
+              data.invoice.sentAt
+            }
+          />
 
           <Link
             href={`/dashboard/fakturor/${data.invoice.id}/forhandsgranskning`}
@@ -729,4 +739,5 @@ export default function InvoiceDetail({
     </div>
   );
 }
+
 
