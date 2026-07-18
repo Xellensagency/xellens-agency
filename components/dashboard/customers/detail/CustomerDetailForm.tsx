@@ -31,6 +31,8 @@ import type {
   CustomerDetailContact,
 } from "@/lib/dashboard/customers/customer-detail-types";
 
+import InviteCustomerPortalButton from "./InviteCustomerPortalButton";
+
 import styles from "./CustomerDetailForm.module.css";
 
 type CustomerDetailFormProps = {
@@ -240,6 +242,29 @@ export default function CustomerDetailForm({
     );
   }
 
+  const primaryPortalContact =
+    customer.contacts.find(
+      (contact) =>
+        contact.isPrimary &&
+        contact.email.trim()
+    ) ||
+    customer.contacts.find(
+      (contact) =>
+        contact.email.trim()
+    );
+
+  const portalRecipientEmail =
+    primaryPortalContact
+      ?.email
+      .trim() ||
+    customer.email.trim();
+
+  const portalRecipientName =
+    primaryPortalContact
+      ?.fullName
+      .trim() ||
+    customer.name.trim();
+
   return (
     <div className={styles.page}>
       <header className={styles.heading}>
@@ -265,6 +290,21 @@ export default function CustomerDetailForm({
         </div>
 
         <div className={styles.headingActions}>
+          <InviteCustomerPortalButton
+            customerId={
+              customer.id
+            }
+            customerName={
+              customer.name
+            }
+            recipientEmail={
+              portalRecipientEmail
+            }
+            recipientName={
+              portalRecipientName
+            }
+          />
+
           <button
             type="button"
             className={styles.deleteButton}
@@ -958,5 +998,6 @@ export default function CustomerDetailForm({
     </div>
   );
 }
+
 
 
