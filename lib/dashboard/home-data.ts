@@ -1,4 +1,6 @@
-﻿import type { LucideIcon } from "lucide-react";
+import type {
+  LucideIcon,
+} from "lucide-react";
 
 export type StatTone =
   | "green"
@@ -20,4 +22,5 @@ export type DashboardStat = {
   comparison: string;
   icon: LucideIcon;
   tone: StatTone;
+  href: string;
 };
