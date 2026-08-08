@@ -1,14 +1,29 @@
-﻿import StatsSection from "@/components/dashboard/home/StatsSection";
-import OverviewSection from "@/components/dashboard/home/OverviewSection";
+import StatsSection from "@/components/dashboard/home/StatsSection";
+import DashboardFocusSection from "@/components/dashboard/home/DashboardFocusSection";
+import LatestActivity from "@/components/dashboard/home/LatestActivity";
 import DashboardBottomSection from "@/components/dashboard/home/DashboardBottomSection";
-import { getAdminDashboard } from "@/lib/dashboard/get-admin-dashboard";
+
+import {
+  getAdminDashboard,
+} from "@/lib/dashboard/get-admin-dashboard";
+
+import {
+  getDashboardActivity,
+} from "@/lib/dashboard/get-dashboard-activity";
+
 import styles from "./DashboardPage.module.css";
 
-export const dynamic = "force-dynamic";
+export const dynamic =
+  "force-dynamic";
 
 export default async function DashboardPage() {
-  const dashboardData =
-    await getAdminDashboard();
+  const [
+    dashboardData,
+    activities,
+  ] = await Promise.all([
+    getAdminDashboard(),
+    getDashboardActivity(),
+  ]);
 
   return (
     <div className={styles.dashboard}>
@@ -16,12 +31,15 @@ export default async function DashboardPage() {
         stats={dashboardData.stats}
       />
 
-      <OverviewSection
+      <DashboardFocusSection
         overview={
           dashboardData.project_overview
         }
         deadlines={
           dashboardData.deadlines
+        }
+        projects={
+          dashboardData.recent_projects
         }
       />
 
@@ -32,6 +50,10 @@ export default async function DashboardPage() {
         revenue={
           dashboardData.revenue
         }
+      />
+
+      <LatestActivity
+        activities={activities.slice(0, 5)}
       />
     </div>
   );

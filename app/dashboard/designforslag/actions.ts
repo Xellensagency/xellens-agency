@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import {
   revalidatePath,
@@ -489,6 +489,10 @@ export async function createDesignProposalAction(
 
   revalidatePath(
     "/dashboard/designforslag"
+  );
+
+  revalidatePath(
+    `/dashboard/projekt/${projectId}/design`
   );
 
   revalidatePath(

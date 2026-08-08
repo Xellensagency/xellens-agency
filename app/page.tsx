@@ -1,5 +1,5 @@
-﻿import LoginPage from "@/components/login/LoginPage";
+﻿import VorixLoginPage from "@/components/vorix/auth/VorixLoginPage";
 
 export default function Home() {
-  return <LoginPage />;
+  return <VorixLoginPage />;
 }

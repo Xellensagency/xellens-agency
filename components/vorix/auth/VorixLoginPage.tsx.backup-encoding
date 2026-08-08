@@ -1,0 +1,152 @@
+"use client";
+
+import Image from "next/image";
+
+import { useState } from "react";
+import styles from "./VorixLoginPage.module.css";
+
+type LoginMode = "admin" | "customer";
+
+export default function VorixLoginPage() {
+  const [mode, setMode] = useState<LoginMode>("admin");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const isAdmin = mode === "admin";
+
+  return (
+    <main className={styles.page}>
+      <section className={styles.brandPanel}>
+        <div className={styles.brandInner}>
+          <div className={styles.logoWrap}>
+            <Image
+              src="/images/brand/vorix-logo-vit.png"
+              alt="Vorix"
+              width={240}
+              height={78}
+              priority
+              className={styles.brandLogo}
+            />
+
+            <span className={styles.logoSubtext}>
+              Vorix Platform Â· v0.1.0 Alpha
+            </span>
+          </div>
+
+          <div className={styles.brandContent}>
+            <span className={styles.eyebrow}>
+              VORIX PLATFORM
+            </span>
+
+            <h1>
+              En modern plattform fÃ¶r kunder,
+              projekt, offerter och administration.
+            </h1>
+
+            <p>
+              Vorix samlar hela flÃ¶det â€“ frÃ¥n fÃ¶rsta
+              kontakt och offert till projekt, feedback,
+              filer, fakturor och slutkundens portal.
+            </p>
+
+            <ul className={styles.points}>
+              <li>Kunder & kundportal</li>
+              <li>Offerter & projekt</li>
+              <li>Design, filer & fakturor</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.formPanel}>
+        <div className={styles.formCard}>
+          <div className={styles.topText}>
+            <span className={styles.kicker}>VÃ¤lkommen tillbaka</span>
+            <h2>Logga in i Vorix</h2>
+            <p>
+              VÃ¤lj om du loggar in som administratÃ¶r
+              eller kund.
+            </p>
+          </div>
+
+          <div className={styles.modeSwitch}>
+            <button
+              type="button"
+              className={`${styles.modeButton} ${
+                isAdmin ? styles.modeButtonActive : ""
+              }`}
+              onClick={() => setMode("admin")}
+            >
+              Admin
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.modeButton} ${
+                !isAdmin ? styles.modeButtonActive : ""
+              }`}
+              onClick={() => setMode("customer")}
+            >
+              Kund
+            </button>
+          </div>
+
+          <form className={styles.form}>
+            <label className={styles.field}>
+              <span>E-postadress</span>
+              <input
+                type="email"
+                placeholder={
+                  isAdmin
+                    ? "admin@vorix.se"
+                    : "kund@foretag.se"
+                }
+              />
+            </label>
+
+            <label className={styles.field}>
+              <span>LÃ¶senord</span>
+              <div className={styles.passwordWrap}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Ange ditt lÃ¶senord"
+                />
+                <button
+                  type="button"
+                  className={styles.passwordToggle}
+                  onClick={() =>
+                    setShowPassword((current) => !current)
+                  }
+                >
+                  {showPassword ? "DÃ¶lj" : "Visa"}
+                </button>
+              </div>
+            </label>
+
+            <div className={styles.optionsRow}>
+              <label className={styles.checkbox}>
+                <input type="checkbox" />
+                <span>Kom ihÃ¥g mig</span>
+              </label>
+
+              <a href="#" className={styles.link}>
+                GlÃ¶mt lÃ¶senord?
+              </a>
+            </div>
+
+            <button type="submit" className={styles.submitButton}>
+              {isAdmin ? "Logga in som admin" : "Logga in som kund"}
+            </button>
+          </form>
+
+          <div className={styles.footerText}>
+            <p>
+              {isAdmin
+                ? "FÃ¶r administratÃ¶rer, personal och interna anvÃ¤ndare."
+                : "FÃ¶r kunder som fÃ¥tt inbjudan till kundportalen."}
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
