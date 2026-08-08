@@ -1,4 +1,4 @@
-﻿.section {
+.section {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -202,3 +202,258 @@
     height: 46px;
   }
 }
+
+/* VORIX PROJECT FILTERS V2 START */
+.section {
+  gap:
+    14px !important;
+}
+
+.tabs {
+  min-height:
+    54px !important;
+
+  border-color:
+    var(--vorix-border) !important;
+
+  border-radius:
+    12px !important;
+
+  background:
+    var(--vorix-control-bg) !important;
+}
+
+.tab {
+  height:
+    54px !important;
+
+  padding:
+    0 24px !important;
+
+  color:
+    var(--vorix-text-muted) !important;
+
+  font-size:
+    13px !important;
+
+  font-weight:
+    500 !important;
+
+  font-family:
+    inherit !important;
+}
+
+.tab:hover {
+  color:
+    var(--vorix-brand-green) !important;
+
+  background:
+    var(--vorix-hover) !important;
+}
+
+.activeTab {
+  color:
+    var(--vorix-brand-green) !important;
+
+  font-weight:
+    600 !important;
+}
+
+.activeTab::after {
+  right:
+    18px !important;
+
+  left:
+    18px !important;
+
+  height:
+    2px !important;
+
+  background:
+    var(--vorix-brand-green) !important;
+
+  box-shadow:
+    0 0 10px
+    rgba(34, 181, 115, 0.25) !important;
+}
+
+
+/* CONTROLS */
+
+.controls {
+  gap:
+    9px !important;
+}
+
+.selectBox,
+.filterMenu summary {
+  height:
+    54px !important;
+
+  gap:
+    9px !important;
+
+  padding:
+    0 15px !important;
+
+  border-color:
+    var(--vorix-border) !important;
+
+  border-radius:
+    11px !important;
+
+  background:
+    var(--vorix-control-bg) !important;
+
+  color:
+    var(--vorix-text-secondary) !important;
+}
+
+.selectBox:hover,
+.filterMenu summary:hover {
+  border-color:
+    rgba(34, 181, 115, 0.25) !important;
+
+  background:
+    var(--vorix-hover) !important;
+}
+
+.selectBox select {
+  min-width:
+    120px !important;
+
+  color:
+    var(--vorix-text-secondary) !important;
+
+  font-size:
+    13px !important;
+
+  font-family:
+    inherit !important;
+}
+
+.selectBox select option {
+  background:
+    var(--vorix-surface) !important;
+
+  color:
+    var(--vorix-text) !important;
+}
+
+.filterMenu summary {
+  min-width:
+    118px !important;
+
+  font-size:
+    13px !important;
+
+  font-weight:
+    500 !important;
+}
+
+
+/* FILTER POPOVER */
+
+.filterPopover {
+  min-width:
+    215px !important;
+
+  gap:
+    4px !important;
+
+  padding:
+    9px !important;
+
+  border-color:
+    var(--vorix-border) !important;
+
+  border-radius:
+    12px !important;
+
+  background:
+    var(--vorix-surface) !important;
+
+  box-shadow:
+    0 22px 55px
+    var(--vorix-shadow) !important;
+}
+
+.filterPopover > span {
+  padding:
+    8px 10px !important;
+
+  color:
+    var(--vorix-text-muted) !important;
+
+  font-size:
+    11px !important;
+}
+
+.filterPopover button {
+  min-height:
+    42px !important;
+
+  padding:
+    0 10px !important;
+
+  border-radius:
+    8px !important;
+
+  color:
+    var(--vorix-text-secondary) !important;
+
+  font-size:
+    13px !important;
+
+  font-family:
+    inherit !important;
+}
+
+.filterPopover button:hover,
+.filterPopover .selectedFilter {
+  background:
+    var(--vorix-hover) !important;
+
+  color:
+    var(--vorix-brand-green) !important;
+}
+
+
+/* LIGHT */
+
+:global(html[data-theme="light"]) .tabs,
+:global(html[data-theme="light"]) .selectBox,
+:global(html[data-theme="light"]) .filterMenu summary {
+  background:
+    #FFFFFF !important;
+}
+
+:global(html[data-theme="light"]) .filterPopover {
+  background:
+    #FFFFFF !important;
+
+  box-shadow:
+    0 18px 45px
+    rgba(11, 47, 51, 0.12) !important;
+}
+
+
+@media (max-width: 650px) {
+  .tab {
+    height:
+      50px !important;
+
+    padding:
+      0 18px !important;
+
+    font-size:
+      13px !important;
+  }
+
+  .selectBox,
+  .filterMenu summary {
+    height:
+      50px !important;
+  }
+}
+/* VORIX PROJECT FILTERS V2 END */

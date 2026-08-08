@@ -1,4 +1,6 @@
-﻿@import "tailwindcss";
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap");
+
+@import "tailwindcss";
 
 :root {
   color-scheme: dark;
@@ -30,3 +32,227 @@ textarea,
 select {
   font: inherit;
 }
+
+
+/* VORIX_THEME_START */
+:root {
+  --vorix-black: #0a0a0a;
+  --vorix-black-soft: #111111;
+  --vorix-white: #ffffff;
+  --vorix-champagne: #d6c4a0;
+  --vorix-champagne-light: #e2d2b1;
+  --vorix-champagne-dark: #b8a57e;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--vorix-black);
+  color: var(--vorix-white);
+  font-family:
+    "Satoshi",
+    "Inter",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+/* VORIX_THEME_END */
+
+/* VORIX BRAND TOKENS START */
+
+:root {
+  --vorix-rich-black: #0B2F33;
+  --vorix-deep-teal: #0F5D5B;
+  --vorix-green: #22B573;
+  --vorix-mint: #E6F4EF;
+  --vorix-light-gray: #E5E7EB;
+  --vorix-champagne: #D6C4A0;
+
+  --vorix-white: #FFFFFF;
+
+  --vorix-border:
+    rgba(229, 231, 235, 0.14);
+
+  --vorix-border-teal:
+    rgba(15, 93, 91, 0.42);
+
+  --vorix-green-soft:
+    rgba(34, 181, 115, 0.12);
+
+  --vorix-champagne-soft:
+    rgba(214, 196, 160, 0.10);
+}
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+  font-family:
+    "Satoshi",
+    "Inter",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+/* VORIX BRAND TOKENS END */
+
+
+/* VORIX THEME ENGINE START */
+
+/*
+ * Brandfärger är samma i båda teman.
+ */
+
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --vorix-brand-rich-black: #0B2F33;
+  --vorix-brand-teal: #0F5D5B;
+  --vorix-brand-green: #22B573;
+  --vorix-brand-mint: #E6F4EF;
+  --vorix-brand-gray: #E5E7EB;
+  --vorix-brand-champagne: #D6C4A0;
+
+  --vorix-bg: #041113;
+  --vorix-bg-secondary: #06181B;
+
+  --vorix-sidebar-bg: #06181B;
+  --vorix-topbar-bg: rgba(4, 17, 19, 0.95);
+
+  --vorix-surface: #071C1F;
+  --vorix-surface-elevated: #0B2F33;
+  --vorix-surface-soft: rgba(15, 93, 91, 0.18);
+
+  --vorix-control-bg: rgba(7, 31, 34, 0.62);
+  --vorix-input-bg: rgba(7, 31, 34, 0.72);
+
+  --vorix-text: #FFFFFF;
+  --vorix-text-secondary: #E6F4EF;
+  --vorix-text-muted: rgba(230, 244, 239, 0.56);
+
+  --vorix-border: rgba(230, 244, 239, 0.11);
+  --vorix-border-strong: rgba(230, 244, 239, 0.18);
+
+  --vorix-hover: rgba(15, 93, 91, 0.28);
+
+  --vorix-active:
+    linear-gradient(
+      100deg,
+      rgba(15, 93, 91, 0.92),
+      rgba(34, 181, 115, 0.20)
+    );
+
+  --vorix-card-bg:
+    linear-gradient(
+      145deg,
+      rgba(11, 47, 51, 0.50),
+      rgba(5, 24, 27, 0.70)
+    );
+
+  --vorix-shadow:
+    rgba(0, 0, 0, 0.28);
+
+  --vorix-shadow-soft:
+    rgba(0, 0, 0, 0.14);
+}
+
+
+/* LIGHT MODE */
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --vorix-brand-rich-black: #0B2F33;
+  --vorix-brand-teal: #0F5D5B;
+  --vorix-brand-green: #22B573;
+  --vorix-brand-mint: #E6F4EF;
+  --vorix-brand-gray: #E5E7EB;
+  --vorix-brand-champagne: #D6C4A0;
+
+  --vorix-bg: #F5F9F7;
+  --vorix-bg-secondary: #EDF5F1;
+
+  --vorix-sidebar-bg: #FFFFFF;
+  --vorix-topbar-bg: rgba(255, 255, 255, 0.94);
+
+  --vorix-surface: #FFFFFF;
+  --vorix-surface-elevated: #FFFFFF;
+  --vorix-surface-soft: #E6F4EF;
+
+  --vorix-control-bg: #FFFFFF;
+  --vorix-input-bg: #FFFFFF;
+
+  --vorix-text: #0B2F33;
+  --vorix-text-secondary: #24484B;
+  --vorix-text-muted: #64797B;
+
+  --vorix-border: rgba(11, 47, 51, 0.12);
+  --vorix-border-strong: rgba(11, 47, 51, 0.20);
+
+  --vorix-hover: rgba(34, 181, 115, 0.08);
+
+  --vorix-active:
+    linear-gradient(
+      100deg,
+      rgba(230, 244, 239, 1),
+      rgba(34, 181, 115, 0.11)
+    );
+
+  --vorix-card-bg:
+    linear-gradient(
+      145deg,
+      #FFFFFF,
+      #FAFCFB
+    );
+
+  --vorix-shadow:
+    rgba(11, 47, 51, 0.12);
+
+  --vorix-shadow-soft:
+    rgba(11, 47, 51, 0.07);
+}
+
+
+/* HELA SIDAN */
+
+html,
+body {
+  background:
+    var(--vorix-bg);
+
+  color:
+    var(--vorix-text);
+}
+
+body {
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family:
+    "Satoshi",
+    "Inter",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+/* VORIX THEME ENGINE END */

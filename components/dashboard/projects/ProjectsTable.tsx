@@ -1,15 +1,17 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+
 import {
   CalendarDays,
-  MoreHorizontal,
+  ChevronRight,
 } from "lucide-react";
+
 import type {
   ProjectListItem,
-  ProjectMember,
 } from "@/lib/dashboard/projects/project-types";
+
 import styles from "./ProjectsTable.module.css";
 
-type ProjectsTableProps = {
+type Props = {
   projects: ProjectListItem[];
 };
 
@@ -31,147 +33,146 @@ const statusSettings: Record<
     label: "Planering",
     tone: "blue",
   },
+
   ongoing: {
     label: "Pågående",
     tone: "green",
   },
+
   waiting_customer: {
     label: "Väntar på kund",
     tone: "purple",
   },
+
   production: {
     label: "I produktion",
     tone: "blue",
   },
+
   paused: {
     label: "Pausad",
     tone: "orange",
   },
+
   completed: {
     label: "Klar",
-    tone: "blue",
+    tone: "green",
   },
+
   cancelled: {
     label: "Avbruten",
     tone: "gray",
   },
+
   archived: {
     label: "Arkiverad",
     tone: "gray",
   },
 };
 
-const dateFormatter = new Intl.DateTimeFormat(
-  "sv-SE",
-  {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "Europe/Stockholm",
-  }
-);
+const dateFormatter =
+  new Intl.DateTimeFormat(
+    "sv-SE",
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      timeZone:
+        "Europe/Stockholm",
+    }
+  );
 
-const timeFormatter = new Intl.DateTimeFormat(
-  "sv-SE",
-  {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Stockholm",
-  }
-);
-
-function getInitials(value: string) {
+function getInitials(
+  value: string
+) {
   return (
     value
       .trim()
       .split(/\s+/)
       .filter(Boolean)
       .slice(0, 2)
-      .map((word) => word[0])
+      .map(
+        (word) => word[0]
+      )
       .join("")
-      .toUpperCase() || "XA"
+      .toUpperCase() ||
+    "VO"
   );
 }
 
-function getStockholmDateKey(value: Date) {
-  return new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "Europe/Stockholm",
-    }
-  ).format(value);
-}
-
-function formatUpdatedAt(value: string) {
-  const date = new Date(value);
-  const now = new Date();
-
-  const todayKey = getStockholmDateKey(now);
-  const dateKey = getStockholmDateKey(date);
-
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const yesterdayKey =
-    getStockholmDateKey(yesterday);
-
-  if (dateKey === todayKey) {
-    return `Idag ${timeFormatter.format(date)}`;
+function getNextAction(
+  project: ProjectListItem
+) {
+  if (
+    !project.deadline &&
+    project.status !== "completed" &&
+    project.status !== "cancelled" &&
+    project.status !== "archived"
+  ) {
+    return "Sätt deadline";
   }
 
-  if (dateKey === yesterdayKey) {
-    return `Igår ${timeFormatter.format(date)}`;
-  }
+  switch (project.status) {
+    case "planning":
+      return "Planera nästa steg";
 
-  return dateFormatter.format(date);
+    case "ongoing":
+      return "Fortsätt projektet";
+
+    case "waiting_customer":
+      return "Följ upp kunden";
+
+    case "production":
+      return "Följ produktionen";
+
+    case "paused":
+      return "Granska pausen";
+
+    case "completed":
+      return "Visa leverans";
+
+    default:
+      return "Öppna projekt";
+  }
 }
 
-function getPeople(project: ProjectListItem) {
-  const people: ProjectMember[] = [
-    ...(project.owner_id && project.owner_name
-      ? [
-          {
-            id: project.owner_id,
-            full_name: project.owner_name,
-            email: null,
-            member_role: "owner",
-          },
-        ]
-      : []),
-    ...project.members,
-  ];
+function formatUpdatedAt(
+  value: string
+) {
+  const date =
+    new Date(value);
 
-  return Array.from(
-    new Map(
-      people.map((person) => [
-        person.id,
-        person,
-      ])
-    ).values()
+  return dateFormatter.format(
+    date
   );
 }
 
 export default function ProjectsTable({
   projects,
-}: ProjectsTableProps) {
+}: Props) {
   if (projects.length === 0) {
     return (
-      <section className={styles.emptyCard}>
-        <div className={styles.emptyIcon}>
-          <span>+</span>
+      <section
+        className={styles.emptyCard}
+      >
+        <div
+          className={styles.emptyIcon}
+        >
+          +
         </div>
 
-        <h2>Inga projekt hittades</h2>
+        <h2>
+          Inga projekt hittades
+        </h2>
 
         <p>
-          Skapa ett nytt projekt eller ändra
-          sökningen och filtreringen.
+          Skapa ett nytt projekt eller
+          ändra sökningen och filtreringen.
         </p>
 
-        <Link href="/dashboard/projekt/nytt">
+        <Link
+          href="/dashboard/projekt/nytt"
+        >
           Skapa första projektet
         </Link>
       </section>
@@ -179,7 +180,9 @@ export default function ProjectsTable({
   }
 
   return (
-    <section className={styles.tableCard}>
+    <section
+      className={styles.tableCard}
+    >
       <div
         className={styles.tableHeader}
         aria-hidden="true"
@@ -187,184 +190,257 @@ export default function ProjectsTable({
         <span>Projekt</span>
         <span>Kund</span>
         <span>Status</span>
+        <span>Progress</span>
         <span>Deadline</span>
-        <span>Medlemmar</span>
-        <span>Senast uppdaterad</span>
+        <span>Ansvarig</span>
+        <span>Uppdaterad</span>
         <span />
       </div>
 
       <div className={styles.rows}>
-        {projects.map((project) => {
-          const status =
-            statusSettings[project.status] ?? {
-              label: project.status,
-              tone: "gray" as const,
-            };
+        {projects.map(
+          (project) => {
+            const status =
+              statusSettings[
+                project.status
+              ] ?? {
+                label:
+                  project.status,
+                tone:
+                  "gray" as const,
+              };
 
-          const people = getPeople(project);
-          const visiblePeople = people.slice(0, 3);
+            const progress =
+              Math.min(
+                100,
+                Math.max(
+                  0,
+                  Number(
+                    project.progress ??
+                    0
+                  )
+                )
+              );
 
-          const remainingPeople = Math.max(
-            people.length - visiblePeople.length,
-            0
-          );
+            const nextAction =
+              getNextAction(
+                project
+              );
 
-          return (
-            <Link
-              href={`/dashboard/projekt/${project.id}`}
-              className={styles.row}
-              key={project.id}
-            >
-              <div
-                className={styles.projectCell}
-                data-label="Projekt"
+            return (
+              <Link
+                href={`/dashboard/projekt/${project.id}`}
+                className={styles.row}
+                key={project.id}
               >
                 <div
-                  className={styles.thumbnail}
-                  style={
-                    project.thumbnail_url
-                      ? {
-                          backgroundImage: `url("${project.thumbnail_url}")`,
-                        }
-                      : undefined
+                  className={
+                    styles.projectCell
                   }
-                  aria-hidden="true"
+                  data-label="Projekt"
                 >
-                  {!project.thumbnail_url && (
+                  <div
+                    className={
+                      styles.thumbnail
+                    }
+                    style={
+                      project.thumbnail_url
+                        ? {
+                            backgroundImage:
+                              `url("${project.thumbnail_url}")`,
+                          }
+                        : undefined
+                    }
+                  >
+                    {!project.thumbnail_url && (
+                      <span>
+                        {getInitials(
+                          project.title
+                        )}
+                      </span>
+                    )}
+                  </div>
+
+                  <div
+                    className={
+                      styles.projectText
+                    }
+                  >
+                    <strong
+                      className={
+                        styles.projectTitle
+                      }
+                    >
+                      {project.title}
+                    </strong>
+
                     <span>
-                      {getInitials(project.title)}
+                      {
+                        project.project_number
+                      }
+
+                      {project.category
+                        ? ` · ${project.category}`
+                        : ""}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className={
+                    styles.customerCell
+                  }
+                  data-label="Kund"
+                >
+                  <span
+                    className={
+                      styles.customerAvatar
+                    }
+                  >
+                    {getInitials(
+                      project.customer_name
+                    )}
+                  </span>
+
+                  <strong>
+                    {
+                      project.customer_name
+                    }
+                  </strong>
+                </div>
+
+                <div
+                  className={
+                    styles.statusCell
+                  }
+                  data-label="Status"
+                >
+                  <span
+                    className={`${styles.status} ${
+                      styles[
+                        status.tone
+                      ]
+                    }`}
+                  >
+                    {status.label}
+                  </span>
+
+                  <small
+                    className={
+                      styles.nextAction
+                    }
+                  >
+                    {nextAction}
+                  </small>
+                </div>
+
+                <div
+                  className={
+                    styles.progressCell
+                  }
+                  data-label="Progress"
+                >
+                  <div
+                    className={
+                      styles.progressTrack
+                    }
+                  >
+                    <span
+                      style={{
+                        width:
+                          `${progress}%`,
+                      }}
+                    />
+                  </div>
+
+                  <strong>
+                    {progress}%
+                  </strong>
+                </div>
+
+                <div
+                  className={
+                    styles.deadlineCell
+                  }
+                  data-label="Deadline"
+                >
+                  <CalendarDays
+                    size={16}
+                    strokeWidth={1.7}
+                  />
+
+                  <span>
+                    {project.deadline
+                      ? dateFormatter.format(
+                          new Date(
+                            `${project.deadline}T12:00:00`
+                          )
+                        )
+                      : "Saknas"}
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    styles.ownerCell
+                  }
+                  data-label="Ansvarig"
+                >
+                  {project.owner_name ? (
+                    <>
+                      <span
+                        className={
+                          styles.ownerAvatar
+                        }
+                      >
+                        {getInitials(
+                          project.owner_name
+                        )}
+                      </span>
+
+                      <strong>
+                        {
+                          project.owner_name
+                        }
+                      </strong>
+                    </>
+                  ) : (
+                    <span
+                      className={
+                        styles.unassigned
+                      }
+                    >
+                      Ej tilldelad
                     </span>
                   )}
                 </div>
 
-                <div className={styles.projectText}>
-                  <strong
-                    className={
-                      styles.projectTitle
-                    }
-                  >
-                    {project.title}
-                  </strong>
-
-                  <span>
-                    {project.category ||
-                      project.project_number}
-                  </span>
-                </div>
-              </div>
-
-              <div
-                className={styles.customerCell}
-                data-label="Kund"
-              >
-                <span
-                  className={styles.customerAvatar}
+                <div
+                  className={
+                    styles.updatedCell
+                  }
+                  data-label="Uppdaterad"
                 >
-                  {getInitials(
-                    project.customer_name
+                  {formatUpdatedAt(
+                    project.updated_at
                   )}
-                </span>
+                </div>
 
-                <strong>
-                  {project.customer_name}
-                </strong>
-              </div>
-
-              <div
-                className={styles.statusCell}
-                data-label="Status"
-              >
                 <span
-                  className={`${styles.status} ${
-                    styles[status.tone]
-                  }`}
+                  className={
+                    styles.openIcon
+                  }
                 >
-                  {status.label}
+                  <ChevronRight
+                    size={18}
+                    strokeWidth={1.8}
+                  />
                 </span>
-              </div>
-
-              <div
-                className={styles.deadlineCell}
-                data-label="Deadline"
-              >
-                <CalendarDays
-                  size={16}
-                  strokeWidth={1.6}
-                />
-
-                <span>
-                  {project.deadline
-                    ? dateFormatter.format(
-                        new Date(
-                          `${project.deadline}T12:00:00`
-                        )
-                      )
-                    : "Ingen deadline"}
-                </span>
-              </div>
-
-              <div
-                className={styles.membersCell}
-                data-label="Medlemmar"
-              >
-                {visiblePeople.length === 0 ? (
-                  <span className={styles.noMembers}>
-                    Ej tilldelad
-                  </span>
-                ) : (
-                  <div className={styles.memberStack}>
-                    {visiblePeople.map((person) => (
-                      <span
-                        className={styles.member}
-                        title={
-                          person.full_name ||
-                          person.email ||
-                          "Medlem"
-                        }
-                        key={person.id}
-                      >
-                        {getInitials(
-                          person.full_name ||
-                            person.email ||
-                            "Medlem"
-                        )}
-                      </span>
-                    ))}
-
-                    {remainingPeople > 0 && (
-                      <span
-                        className={styles.moreMembers}
-                      >
-                        +{remainingPeople}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div
-                className={styles.updatedCell}
-                data-label="Uppdaterad"
-              >
-                {formatUpdatedAt(
-                  project.updated_at
-                )}
-              </div>
-
-              <span
-                className={styles.moreButton}
-                aria-hidden="true"
-              >
-                <MoreHorizontal
-                  size={19}
-                  strokeWidth={1.8}
-                />
-              </span>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          }
+        )}
       </div>
     </section>
   );
 }
-

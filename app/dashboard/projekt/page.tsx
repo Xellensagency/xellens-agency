@@ -1,4 +1,6 @@
-﻿import ProjectStatsSection from "@/components/dashboard/projects/ProjectStatsSection";
+import ProjectStatsSection from "@/components/dashboard/projects/ProjectStatsSection";
+import ProjectAttentionSection from "@/components/dashboard/projects/ProjectAttentionSection";
+import ProjectDraftsSection from "@/components/dashboard/projects/ProjectDraftsSection";
 import ProjectFilters from "@/components/dashboard/projects/ProjectFilters";
 import ProjectsTable from "@/components/dashboard/projects/ProjectsTable";
 import ProjectPagination from "@/components/dashboard/projects/ProjectPagination";
@@ -86,6 +88,12 @@ export default async function ProjectsPage({
       <ProjectStatsSection
         stats={data.stats}
       />
+
+      <ProjectAttentionSection
+        projects={data.projects}
+      />
+
+      <ProjectDraftsSection />
 
       <ProjectFilters
         customers={data.customers}

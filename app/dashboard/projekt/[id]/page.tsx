@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 import {
   notFound,
@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import DeleteProjectButton from "@/components/dashboard/projects/detail/DeleteProjectButton";
+import ProjectWorkspaceTabs from "@/components/dashboard/projects/detail/ProjectWorkspaceTabs";
 
 import {
   createClient,
@@ -102,14 +103,14 @@ function numberValue(
     : 0;
 }
 
-function dateText(
+function dateValue(
   value: unknown
 ) {
   const text =
     optionalText(value);
 
   if (!text) {
-    return "Ej angivet";
+    return null;
   }
 
   const date =
@@ -124,6 +125,26 @@ function dateText(
       date.getTime()
     )
   ) {
+    return null;
+  }
+
+  return date;
+}
+
+function dateText(
+  value: unknown
+) {
+  const text =
+    optionalText(value);
+
+  if (!text) {
+    return "Ej angivet";
+  }
+
+  const date =
+    dateValue(value);
+
+  if (!date) {
     return text;
   }
 
@@ -147,9 +168,162 @@ function money(
     {
       style: "currency",
       currency: "SEK",
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 0,
     }
   ).format(value);
+}
+
+function getInitials(
+  value: string
+) {
+  return (
+    value
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(
+        (word) => word[0]
+      )
+      .join("")
+      .toUpperCase() ||
+    "VO"
+  );
+}
+
+function getDeadlineText(
+  value: unknown
+) {
+  const deadline =
+    dateValue(value);
+
+  if (!deadline) {
+    return {
+      text: "Ingen deadline",
+      tone: "warning",
+    };
+  }
+
+  const today =
+    new Date();
+
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  deadline.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const days =
+    Math.round(
+      (
+        deadline.getTime() -
+        today.getTime()
+      ) /
+        86400000
+    );
+
+  if (days < 0) {
+    return {
+      text:
+        `${Math.abs(days)} dagar försenad`,
+      tone: "danger",
+    };
+  }
+
+  if (days === 0) {
+    return {
+      text: "Deadline idag",
+      tone: "warning",
+    };
+  }
+
+  if (days === 1) {
+    return {
+      text: "Deadline imorgon",
+      tone: "warning",
+    };
+  }
+
+  return {
+    text:
+      `${days} dagar kvar`,
+    tone: "success",
+  };
+}
+
+function getNextAction(
+  status: string,
+  progress: number,
+  hasDeadline: boolean
+) {
+  if (!hasDeadline) {
+    return {
+      title:
+        "Sätt en tydlig deadline",
+      description:
+        "Projektet saknar deadline. Lägg till ett slutdatum för att få bättre planering och uppföljning.",
+    };
+  }
+
+  switch (status) {
+    case "planning":
+      return {
+        title:
+          "Planera nästa aktivitet",
+        description:
+          "Projektet är fortfarande i planering. Kontrollera tidsplan, team och nästa leverans.",
+      };
+
+    case "waiting_customer":
+      return {
+        title:
+          "Följ upp kunden",
+        description:
+          "Projektet väntar på kunden. Kontrollera vad som saknas och följ upp vid behov.",
+      };
+
+    case "production":
+      return {
+        title:
+          "Följ produktionen",
+        description:
+          "Projektet är i produktion. Kontrollera kommande deadline och att teamet ligger enligt plan.",
+      };
+
+    case "paused":
+      return {
+        title:
+          "Granska varför projektet är pausat",
+        description:
+          "Bestäm om projektet ska återupptas, planeras om eller fortsätta vara pausat.",
+      };
+
+    case "completed":
+      return {
+        title:
+          "Projektet är slutfört",
+        description:
+          "Kontrollera slutleverans, fakturering och att kunden har fått allt material.",
+      };
+
+    default:
+      return {
+        title:
+          progress > 75
+            ? "Förbered slutleverans"
+            : "Fortsätt projektet",
+        description:
+          "Kontrollera nästa deadline, ansvarig person och vad som behöver göras härnäst.",
+      };
+  }
 }
 
 export default async function ProjectDetailPage({
@@ -323,21 +497,52 @@ export default async function ProjectDetailPage({
       project.budget
     );
 
+  const deadline =
+    project.deadline ??
+    project.end_date;
+
+  const deadlineInfo =
+    getDeadlineText(
+      deadline
+    );
+
+  const nextAction =
+    getNextAction(
+      status,
+      progress,
+      Boolean(
+        optionalText(
+          deadline
+        )
+      )
+    );
+
+  const ownerName =
+    owner
+      ? textValue(
+          owner.full_name ??
+          owner.email,
+          "Ej tilldelad"
+        )
+      : "Ej tilldelad";
+
+  const customerName =
+    customer
+      ? textValue(
+          customer.name,
+          "Namnlös kund"
+        )
+      : "Ingen kund";
+
   return (
     <div
-      className={
-        styles.page
-      }
+      className={styles.page}
     >
       <header
-        className={
-          styles.header
-        }
+        className={styles.header}
       >
         <div
-          className={
-            styles.heading
-          }
+          className={styles.heading}
         >
           <Link
             href="/dashboard/projekt"
@@ -347,59 +552,99 @@ export default async function ProjectDetailPage({
           >
             <ArrowLeft
               size={17}
+              strokeWidth={1.8}
             />
 
-            Till projekt
+            Till alla projekt
           </Link>
 
-          <span
+          <div
             className={
-              styles.eyebrow
+              styles.titleMeta
             }
           >
-            {projectNumber}
-          </span>
+            <span
+              className={
+                styles.eyebrow
+              }
+            >
+              {projectNumber}
+            </span>
 
-          <h1>{title}</h1>
+            <span
+              className={`${styles.statusPill} ${
+                styles[
+                  `status_${status}`
+                ] ??
+                ""
+              }`}
+            >
+              {statusLabels[
+                status
+              ] || status}
+            </span>
+          </div>
+
+          <h1>
+            {title}
+          </h1>
 
           <p>
-            Projektöversikt med kund,
-            status, tidsplan och
-            ekonomisk information.
+            Hantera projektets status,
+            tidsplan, kund,
+            ekonomi och ansvar.
           </p>
         </div>
 
-        <DeleteProjectButton
-          projectId={id}
-          projectTitle={title}
-        />
+        <div
+          className={
+            styles.headerActions
+          }
+        >
+          <Link
+            href={`/dashboard/projekt/${id}/redigera`}
+            className={
+              styles.editProjectButton
+            }
+          >
+            Redigera projekt
+          </Link>
+
+          <DeleteProjectButton
+            projectId={id}
+            projectTitle={title}
+          />
+        </div>
       </header>
 
+      <ProjectWorkspaceTabs
+        projectId={id}
+      />
+
       <section
-        className={
-          styles.heroCard
-        }
+        className={styles.heroCard}
       >
         <div
           className={
-            styles.heroIcon
-          }
-        >
-          <BriefcaseBusiness
-            size={30}
-          />
-        </div>
-
-        <div
-          className={
-            styles.heroContent
+            styles.heroTopArea
           }
         >
           <div
             className={
-              styles.heroTop
+              styles.heroIdentity
             }
           >
+            <div
+              className={
+                styles.heroIcon
+              }
+            >
+              <BriefcaseBusiness
+                size={28}
+                strokeWidth={1.7}
+              />
+            </div>
+
             <div>
               <span>
                 Projektstatus
@@ -411,27 +656,149 @@ export default async function ProjectDetailPage({
                 ] || status}
               </strong>
             </div>
+          </div>
 
-            <div
-              className={
-                styles.progressValue
-              }
-            >
-              {progress} %
+          <div
+            className={
+              styles.progressBlock
+            }
+          >
+            <span>
+              Framsteg
+            </span>
+
+            <strong>
+              {progress}%
+            </strong>
+          </div>
+        </div>
+
+        <div
+          className={
+            styles.progressTrack
+          }
+        >
+          <span
+            style={{
+              width:
+                `${progress}%`,
+            }}
+          />
+        </div>
+
+        <div
+          className={
+            styles.heroMetrics
+          }
+        >
+          <div
+            className={
+              styles.metric
+            }
+          >
+            <CalendarDays
+              size={18}
+            />
+
+            <div>
+              <span>
+                Deadline
+              </span>
+
+              <strong>
+                {dateText(
+                  deadline
+                )}
+              </strong>
+
+              <small
+                className={
+                  styles[
+                    deadlineInfo.tone
+                  ]
+                }
+              >
+                {
+                  deadlineInfo.text
+                }
+              </small>
             </div>
           </div>
 
           <div
             className={
-              styles.progressTrack
+              styles.metric
             }
           >
-            <span
-              style={{
-                width:
-                  `${progress}%`,
-              }}
+            <CircleDollarSign
+              size={18}
             />
+
+            <div>
+              <span>
+                Budget
+              </span>
+
+              <strong>
+                {money(
+                  budget
+                )}
+              </strong>
+
+              <small>
+                Exkl. moms
+              </small>
+            </div>
+          </div>
+
+          <div
+            className={
+              styles.metric
+            }
+          >
+            <UserRound
+              size={18}
+            />
+
+            <div>
+              <span>
+                Ansvarig
+              </span>
+
+              <strong>
+                {ownerName}
+              </strong>
+
+              <small>
+                Projektägare
+              </small>
+            </div>
+          </div>
+
+          <div
+            className={
+              styles.metric
+            }
+          >
+            <Gauge
+              size={18}
+            />
+
+            <div>
+              <span>
+                Prioritet
+              </span>
+
+              <strong>
+                {priorityLabels[
+                  priority
+                ] || priority}
+              </strong>
+
+              <small>
+                Projektets nivå
+              </small>
+            </div>
           </div>
         </div>
       </section>
@@ -466,8 +833,8 @@ export default async function ProjectDetailPage({
                 </h2>
 
                 <p>
-                  Projektets omfattning
-                  och interna information.
+                  Syfte, omfattning och
+                  viktig projektinformation.
                 </p>
               </div>
             </div>
@@ -494,6 +861,44 @@ export default async function ProjectDetailPage({
 
           <article
             className={
+              styles.nextActionCard
+            }
+          >
+            <div
+              className={
+                styles.nextActionIcon
+              }
+            >
+              <Gauge
+                size={22}
+              />
+            </div>
+
+            <div
+              className={
+                styles.nextActionContent
+              }
+            >
+              <span>
+                Rekommenderat nästa steg
+              </span>
+
+              <strong>
+                {
+                  nextAction.title
+                }
+              </strong>
+
+              <p>
+                {
+                  nextAction.description
+                }
+              </p>
+            </div>
+          </article>
+
+          <article
+            className={
               styles.card
             }
           >
@@ -512,8 +917,8 @@ export default async function ProjectDetailPage({
                 </h2>
 
                 <p>
-                  Projektets planerade
-                  datum och deadline.
+                  Projektets viktigaste
+                  datum och deadlines.
                 </p>
               </div>
             </div>
@@ -566,8 +971,7 @@ export default async function ProjectDetailPage({
 
                 <strong>
                   {dateText(
-                    project.deadline ??
-                    project.end_date
+                    deadline
                   )}
                 </strong>
               </div>
@@ -578,7 +982,7 @@ export default async function ProjectDetailPage({
                 }
               >
                 <span>
-                  Senast uppdaterat
+                  Senast uppdaterad
                 </span>
 
                 <strong>
@@ -621,50 +1025,69 @@ export default async function ProjectDetailPage({
             </div>
 
             {customer ? (
-              <div
-                className={
-                  styles.customer
-                }
-              >
-                <span
+              <>
+                <div
                   className={
-                    styles.customerAvatar
+                    styles.customer
                   }
                 >
-                  {textValue(
-                    customer.name,
-                    "K"
-                  )
-                    .slice(0, 2)
-                    .toUpperCase()}
-                </span>
-
-                <div>
-                  <strong>
-                    {textValue(
-                      customer.name,
-                      "Namnlös kund"
-                    )}
-                  </strong>
-
-                  <span>
-                    {textValue(
-                      customer.customer_number,
-                      "Saknar kundnummer"
+                  <span
+                    className={
+                      styles.customerAvatar
+                    }
+                  >
+                    {getInitials(
+                      customerName
                     )}
                   </span>
 
-                  {optionalText(
-                    customer.email
-                  ) && (
-                    <small>
+                  <div>
+                    <strong>
+                      {
+                        customerName
+                      }
+                    </strong>
+
+                    <span>
                       {textValue(
-                        customer.email
+                        customer.customer_number,
+                        "Saknar kundnummer"
                       )}
-                    </small>
-                  )}
+                    </span>
+
+                    {optionalText(
+                      customer.email
+                    ) && (
+                      <small>
+                        {textValue(
+                          customer.email
+                        )}
+                      </small>
+                    )}
+
+                    {optionalText(
+                      customer.phone
+                    ) && (
+                      <small>
+                        {textValue(
+                          customer.phone
+                        )}
+                      </small>
+                    )}
+                  </div>
                 </div>
-              </div>
+
+                {customerId && (
+                  <Link
+                    href={`/dashboard/kunder/${customerId}`}
+                    className={
+                      styles.customerLink
+                    }
+                  >
+                    Öppna kund
+                  </Link>
+                )}
+              </>
             ) : (
               <span
                 className={
@@ -691,11 +1114,13 @@ export default async function ProjectDetailPage({
               />
 
               <div>
-                <h2>Detaljer</h2>
+                <h2>
+                  Projektdetaljer
+                </h2>
 
                 <p>
-                  Projektets viktigaste
-                  inställningar.
+                  Inställningar och
+                  projektinformation.
                 </p>
               </div>
             </div>
@@ -740,11 +1165,13 @@ export default async function ProjectDetailPage({
                   <CircleDollarSign
                     size={15}
                   />
-                  Budget exkl. moms
+                  Budget
                 </dt>
 
                 <dd>
-                  {money(budget)}
+                  {money(
+                    budget
+                  )}
                 </dd>
               </div>
 
@@ -757,13 +1184,7 @@ export default async function ProjectDetailPage({
                 </dt>
 
                 <dd>
-                  {owner
-                    ? textValue(
-                        owner.full_name ??
-                        owner.email,
-                        "Ej angiven"
-                      )
-                    : "Ej tilldelad"}
+                  {ownerName}
                 </dd>
               </div>
 

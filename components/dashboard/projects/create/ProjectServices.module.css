@@ -1,4 +1,4 @@
-﻿.card {
+.card {
   overflow: hidden;
   border: 1px solid rgba(143, 173, 177, 0.18);
   border-radius: 11px;
@@ -570,3 +570,147 @@
     padding: 16px;
   }
 }
+
+/* VORIX SERVICES V2 START */
+
+.card {
+  border-color: var(--vorix-border) !important;
+  border-radius: 14px !important;
+  background: var(--vorix-card-bg) !important;
+}
+
+.header {
+  padding: 24px !important;
+  border-bottom-color: var(--vorix-border) !important;
+}
+
+.header > div > span {
+  color: var(--vorix-brand-green) !important;
+}
+
+.header h2 {
+  color: var(--vorix-text) !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+.header p {
+  color: var(--vorix-text-muted) !important;
+  font-size: 13px !important;
+}
+
+.header > strong {
+  background: rgba(34,181,115,.10) !important;
+  color: var(--vorix-brand-green) !important;
+  font-size: 11px !important;
+}
+
+.tabs {
+  border-bottom-color: var(--vorix-border) !important;
+}
+
+.tabs button {
+  min-height: 54px !important;
+  color: var(--vorix-text-muted) !important;
+  font-size: 13px !important;
+}
+
+.tabs button:hover,
+.tabs .activeTab {
+  color: var(--vorix-brand-green) !important;
+}
+
+.tabs .activeTab::after {
+  background: var(--vorix-brand-green) !important;
+}
+
+.search,
+.customForm input,
+.customForm select,
+.customForm textarea,
+.selectedRow input,
+.selectedRow select {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-input-bg) !important;
+  color: var(--vorix-text) !important;
+  font-size: 13px !important;
+}
+
+.search {
+  height: 48px !important;
+}
+
+.catalogCard,
+.selectedRow {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-control-bg) !important;
+}
+
+.catalogCard > div > span {
+  color: var(--vorix-brand-green) !important;
+  font-size: 10px !important;
+}
+
+.catalogCard h3 {
+  color: var(--vorix-text) !important;
+  font-size: 15px !important;
+}
+
+.catalogCard p {
+  color: var(--vorix-text-muted) !important;
+  font-size: 12px !important;
+}
+
+.catalogCard footer strong {
+  color: var(--vorix-text) !important;
+  font-size: 13px !important;
+}
+
+.catalogCard footer button,
+.emptyState button {
+  min-height: 38px !important;
+  border-color: rgba(34,181,115,.24) !important;
+  background: rgba(34,181,115,.08) !important;
+  color: var(--vorix-brand-green) !important;
+  font-size: 11px !important;
+}
+
+.customForm label > span,
+.selectedRow label > span,
+.rowTotal > span {
+  color: var(--vorix-text-secondary) !important;
+  font-size: 12px !important;
+}
+
+.addCustomButton {
+  min-height: 46px !important;
+  background: var(--vorix-brand-champagne) !important;
+  color: #0B2F33 !important;
+  font-size: 12px !important;
+}
+
+.selectedSection h3 {
+  color: var(--vorix-text) !important;
+  font-size: 16px !important;
+}
+
+.selectedSection header p,
+.noSelected {
+  color: var(--vorix-text-muted) !important;
+  font-size: 12px !important;
+}
+
+.selectedSection header > strong {
+  color: var(--vorix-brand-champagne) !important;
+}
+
+:global(html[data-theme="light"]) .card {
+  background: #FFFFFF !important;
+}
+
+:global(html[data-theme="light"]) .catalogCard,
+:global(html[data-theme="light"]) .selectedRow {
+  background: #F8FBF9 !important;
+}
+
+/* VORIX SERVICES V2 END */

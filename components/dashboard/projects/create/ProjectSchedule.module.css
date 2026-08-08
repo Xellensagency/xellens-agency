@@ -1,4 +1,4 @@
-﻿.card {
+.card {
   overflow: hidden;
   border: 1px solid rgba(143, 173, 177, 0.18);
   border-radius: 11px;
@@ -474,3 +474,121 @@
     padding: 13px;
   }
 }
+
+/* VORIX SCHEDULE V2 START */
+
+.card {
+  border-color: var(--vorix-border) !important;
+  border-radius: 14px !important;
+  background: var(--vorix-card-bg) !important;
+}
+
+.header {
+  padding: 24px !important;
+  border-bottom-color: var(--vorix-border) !important;
+}
+
+.header h2,
+.addSection h3,
+.timelineSection h3 {
+  color: var(--vorix-text) !important;
+}
+
+.header h2 {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+.header p,
+.addSection header p,
+.timelineSection header p {
+  color: var(--vorix-text-muted) !important;
+  font-size: 13px !important;
+}
+
+.header > strong {
+  background: rgba(34,181,115,.10) !important;
+  color: var(--vorix-brand-green) !important;
+  font-size: 11px !important;
+}
+
+.periodPanel,
+.milestoneContent {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-control-bg) !important;
+}
+
+.periodIntro {
+  color: var(--vorix-brand-green) !important;
+}
+
+.periodIntro strong {
+  color: var(--vorix-text) !important;
+  font-size: 14px !important;
+}
+
+.periodIntro span {
+  color: var(--vorix-text-muted) !important;
+  font-size: 11px !important;
+}
+
+.periodPanel label > span,
+.addGrid label > span,
+.editorGrid label > span {
+  color: var(--vorix-text-secondary) !important;
+  font-size: 12px !important;
+}
+
+.periodPanel input,
+.addGrid input,
+.addGrid select,
+.addGrid textarea,
+.editorGrid input,
+.editorGrid select,
+.editorGrid textarea {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-input-bg) !important;
+  color: var(--vorix-text) !important;
+  font-size: 13px !important;
+}
+
+.addButton {
+  min-height: 46px !important;
+  background: var(--vorix-brand-champagne) !important;
+  color: #0B2F33 !important;
+  font-size: 12px !important;
+}
+
+.milestoneHeading strong {
+  color: var(--vorix-text) !important;
+  font-size: 13px !important;
+}
+
+.milestoneHeading span {
+  color: var(--vorix-brand-green) !important;
+  font-size: 10px !important;
+}
+
+.timelineMarker span {
+  background: var(--vorix-brand-green) !important;
+}
+
+.visibilityButton {
+  color: var(--vorix-text-muted) !important;
+  font-size: 11px !important;
+}
+
+.visibilityButton.visible {
+  color: var(--vorix-brand-green) !important;
+}
+
+:global(html[data-theme="light"]) .card {
+  background: #FFFFFF !important;
+}
+
+:global(html[data-theme="light"]) .periodPanel,
+:global(html[data-theme="light"]) .milestoneContent {
+  background: #F8FBF9 !important;
+}
+
+/* VORIX SCHEDULE V2 END */

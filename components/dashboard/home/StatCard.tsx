@@ -1,9 +1,16 @@
-﻿import {
+import Link from "next/link";
+
+import {
   ArrowDown,
+  ArrowRight,
   ArrowUp,
   Minus,
 } from "lucide-react";
-import type { DashboardStat } from "@/lib/dashboard/home-data";
+
+import type {
+  DashboardStat,
+} from "@/lib/dashboard/home-data";
+
 import styles from "./StatCard.module.css";
 
 type StatCardProps = {
@@ -23,7 +30,10 @@ export default function StatCard({
         : ArrowUp;
 
   return (
-    <article className={styles.card}>
+    <Link
+      href={stat.href}
+      className={styles.card}
+    >
       <div className={styles.content}>
         <p className={styles.title}>
           {stat.title}
@@ -36,11 +46,13 @@ export default function StatCard({
         <div className={styles.trend}>
           <span
             className={`${styles.trendValue} ${
-              styles[stat.trendDirection]
+              styles[
+                stat.trendDirection
+              ]
             }`}
           >
             <TrendIcon
-              size={14}
+              size={15}
               strokeWidth={2}
               aria-hidden="true"
             />
@@ -48,18 +60,32 @@ export default function StatCard({
             {stat.trend}
           </span>
 
-          <span className={styles.comparison}>
+          <span
+            className={styles.comparison}
+          >
             {stat.comparison}
           </span>
         </div>
       </div>
 
-      <div
-        className={`${styles.iconBox} ${styles[stat.tone]}`}
-        aria-hidden="true"
-      >
-        <Icon size={27} strokeWidth={1.7} />
+      <div className={styles.side}>
+        <div
+          className={`${styles.iconBox} ${
+            styles[stat.tone]
+          }`}
+        >
+          <Icon
+            size={25}
+            strokeWidth={1.7}
+          />
+        </div>
+
+        <ArrowRight
+          className={styles.arrow}
+          size={17}
+          strokeWidth={1.8}
+        />
       </div>
-    </article>
+    </Link>
   );
 }

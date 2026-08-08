@@ -1,4 +1,4 @@
-﻿.page {
+.page {
   display: grid;
   gap: 18px;
   padding-bottom: 40px;
@@ -9,3 +9,21 @@
     gap: 14px;
   }
 }
+
+/* VORIX PROJECT PAGE V2 START */
+.page {
+  display: grid !important;
+
+  gap: 20px !important;
+
+  padding-bottom: 48px !important;
+}
+
+@media (max-width: 720px) {
+  .page {
+    gap: 16px !important;
+
+    padding-bottom: 30px !important;
+  }
+}
+/* VORIX PROJECT PAGE V2 END */

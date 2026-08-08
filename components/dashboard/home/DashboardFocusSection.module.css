@@ -1,0 +1,535 @@
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.18fr)
+    minmax(360px, 0.82fr);
+
+  gap: 16px;
+}
+
+.card {
+  min-width: 0;
+
+  padding: 24px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 14px;
+
+  background:
+    var(--vorix-card-bg);
+
+  box-shadow:
+    0 12px 36px
+    var(--vorix-shadow-soft);
+}
+
+.header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    var(--vorix-brand-green);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.09em;
+
+  text-transform: uppercase;
+}
+
+.header h2 {
+  margin: 0;
+
+  color:
+    var(--vorix-text);
+
+  font-size: 22px;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  letter-spacing:
+    -0.025em;
+}
+
+.header p {
+  margin:
+    7px 0 0;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 14px;
+
+  line-height: 1.45;
+}
+
+.headerLink {
+  display: inline-flex;
+
+  flex:
+    0 0 auto;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding-top: 4px;
+
+  color:
+    var(--vorix-brand-green);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.headerLink:hover {
+  text-decoration: underline;
+}
+
+
+/* STATUS */
+
+.statusGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 9px;
+
+  margin-bottom: 19px;
+}
+
+.statusBox {
+  display: flex;
+
+  min-width: 0;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    11px 12px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 10px;
+
+  background:
+    var(--vorix-surface-soft);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+
+  flex:
+    0 0 8px;
+
+  border-radius: 50%;
+}
+
+.statusBox div {
+  display: flex;
+
+  min-width: 0;
+
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.statusBox strong {
+  color:
+    var(--vorix-text);
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.statusBox span:last-child {
+  overflow: hidden;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.green {
+  background: #22B573;
+}
+
+.purple {
+  background: #8E69DA;
+}
+
+.blue {
+  background: #4EA3E5;
+}
+
+.orange {
+  background: #D6A24A;
+}
+
+
+/* ATTENTION */
+
+.attentionList,
+.upcomingList {
+  display: grid;
+
+  gap: 7px;
+}
+
+.attentionItem,
+.upcomingItem {
+  display: flex;
+
+  min-width: 0;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 64px;
+
+  padding:
+    10px 12px;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 11px;
+
+  color:
+    inherit;
+
+  text-decoration: none;
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.attentionItem:hover,
+.upcomingItem:hover {
+  border-color:
+    var(--vorix-border);
+
+  background:
+    var(--vorix-hover);
+
+  transform:
+    translateX(2px);
+}
+
+.attentionIcon {
+  display: grid;
+
+  width: 40px;
+  height: 40px;
+
+  flex:
+    0 0 40px;
+
+  place-items: center;
+
+  border-radius: 10px;
+}
+
+.attentionIcon.danger {
+  background:
+    rgba(220, 79, 79, 0.13);
+
+  color:
+    #E76D6D;
+}
+
+.attentionIcon.warning {
+  background:
+    rgba(214, 162, 74, 0.14);
+
+  color:
+    #D6A24A;
+}
+
+.attentionIcon.info {
+  background:
+    rgba(34, 181, 115, 0.12);
+
+  color:
+    #22B573;
+}
+
+.attentionIcon.neutral {
+  background:
+    var(--vorix-surface-soft);
+
+  color:
+    var(--vorix-text-muted);
+}
+
+.attentionText,
+.upcomingText {
+  display: flex;
+
+  min-width: 0;
+  flex: 1;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.attentionText strong,
+.upcomingText strong {
+  overflow: hidden;
+
+  color:
+    var(--vorix-text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.attentionText small,
+.upcomingText small {
+  overflow: hidden;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 13px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.rowArrow {
+  flex:
+    0 0 auto;
+
+  color:
+    var(--vorix-text-muted);
+
+  transition:
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.attentionItem:hover .rowArrow,
+.upcomingItem:hover .rowArrow {
+  color:
+    var(--vorix-brand-green);
+
+  transform:
+    translateX(2px);
+}
+
+
+/* UPCOMING */
+
+.dateBox {
+  display: grid;
+
+  width: 58px;
+  height: 44px;
+
+  flex:
+    0 0 58px;
+
+  place-items: center;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 9px;
+
+  background:
+    var(--vorix-surface-soft);
+}
+
+.dateBox strong {
+  color:
+    var(--vorix-text);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-transform: capitalize;
+}
+
+
+/* EMPTY */
+
+.emptyState {
+  display: flex;
+
+  min-height: 190px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 30px;
+
+  text-align: left;
+}
+
+.emptyIcon {
+  display: grid;
+
+  width: 48px;
+  height: 48px;
+
+  flex:
+    0 0 48px;
+
+  place-items: center;
+
+  border-radius: 12px;
+
+  background:
+    rgba(34, 181, 115, 0.10);
+
+  color:
+    var(--vorix-brand-green);
+}
+
+.emptyState div {
+  max-width: 320px;
+}
+
+.emptyState strong {
+  display: block;
+
+  color:
+    var(--vorix-text);
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.emptyState p {
+  margin:
+    5px 0 0;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* LIGHT */
+
+:global(html[data-theme="light"]) .card {
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(34, 181, 115, 0.045),
+      transparent 38%
+    ),
+    #FFFFFF;
+}
+
+:global(html[data-theme="light"]) .statusBox {
+  background:
+    #F5F9F7;
+}
+
+:global(html[data-theme="light"]) .dateBox {
+  background:
+    #F5F9F7;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1050px) {
+  .grid {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+
+/* MOBIL */
+
+@media (max-width: 700px) {
+  .card {
+    padding: 19px;
+  }
+
+  .header {
+    gap: 16px;
+  }
+
+  .header h2 {
+    font-size: 20px;
+  }
+
+  .statusGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .statusGrid {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .attentionText strong,
+  .upcomingText strong {
+    white-space: normal;
+  }
+
+  .attentionText small,
+  .upcomingText small {
+    white-space: normal;
+  }
+}

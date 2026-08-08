@@ -1,4 +1,4 @@
-﻿.card {
+.card {
   overflow: hidden;
   border: 1px solid rgba(143, 173, 177, 0.18);
   border-radius: 11px;
@@ -505,3 +505,125 @@
     margin-left: 49px;
   }
 }
+
+/* VORIX TEAM V2 START */
+
+.card {
+  border-color: var(--vorix-border) !important;
+  border-radius: 14px !important;
+  background: var(--vorix-card-bg) !important;
+}
+
+.header {
+  padding: 24px !important;
+  border-bottom-color: var(--vorix-border) !important;
+}
+
+.header h2,
+.ownerSection h3,
+.membersSection h3,
+.serviceAssignmentSection h3 {
+  color: var(--vorix-text) !important;
+}
+
+.header h2 {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+.header p,
+.ownerSection header p,
+.membersSection header p,
+.serviceAssignmentSection header p {
+  color: var(--vorix-text-muted) !important;
+  font-size: 13px !important;
+}
+
+.header > strong {
+  background: rgba(34,181,115,.10) !important;
+  color: var(--vorix-brand-green) !important;
+  font-size: 11px !important;
+}
+
+.sectionIcon {
+  background: rgba(34,181,115,.10) !important;
+  color: var(--vorix-brand-green) !important;
+}
+
+.ownerContent label > span,
+.memberEditor label > span,
+.serviceRow label > span {
+  color: var(--vorix-text-secondary) !important;
+  font-size: 12px !important;
+}
+
+.ownerContent select,
+.memberEditor select,
+.memberEditor textarea,
+.serviceRow select,
+.serviceRow input {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-input-bg) !important;
+  color: var(--vorix-text) !important;
+  font-size: 13px !important;
+}
+
+.ownerCard,
+.availableCard,
+.memberEditor,
+.serviceRow {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-control-bg) !important;
+}
+
+.ownerCard strong,
+.availableCard strong,
+.memberIdentity strong,
+.serviceInfo strong {
+  color: var(--vorix-text) !important;
+  font-size: 13px !important;
+}
+
+.ownerCard div > span,
+.availableCard div > span,
+.memberIdentity div > span,
+.serviceInfo span {
+  color: var(--vorix-text-muted) !important;
+  font-size: 11px !important;
+}
+
+.avatar {
+  color: var(--vorix-brand-green) !important;
+}
+
+.availableCard button {
+  min-height: 36px !important;
+  border-color: rgba(34,181,115,.23) !important;
+  background: rgba(34,181,115,.08) !important;
+  color: var(--vorix-brand-green) !important;
+  font-size: 11px !important;
+}
+
+.emptyTeam,
+.emptyState p {
+  color: var(--vorix-text-muted) !important;
+  font-size: 12px !important;
+}
+
+.emptyState strong {
+  color: var(--vorix-text) !important;
+  font-size: 14px !important;
+}
+
+:global(html[data-theme="light"]) .card {
+  background: #FFFFFF !important;
+}
+
+:global(html[data-theme="light"]) .ownerCard,
+:global(html[data-theme="light"]) .availableCard,
+:global(html[data-theme="light"]) .memberEditor,
+:global(html[data-theme="light"]) .serviceRow {
+  background: #F8FBF9 !important;
+}
+
+/* VORIX TEAM V2 END */

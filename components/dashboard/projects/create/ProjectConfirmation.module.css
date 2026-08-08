@@ -1,4 +1,4 @@
-﻿.wrapper {
+.wrapper {
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -468,3 +468,105 @@
     align-items: flex-start;
   }
 }
+
+/* VORIX CONFIRMATION V2 START */
+
+.headerIcon {
+  background: rgba(34,181,115,.10) !important;
+  color: var(--vorix-brand-green) !important;
+}
+
+.eyebrow {
+  color: var(--vorix-brand-green) !important;
+}
+
+.header h2,
+.cardHeader h3,
+.details dd,
+.serviceRow strong,
+.totals strong,
+.milestoneList strong,
+.ownerBox strong,
+.teamList strong,
+.assignmentList strong {
+  color: var(--vorix-text) !important;
+}
+
+.header p,
+.details dt,
+.descriptionBox span,
+.descriptionBox p,
+.emptyText,
+.serviceRow span,
+.totals > div,
+.milestoneList span,
+.teamList span,
+.teamList p,
+.assignmentList span {
+  color: var(--vorix-text-muted) !important;
+}
+
+.card {
+  border-color: var(--vorix-border) !important;
+  background: var(--vorix-card-bg) !important;
+  box-shadow: 0 12px 34px var(--vorix-shadow-soft) !important;
+}
+
+.cardHeader {
+  border-bottom-color: var(--vorix-border) !important;
+}
+
+.cardHeader > div {
+  color: var(--vorix-brand-green) !important;
+}
+
+.cardHeader button {
+  background: rgba(34,181,115,.08) !important;
+  color: var(--vorix-brand-green) !important;
+}
+
+.descriptionBox,
+.totals,
+.teamList > div {
+  background: var(--vorix-control-bg) !important;
+}
+
+.serviceRow,
+.assignmentList {
+  border-color: var(--vorix-border) !important;
+}
+
+.milestoneDot {
+  background: var(--vorix-brand-green) !important;
+}
+
+.ownerBox {
+  border-color: rgba(34,181,115,.18) !important;
+  background: rgba(34,181,115,.06) !important;
+}
+
+.avatar {
+  background: rgba(34,181,115,.12) !important;
+  color: var(--vorix-brand-green) !important;
+}
+
+.readySummary {
+  background:
+    linear-gradient(
+      135deg,
+      #0B2F33,
+      #0F5D5B
+    ) !important;
+}
+
+:global(html[data-theme="light"]) .card {
+  background: #FFFFFF !important;
+}
+
+:global(html[data-theme="light"]) .descriptionBox,
+:global(html[data-theme="light"]) .totals,
+:global(html[data-theme="light"]) .teamList > div {
+  background: #F8FBF9 !important;
+}
+
+/* VORIX CONFIRMATION V2 END */

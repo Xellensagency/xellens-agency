@@ -1,26 +1,35 @@
-﻿.shell {
+.shell {
   display: grid;
-  grid-template-columns: 262px minmax(0, 1fr);
+
+  grid-template-columns:
+    236px minmax(0, 1fr);
+
   min-height: 100svh;
+
   background:
     radial-gradient(
-      circle at 50% 0%,
-      rgba(39, 139, 132, 0.035),
-      transparent 34%
+      circle at 75% 0%,
+      rgba(15, 93, 91, 0.08),
+      transparent 28%
     ),
-    #02070c;
-  color: #f4f7f7;
+    #041113;
+
+  color:
+    #FFFFFF;
 }
 
 .workspace {
   min-width: 0;
   min-height: 100svh;
-  overflow: hidden;
+
+  overflow: clip;
 }
 
 .content {
   min-width: 0;
-  padding: 0 40px 40px;
+
+  padding:
+    0 32px 38px;
 }
 
 .overlay {
@@ -38,37 +47,73 @@
 
   .overlay {
     position: fixed;
-    z-index: 50;
+
+    z-index: 70;
+
     inset: 0;
+
     display: block;
+
     padding: 0;
+
     border: 0;
-    background: rgba(0, 4, 7, 0.73);
+
+    background:
+      rgba(0, 10, 12, 0.76);
+
     cursor: default;
-    backdrop-filter: blur(4px);
-    animation: overlayIn 180ms ease;
+
+    backdrop-filter:
+      blur(4px);
   }
 }
 
 @media (max-width: 720px) {
   .content {
-    padding: 0 18px 30px;
+    padding:
+      0 17px 30px;
   }
 }
 
 @media (max-width: 390px) {
   .content {
-    padding-right: 14px;
-    padding-left: 14px;
+    padding-right: 13px;
+    padding-left: 13px;
   }
 }
 
-@keyframes overlayIn {
-  from {
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
+/* VORIX SHELL THEME START */
+
+.shell {
+  background:
+    var(--vorix-bg) !important;
+
+  color:
+    var(--vorix-text) !important;
+}
+
+.workspace {
+  background:
+    var(--vorix-bg) !important;
+}
+
+/* VORIX SHELL THEME END */
+
+/* VORIX-DASHBOARD-SPACING-START */
+.content {
+  padding-top: 22px !important;
+}
+
+@media (max-width: 720px) {
+  .content {
+    padding-top: 18px !important;
   }
 }
+
+@media (max-width: 390px) {
+  .content {
+    padding-top: 16px !important;
+  }
+}
+/* VORIX-DASHBOARD-SPACING-END */

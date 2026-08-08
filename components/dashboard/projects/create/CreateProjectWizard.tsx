@@ -1,13 +1,22 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+
+import {
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  CloudCheck,
   LoaderCircle,
   Save,
 } from "lucide-react";
@@ -21,7 +30,15 @@ import type {
   ProjectTeamMemberDraft,
 } from "@/lib/dashboard/projects/create-project-types";
 
-import { createProjectAction } from "@/app/dashboard/projekt/nytt/actions";
+import {
+  createProjectAction,
+} from "@/app/dashboard/projekt/nytt/actions";
+
+import {
+  deleteProjectDraftAction,
+  loadProjectDraftAction,
+  saveProjectDraftAction,
+} from "@/app/dashboard/projekt/nytt/draft-actions";
 
 import ProjectSteps from "./ProjectSteps";
 import ProjectBasicInfo from "./ProjectBasicInfo";
@@ -37,6 +54,22 @@ type CreateProjectWizardProps = {
   options: CreateProjectOptions;
 };
 
+type StoredProjectDraft = {
+  activeStep: number;
+  draft: ProjectDraft;
+  services: ProjectServiceDraft[];
+  milestones: ProjectMilestoneDraft[];
+  ownerId: string;
+  teamMembers: ProjectTeamMemberDraft[];
+  serviceAssignments: ProjectServiceAssignments;
+};
+
+const STORAGE_KEY =
+  "vorix-create-project-draft-v1";
+
+const AUTOSAVE_KEY =
+  "vorix-create-project-draft-v1";
+
 const initialDraft: ProjectDraft = {
   title: "",
   customerId: "",
@@ -51,48 +84,67 @@ const initialDraft: ProjectDraft = {
   customerVisibility: "hidden",
 };
 
+const timeFormatter =
+  new Intl.DateTimeFormat(
+    "sv-SE",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
 export default function CreateProjectWizard({
   options,
 }: CreateProjectWizardProps) {
   const router = useRouter();
 
+  const searchParams =
+    useSearchParams();
+
+  const defaultOwnerId =
+    options.team_members.find(
+      (member) =>
+        member.role === "super_admin"
+    )?.id ??
+    options.team_members[0]?.id ??
+    "";
+
   const [activeStep, setActiveStep] =
     useState(1);
 
   const [draft, setDraft] =
-    useState<ProjectDraft>(initialDraft);
+    useState<ProjectDraft>(
+      initialDraft
+    );
 
   const [
     selectedServices,
     setSelectedServices,
-  ] = useState<ProjectServiceDraft[]>([]);
+  ] =
+    useState<ProjectServiceDraft[]>(
+      []
+    );
 
   const [
     milestones,
     setMilestones,
-  ] = useState<ProjectMilestoneDraft[]>([]);
+  ] =
+    useState<ProjectMilestoneDraft[]>(
+      []
+    );
 
   const [ownerId, setOwnerId] =
-    useState<string>(() => {
-      const superAdmin =
-        options.team_members.find(
-          (member) =>
-            member.role === "super_admin"
-        );
-
-      return (
-        superAdmin?.id ??
-        options.team_members[0]?.id ??
-        ""
-      );
-    });
+    useState<string>(
+      defaultOwnerId
+    );
 
   const [
     teamMembers,
     setTeamMembers,
-  ] = useState<ProjectTeamMemberDraft[]>(
-    []
-  );
+  ] =
+    useState<
+      ProjectTeamMemberDraft[]
+    >([]);
 
   const [
     serviceAssignments,
@@ -105,12 +157,376 @@ export default function CreateProjectWizard({
   const [
     isCreating,
     setIsCreating,
-  ] = useState(false);
+  ] =
+    useState(false);
 
   const [
     submitError,
     setSubmitError,
-  ] = useState("");
+  ] =
+    useState("");
+
+  const [
+    stepError,
+    setStepError,
+  ] =
+    useState("");
+
+  const [
+    hydrated,
+    setHydrated,
+  ] =
+    useState(false);
+
+  const [
+    draftSavedAt,
+    setDraftSavedAt,
+  ] =
+    useState("");
+
+  const [
+    serverDraftId,
+    setServerDraftId,
+  ] =
+    useState<string | null>(
+      null
+    );
+
+  const [
+    savingDraft,
+    setSavingDraft,
+  ] =
+    useState(false);
+
+  useEffect(() => {
+    try {
+      const stored =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      if (!stored) {
+        return;
+      }
+
+      const saved =
+        JSON.parse(
+          stored
+        ) as Partial<StoredProjectDraft>;
+
+      if (saved.draft) {
+        setDraft({
+          ...initialDraft,
+          ...saved.draft,
+          categoryIds:
+            saved.draft.categoryIds ??
+            [],
+        });
+      }
+
+      if (
+        Array.isArray(
+          saved.services
+        )
+      ) {
+        setSelectedServices(
+          saved.services
+        );
+      }
+
+      if (
+        Array.isArray(
+          saved.milestones
+        )
+      ) {
+        setMilestones(
+          saved.milestones
+        );
+      }
+
+      if (
+        saved.ownerId &&
+        options.team_members.some(
+          (member) =>
+            member.id ===
+            saved.ownerId
+        )
+      ) {
+        setOwnerId(
+          saved.ownerId
+        );
+      }
+
+      if (
+        Array.isArray(
+          saved.teamMembers
+        )
+      ) {
+        setTeamMembers(
+          saved.teamMembers
+        );
+      }
+
+      if (
+        saved.serviceAssignments
+      ) {
+        setServiceAssignments(
+          saved.serviceAssignments
+        );
+      }
+
+      if (
+        saved.activeStep &&
+        saved.activeStep >= 1 &&
+        saved.activeStep <= 5
+      ) {
+        setActiveStep(
+          saved.activeStep
+        );
+      }
+    } catch {
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+    } finally {
+      setHydrated(true);
+    }
+  }, [
+    options.team_members,
+  ]);
+
+  useEffect(() => {
+    if (!hydrated) {
+      return;
+    }
+
+    const timer =
+      window.setTimeout(
+        () => {
+          const payload:
+            StoredProjectDraft = {
+              activeStep,
+              draft,
+              services:
+                selectedServices,
+              milestones,
+              ownerId,
+              teamMembers,
+              serviceAssignments,
+            };
+
+          try {
+            localStorage.setItem(
+              STORAGE_KEY,
+              JSON.stringify(
+                payload
+              )
+            );
+
+            setDraftSavedAt(
+              timeFormatter.format(
+                new Date()
+              )
+            );
+          } catch {
+            // Projektet kan fortfarande
+            // skapas även om lokal lagring
+            // inte är tillgänglig.
+          }
+        },
+        700
+      );
+
+    return () =>
+      window.clearTimeout(
+        timer
+      );
+  }, [
+    hydrated,
+    activeStep,
+    draft,
+    selectedServices,
+    milestones,
+    ownerId,
+    teamMembers,
+    serviceAssignments,
+  ]);
+
+  /* VORIX SERVER DRAFT LOAD */
+
+  useEffect(() => {
+    if (!hydrated) {
+      return;
+    }
+
+    const draftId =
+      searchParams.get(
+        "draft"
+      );
+
+    if (
+      !draftId ||
+      draftId ===
+        serverDraftId
+    ) {
+      return;
+    }
+
+    const safeDraftId =
+      draftId;
+
+    let cancelled =
+      false;
+
+
+    async function loadServerDraft() {
+      setSubmitError("");
+
+      const result =
+        await loadProjectDraftAction(
+          safeDraftId
+        );
+
+
+      if (cancelled) {
+        return;
+      }
+
+
+      if (!result.ok) {
+        setSubmitError(
+          result.error
+        );
+
+        return;
+      }
+
+
+      const saved =
+        result.draft;
+
+      const payload =
+        saved.payload;
+
+
+      setServerDraftId(
+        saved.id
+      );
+
+
+      setActiveStep(
+        Math.min(
+          5,
+          Math.max(
+            1,
+            Number(
+              payload.activeStep ??
+              saved.current_step ??
+              1
+            )
+          )
+        )
+      );
+
+
+      setDraft({
+        ...initialDraft,
+
+        ...payload.draft,
+
+        categoryIds:
+          Array.isArray(
+            payload.draft
+              ?.categoryIds
+          )
+            ? payload.draft
+                .categoryIds
+            : [],
+      });
+
+
+      setSelectedServices(
+        Array.isArray(
+          payload.services
+        )
+          ? payload.services
+          : []
+      );
+
+
+      setMilestones(
+        Array.isArray(
+          payload.milestones
+        )
+          ? payload.milestones
+          : []
+      );
+
+
+      if (
+        payload.ownerId &&
+        options.team_members.some(
+          (member) =>
+            member.id ===
+            payload.ownerId
+        )
+      ) {
+        setOwnerId(
+          payload.ownerId
+        );
+      }
+
+
+      setTeamMembers(
+        Array.isArray(
+          payload.teamMembers
+        )
+          ? payload.teamMembers
+          : []
+      );
+
+
+      setServiceAssignments(
+        payload.serviceAssignments &&
+        typeof payload.serviceAssignments ===
+          "object"
+          ? payload.serviceAssignments
+          : {}
+      );
+
+
+      setDraftSavedAt(
+        new Intl.DateTimeFormat(
+          "sv-SE",
+          {
+            hour:
+              "2-digit",
+
+            minute:
+              "2-digit",
+          }
+        ).format(
+          new Date(
+            saved.updated_at
+          )
+        )
+      );
+    }
+
+
+    void loadServerDraft();
+
+
+    return () => {
+      cancelled =
+        true;
+    };
+  }, [
+    hydrated,
+    searchParams,
+    serverDraftId,
+    options.team_members,
+  ]);
 
   function updateDraft<
     K extends keyof ProjectDraft
@@ -118,21 +534,109 @@ export default function CreateProjectWizard({
     field: K,
     value: ProjectDraft[K]
   ) {
-    setDraft((current) => ({
-      ...current,
-      [field]: value,
-    }));
+    setDraft(
+      (current) => ({
+        ...current,
+        [field]: value,
+      })
+    );
 
+    setStepError("");
     setSubmitError("");
   }
 
-  function changeStep(step: number) {
-    const safeStep = Math.min(
-      Math.max(step, 1),
-      5
+  function validateStep(
+    step: number
+  ) {
+    if (step === 1) {
+      if (!draft.title.trim()) {
+        return "Ange ett projektnamn.";
+      }
+
+      if (!draft.customerId) {
+        return "Välj vilken kund projektet tillhör.";
+      }
+
+      if (
+        draft.categoryIds.length ===
+        0
+      ) {
+        return "Välj minst en projektkategori.";
+      }
+
+      if (
+        !draft.description.trim()
+      ) {
+        return "Lägg till en projektbeskrivning.";
+      }
+    }
+
+    if (step === 3) {
+      if (
+        draft.startDate &&
+        draft.endDate &&
+        draft.endDate <
+          draft.startDate
+      ) {
+        return "Slutdatum kan inte ligga före startdatum.";
+      }
+    }
+
+    if (step === 4) {
+      if (!ownerId) {
+        return "Välj en projektledare innan du fortsätter.";
+      }
+    }
+
+    return "";
+  }
+
+  function changeStep(
+    step: number
+  ) {
+    const safeStep =
+      Math.min(
+        Math.max(
+          step,
+          1
+        ),
+        5
+      );
+
+    if (
+      safeStep >
+      activeStep
+    ) {
+      for (
+        let checkStep = 1;
+        checkStep <
+        safeStep;
+        checkStep += 1
+      ) {
+        const error =
+          validateStep(
+            checkStep
+          );
+
+        if (error) {
+          setStepError(
+            error
+          );
+
+          setActiveStep(
+            checkStep
+          );
+
+          return;
+        }
+      }
+    }
+
+    setActiveStep(
+      safeStep
     );
 
-    setActiveStep(safeStep);
+    setStepError("");
     setSubmitError("");
 
     window.scrollTo({
@@ -141,21 +645,110 @@ export default function CreateProjectWizard({
     });
   }
 
-  const canCreateProject = Boolean(
-    draft.title.trim() &&
-      draft.customerId &&
-      draft.categoryIds.length > 0 &&
-      draft.description.trim() &&
-      ownerId &&
-      !(
-        draft.startDate &&
-        draft.endDate &&
-        draft.endDate < draft.startDate
+  function handleNext() {
+    const error =
+      validateStep(
+        activeStep
+      );
+
+    if (error) {
+      setStepError(error);
+      return;
+    }
+
+    changeStep(
+      activeStep + 1
+    );
+  }
+
+  async function handleSaveDraft() {
+    if (savingDraft) {
+      return;
+    }
+
+    setSavingDraft(true);
+    setSubmitError("");
+
+    const customerName =
+      options.customers.find(
+        (customer) =>
+          customer.id ===
+          draft.customerId
+      )?.name ?? null;
+
+    const result =
+      await saveProjectDraftAction({
+        title:
+          draft.title.trim() ||
+          "Nytt projekt",
+
+        currentStep:
+          activeStep,
+        draftId:
+          serverDraftId,
+
+        customerName,
+
+        payload: {
+          activeStep,
+
+          draft,
+
+          services:
+            selectedServices,
+
+          milestones,
+
+          ownerId,
+
+          teamMembers,
+
+          serviceAssignments,
+        },
+      });
+
+    if (!result.ok) {
+      setSubmitError(
+        result.error
+      );
+
+      setSavingDraft(false);
+
+      return;
+    }
+
+    setServerDraftId(
+      result.draftId
+    );
+
+    setDraftSavedAt(
+      timeFormatter.format(
+        new Date(
+          result.updatedAt
+        )
       )
-  );
+    );
+
+    router.replace(
+      `/dashboard/projekt/nytt?draft=${result.draftId}`,
+      {
+        scroll: false,
+      }
+    );
+
+    setSavingDraft(false);
+  }
+
+  const canCreateProject =
+    !validateStep(1) &&
+    !validateStep(3) &&
+    !validateStep(4);
 
   async function handleCreateProject() {
-    if (!canCreateProject || isCreating) {
+    if (
+      !canCreateProject ||
+      isCreating
+    ) {
       setSubmitError(
         "Kontrollera de obligatoriska uppgifterna innan projektet skapas."
       );
@@ -169,7 +762,8 @@ export default function CreateProjectWizard({
     const result =
       await createProjectAction({
         draft,
-        services: selectedServices,
+        services:
+          selectedServices,
         milestones,
         ownerId,
         teamMembers,
@@ -177,9 +771,38 @@ export default function CreateProjectWizard({
       });
 
     if (!result.ok) {
-      setSubmitError(result.error);
+      setSubmitError(
+        result.error
+      );
+
       setIsCreating(false);
+
       return;
+    }
+
+    try {
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+    } catch {
+      // Projektet är redan skapat.
+    }
+
+    /* VORIX DELETE SERVER DRAFT AFTER CREATE */
+
+    if (serverDraftId) {
+      await deleteProjectDraftAction(
+        serverDraftId
+      );
+    }
+
+    try {
+      window.localStorage.removeItem(
+        AUTOSAVE_KEY
+      );
+    }
+    catch {
+      // Lokal autosave ska inte blockera projektet.
     }
 
     router.push(
@@ -191,25 +814,97 @@ export default function CreateProjectWizard({
 
   return (
     <div className={styles.page}>
+      <section
+        className={
+          styles.wizardIntro
+        }
+      >
+        <div>
+          <span
+            className={
+              styles.wizardEyebrow
+            }
+          >
+            Nytt projekt
+          </span>
+
+          <h2>
+            Skapa ett komplett projekt
+          </h2>
+
+          <p>
+            Lägg grunden, välj tjänster,
+            planera tidslinjen och sätt
+            rätt team innan projektet
+            skapas.
+          </p>
+        </div>
+
+        <div
+          className={
+            styles.wizardMeta
+          }
+        >
+          <span
+            className={
+              styles.saveStatus
+            }
+          >
+            <CloudCheck
+              size={16}
+              strokeWidth={1.8}
+            />
+
+            {draftSavedAt
+              ? `Utkast sparat ${draftSavedAt}`
+              : "Autosparning aktiv"}
+          </span>
+
+          <span
+            className={
+              styles.stepBadge
+            }
+          >
+            Steg {activeStep} av 5
+          </span>
+        </div>
+      </section>
+
       <ProjectSteps
-        activeStep={activeStep}
-        onStepChange={changeStep}
+        activeStep={
+          activeStep
+        }
+        onStepChange={
+          changeStep
+        }
       />
 
-      <div className={styles.layout}>
-        <div className={styles.formColumn}>
+      <div
+        className={
+          styles.layout
+        }
+      >
+        <div
+          className={
+            styles.formColumn
+          }
+        >
           {activeStep === 1 && (
             <ProjectBasicInfo
               options={options}
               draft={draft}
-              onChange={updateDraft}
+              onChange={
+                updateDraft
+              }
             />
           )}
 
           {activeStep === 2 && (
             <ProjectServices
               options={options}
-              services={selectedServices}
+              services={
+                selectedServices
+              }
               onChange={
                 setSelectedServices
               }
@@ -220,9 +915,15 @@ export default function CreateProjectWizard({
             <ProjectSchedule
               options={options}
               draft={draft}
-              milestones={milestones}
-              onDraftChange={updateDraft}
-              onChange={setMilestones}
+              milestones={
+                milestones
+              }
+              onDraftChange={
+                updateDraft
+              }
+              onChange={
+                setMilestones
+              }
             />
           )}
 
@@ -230,13 +931,21 @@ export default function CreateProjectWizard({
             <ProjectTeam
               options={options}
               ownerId={ownerId}
-              teamMembers={teamMembers}
-              services={selectedServices}
+              teamMembers={
+                teamMembers
+              }
+              services={
+                selectedServices
+              }
               serviceAssignments={
                 serviceAssignments
               }
-              onOwnerChange={setOwnerId}
-              onTeamChange={setTeamMembers}
+              onOwnerChange={
+                setOwnerId
+              }
+              onTeamChange={
+                setTeamMembers
+              }
               onServiceAssignmentsChange={
                 setServiceAssignments
               }
@@ -247,15 +956,34 @@ export default function CreateProjectWizard({
             <ProjectConfirmation
               options={options}
               draft={draft}
-              services={selectedServices}
-              milestones={milestones}
+              services={
+                selectedServices
+              }
+              milestones={
+                milestones
+              }
               ownerId={ownerId}
-              teamMembers={teamMembers}
+              teamMembers={
+                teamMembers
+              }
               serviceAssignments={
                 serviceAssignments
               }
-              onEditStep={changeStep}
+              onEditStep={
+                changeStep
+              }
             />
+          )}
+
+          {stepError && (
+            <div
+              className={
+                styles.stepError
+              }
+              role="alert"
+            >
+              {stepError}
+            </div>
           )}
 
           {submitError && (
@@ -269,7 +997,11 @@ export default function CreateProjectWizard({
             </div>
           )}
 
-          <footer className={styles.actions}>
+          <footer
+            className={
+              styles.actions
+            }
+          >
             {activeStep === 1 ? (
               <Link
                 href="/dashboard/projekt"
@@ -290,7 +1022,9 @@ export default function CreateProjectWizard({
                     activeStep - 1
                   )
                 }
-                disabled={isCreating}
+                disabled={
+                  isCreating
+                }
               >
                 <ArrowLeft
                   size={17}
@@ -303,15 +1037,24 @@ export default function CreateProjectWizard({
 
             <button
               type="button"
-              className={styles.saveButton}
-              disabled={isCreating}
+              className={
+                styles.saveButton
+              }
+              onClick={
+                handleSaveDraft
+              }
+              disabled={
+                isCreating
+              }
             >
               <Save
                 size={17}
                 strokeWidth={1.8}
               />
 
-              Spara utkast
+              {savingDraft
+                ? "Sparar..."
+                : "Spara utkast"}
             </button>
 
             {activeStep < 5 ? (
@@ -320,10 +1063,11 @@ export default function CreateProjectWizard({
                 className={
                   styles.nextButton
                 }
-                onClick={() =>
-                  changeStep(
-                    activeStep + 1
-                  )
+                onClick={
+                  handleNext
+                }
+                disabled={
+                  isCreating
                 }
               >
                 Nästa steg
@@ -376,10 +1120,16 @@ export default function CreateProjectWizard({
         <ProjectPreview
           options={options}
           draft={draft}
-          services={selectedServices}
-          milestones={milestones}
+          services={
+            selectedServices
+          }
+          milestones={
+            milestones
+          }
           ownerId={ownerId}
-          teamMembers={teamMembers}
+          teamMembers={
+            teamMembers
+          }
           serviceAssignments={
             serviceAssignments
           }
@@ -388,4 +1138,3 @@ export default function CreateProjectWizard({
     </div>
   );
 }
-

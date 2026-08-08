@@ -1,9 +1,17 @@
-﻿"use client";
+"use client";
 
-import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import type {
+  ReactNode,
+} from "react";
+
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+
 import styles from "./DashboardShell.module.css";
 
 export type DashboardUser = {
@@ -21,14 +29,18 @@ export default function DashboardShell({
   children,
   user,
 }: DashboardShellProps) {
-  const [menuOpen, setMenuOpen] =
-    useState(false);
+  const [
+    menuOpen,
+    setMenuOpen,
+  ] = useState(false);
 
   useEffect(() => {
     function handleEscape(
       event: KeyboardEvent
     ) {
-      if (event.key === "Escape") {
+      if (
+        event.key === "Escape"
+      ) {
         setMenuOpen(false);
       }
     }
@@ -64,15 +76,18 @@ export default function DashboardShell({
   return (
     <div className={styles.shell}>
       <Sidebar
-        user={user}
         isOpen={menuOpen}
-        onClose={() => setMenuOpen(false)}
+        onClose={() =>
+          setMenuOpen(false)
+        }
       />
 
       {menuOpen && (
         <button
           type="button"
-          className={styles.overlay}
+          className={
+            styles.overlay
+          }
           onClick={() =>
             setMenuOpen(false)
           }
@@ -80,15 +95,31 @@ export default function DashboardShell({
         />
       )}
 
-      <div className={styles.workspace}>
+      <div
+        className={
+          styles.workspace
+        }
+      >
         <Topbar
-          firstName={user.firstName}
+          firstName={
+            user.firstName
+          }
+          fullName={
+            user.fullName
+          }
+          roleLabel={
+            user.roleLabel
+          }
           onOpenMenu={() =>
             setMenuOpen(true)
           }
         />
 
-        <main className={styles.content}>
+        <main
+          className={
+            styles.content
+          }
+        >
           {children}
         </main>
       </div>

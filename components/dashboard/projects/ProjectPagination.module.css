@@ -1,4 +1,4 @@
-﻿.pagination {
+.pagination {
   display: grid;
   grid-template-columns:
     minmax(0, 1fr)
@@ -106,3 +106,119 @@
     justify-self: center;
   }
 }
+
+/* VORIX PROJECT PAGINATION V2 START */
+
+.pagination {
+  min-height:
+    68px !important;
+
+  padding:
+    14px 20px !important;
+
+  border-color:
+    var(--vorix-border) !important;
+
+  border-radius:
+    13px !important;
+
+  background:
+    var(--vorix-control-bg) !important;
+}
+
+.pagination p {
+  color:
+    var(--vorix-text-muted) !important;
+
+  font-size:
+    13px !important;
+}
+
+.pages button {
+  width:
+    40px !important;
+
+  height:
+    40px !important;
+
+  border-radius:
+    9px !important;
+
+  color:
+    var(--vorix-text-secondary) !important;
+
+  font-size:
+    13px !important;
+}
+
+.pages button:hover:not(:disabled) {
+  border-color:
+    rgba(34, 181, 115, 0.30) !important;
+
+  background:
+    var(--vorix-hover) !important;
+
+  color:
+    var(--vorix-brand-green) !important;
+}
+
+.pages button.activePage {
+  border-color:
+    var(--vorix-brand-green) !important;
+
+  background:
+    rgba(34, 181, 115, 0.10) !important;
+
+  color:
+    var(--vorix-brand-green) !important;
+}
+
+.pageSize {
+  height:
+    44px !important;
+
+  min-width:
+    130px !important;
+
+  padding:
+    0 13px !important;
+
+  border-color:
+    var(--vorix-border) !important;
+
+  border-radius:
+    9px !important;
+
+  background:
+    var(--vorix-control-bg) !important;
+}
+
+.pageSize select {
+  color:
+    var(--vorix-text-secondary) !important;
+
+  font-size:
+    13px !important;
+
+  font-family:
+    inherit !important;
+}
+
+.pageSize select option {
+  background:
+    var(--vorix-surface) !important;
+
+  color:
+    var(--vorix-text) !important;
+}
+
+
+/* LIGHT */
+
+:global(html[data-theme="light"]) .pagination,
+:global(html[data-theme="light"]) .pageSize {
+  background:
+    #FFFFFF !important;
+}
+
+/* VORIX PROJECT PAGINATION V2 END */

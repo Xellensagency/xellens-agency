@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   useActionState,
@@ -25,13 +25,21 @@ import type {
 
 import styles from "./CreateDesignProposalForm.module.css";
 
+
 type CreateDesignProposalFormProps = {
   projects:
     DesignProposalProjectOption[];
+
+  initialProjectId?: string;
+
+  lockProject?: boolean;
 };
+
 
 export default function CreateDesignProposalForm({
   projects,
+  initialProjectId = "",
+  lockProject = false,
 }: CreateDesignProposalFormProps) {
   const formRef =
     useRef<HTMLFormElement>(
@@ -52,18 +60,29 @@ export default function CreateDesignProposalForm({
     initialCreateDesignProposalState
   );
 
+
   useEffect(() => {
     if (
       state.status ===
       "success"
     ) {
       formRef.current?.reset();
+
       setFileNames([]);
     }
   }, [
     state.status,
     state.message,
   ]);
+
+
+  const selectedProject =
+    projects.find(
+      (project) =>
+        project.id ===
+        initialProjectId
+    );
+
 
   return (
     <form
@@ -72,37 +91,107 @@ export default function CreateDesignProposalForm({
       className={styles.form}
     >
       <div className={styles.fieldGrid}>
-        <label className={styles.fullField}>
-          <span>
-            Projekt
-          </span>
+        {lockProject ? (
+          <>
+            <input
+              type="hidden"
+              name="projectId"
+              value={
+                initialProjectId
+              }
+            />
 
-          <select
-            name="projectId"
-            required
-            defaultValue=""
-          >
-            <option
-              value=""
-              disabled
+            <div
+              className={
+                styles.fullField
+              }
             >
-              Välj projekt
-            </option>
+              <span
+                className={
+                  styles.lockedProjectLabel
+                }
+              >
+                Projekt
+              </span>
 
-            {projects.map(
-              (project) => (
-                <option
-                  key={project.id}
-                  value={project.id}
-                >
-                  {project.projectNumber} –{" "}
-                  {project.title} –{" "}
-                  {project.customerName}
-                </option>
-              )
-            )}
-          </select>
-        </label>
+              <div
+                className={
+                  styles.lockedProject
+                }
+              >
+                <strong>
+                  {
+                    selectedProject
+                      ?.title ??
+                    "Projekt"
+                  }
+                </strong>
+
+                <span>
+                  {
+                    selectedProject
+                      ?.projectNumber
+                  }
+
+                  {selectedProject
+                    ?.customerName
+                    ? ` · ${selectedProject.customerName}`
+                    : ""}
+                </span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <label
+            className={
+              styles.fullField
+            }
+          >
+            <span>
+              Projekt
+            </span>
+
+            <select
+              name="projectId"
+              required
+              defaultValue={
+                initialProjectId
+              }
+            >
+              <option
+                value=""
+                disabled
+              >
+                Välj projekt
+              </option>
+
+              {projects.map(
+                (project) => (
+                  <option
+                    key={
+                      project.id
+                    }
+                    value={
+                      project.id
+                    }
+                  >
+                    {
+                      project.projectNumber
+                    }
+                    {" – "}
+                    {
+                      project.title
+                    }
+                    {" – "}
+                    {
+                      project.customerName
+                    }
+                  </option>
+                )
+              )}
+            </select>
+          </label>
+        )}
 
         <label>
           <span>
@@ -129,7 +218,11 @@ export default function CreateDesignProposalForm({
           />
         </label>
 
-        <label className={styles.fullField}>
+        <label
+          className={
+            styles.fullField
+          }
+        >
           <span>
             Meddelande till kunden
           </span>
@@ -141,12 +234,20 @@ export default function CreateDesignProposalForm({
           />
         </label>
 
-        <label className={styles.fullField}>
+        <label
+          className={
+            styles.fullField
+          }
+        >
           <span>
             Figma- eller prototyplänk
           </span>
 
-          <div className={styles.inputWithIcon}>
+          <div
+            className={
+              styles.inputWithIcon
+            }
+          >
             <ExternalLink
               size={19}
               strokeWidth={1.7}
@@ -161,7 +262,11 @@ export default function CreateDesignProposalForm({
         </label>
       </div>
 
-      <label className={styles.uploadArea}>
+      <label
+        className={
+          styles.uploadArea
+        }
+      >
         <UploadCloud
           size={34}
           strokeWidth={1.5}
@@ -197,10 +302,18 @@ export default function CreateDesignProposalForm({
       </label>
 
       {fileNames.length > 0 && (
-        <div className={styles.fileList}>
+        <div
+          className={
+            styles.fileList
+          }
+        >
           {fileNames.map(
             (fileName) => (
-              <div key={fileName}>
+              <div
+                key={
+                  fileName
+                }
+              >
                 <FileImage
                   size={18}
                   strokeWidth={1.7}
@@ -215,7 +328,11 @@ export default function CreateDesignProposalForm({
         </div>
       )}
 
-      <label className={styles.publishOption}>
+      <label
+        className={
+          styles.publishOption
+        }
+      >
         <input
           type="checkbox"
           name="publishNow"
@@ -230,8 +347,9 @@ export default function CreateDesignProposalForm({
           </strong>
 
           <small>
-            Kunden kan se och lämna
-            feedback på förslaget direkt.
+            Kunden kan se förslaget
+            direkt när kundportalens
+            feedbackflöde är kopplat.
           </small>
         </span>
       </label>
@@ -250,7 +368,11 @@ export default function CreateDesignProposalForm({
         </div>
       )}
 
-      <div className={styles.actions}>
+      <div
+        className={
+          styles.actions
+        }
+      >
         <button
           type="submit"
           disabled={

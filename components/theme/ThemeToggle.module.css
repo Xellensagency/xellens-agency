@@ -1,0 +1,56 @@
+.button {
+  display: grid;
+
+  width: 44px;
+  height: 44px;
+
+  flex: 0 0 44px;
+
+  padding: 0;
+
+  place-items: center;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 11px;
+
+  background:
+    var(--vorix-control-bg);
+
+  color:
+    var(--vorix-text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.button:hover {
+  border-color:
+    var(--vorix-brand-green);
+
+  background:
+    var(--vorix-hover);
+
+  color:
+    var(--vorix-brand-green);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 8px 22px
+    var(--vorix-shadow-soft);
+}
+
+.button:active {
+  transform:
+    translateY(0);
+}

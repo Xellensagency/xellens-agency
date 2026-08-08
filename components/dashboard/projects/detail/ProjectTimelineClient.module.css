@@ -1,0 +1,493 @@
+.workspace {
+  display: grid;
+  gap: 18px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.stats article {
+  display: flex;
+  min-height: 102px;
+  align-items: center;
+  gap: 13px;
+  padding: 17px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 13px;
+  background: var(--vorix-card-bg);
+  box-shadow:
+    0 10px 28px
+    var(--vorix-shadow-soft);
+}
+
+.stats article > span {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(34,181,115,.10);
+  color: var(--vorix-brand-green);
+}
+
+.stats small {
+  display: block;
+  color: var(--vorix-text-muted);
+  font-size: 12px;
+}
+
+.stats strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--vorix-text);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.stats p {
+  margin: 3px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 12px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 21px 22px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 13px;
+  background: var(--vorix-card-bg);
+}
+
+.topbar > div > span,
+.editor header span {
+  color: var(--vorix-brand-green);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.topbar h2 {
+  margin: 5px 0 0;
+  color: var(--vorix-text);
+  font-size: 21px;
+  font-weight: 650;
+}
+
+.topbar p {
+  margin: 5px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 13px;
+}
+
+.topbar > button,
+.primaryButton {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--vorix-brand-champagne);
+  color: #0B2F33;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.error {
+  padding: 13px 15px;
+  border: 1px solid rgba(232,121,121,.25);
+  border-radius: 9px;
+  background: rgba(232,121,121,.08);
+  color: #E87979;
+  font-size: 13px;
+}
+
+.editor {
+  padding: 22px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 14px;
+  background: var(--vorix-card-bg);
+}
+
+.editor header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.editor h3 {
+  margin: 4px 0 0;
+  color: var(--vorix-text);
+  font-size: 18px;
+}
+
+.closeButton,
+.itemActions button {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--vorix-border);
+  background: var(--vorix-control-bg);
+  color: var(--vorix-text-muted);
+  cursor: pointer;
+}
+
+.closeButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.formGrid label {
+  display: grid;
+  gap: 7px;
+}
+
+.formGrid label > span {
+  color: var(--vorix-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.formGrid input,
+.formGrid select,
+.formGrid textarea {
+  width: 100%;
+  border: 1px solid var(--vorix-border);
+  border-radius: 9px;
+  outline: 0;
+  background: var(--vorix-input-bg);
+  color: var(--vorix-text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.formGrid input,
+.formGrid select {
+  min-height: 45px;
+  padding: 0 12px;
+}
+
+.formGrid textarea {
+  padding: 12px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.checkbox {
+  grid-column: 1 / -1;
+  display: flex !important;
+  align-items: center;
+  grid-template-columns: none !important;
+}
+
+.checkbox input {
+  width: 17px;
+  height: 17px;
+  min-height: 0;
+}
+
+.editor footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.secondaryButton {
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 9px;
+  background: var(--vorix-control-bg);
+  color: var(--vorix-text-secondary);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.timelineCard {
+  overflow: hidden;
+  border: 1px solid var(--vorix-border);
+  border-radius: 14px;
+  background: var(--vorix-card-bg);
+}
+
+.timeline {
+  display: grid;
+  padding: 24px 24px 27px;
+}
+
+.fixedEvent,
+.milestone {
+  display: grid;
+  grid-template-columns:
+    48px minmax(0, 1fr);
+  gap: 13px;
+}
+
+.rail {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rail > span {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  border: 1px solid var(--vorix-border);
+  border-radius: 10px;
+  background: var(--vorix-control-bg);
+  color: var(--vorix-brand-green);
+}
+
+.rail i {
+  width: 1px;
+  min-height: 35px;
+  flex: 1;
+  background: var(--vorix-border);
+}
+
+.doneIcon {
+  color: #22B573 !important;
+  background: rgba(34,181,115,.10) !important;
+}
+
+.overdueIcon {
+  color: #E87979 !important;
+  background: rgba(232,121,121,.08) !important;
+}
+
+.normalIcon {
+  color: var(--vorix-brand-green) !important;
+}
+
+.eventContent {
+  padding: 2px 0 23px;
+}
+
+.eventContent h3 {
+  margin: 4px 0 0;
+  color: var(--vorix-text);
+  font-size: 16px;
+}
+
+.eventContent p {
+  margin: 5px 0;
+  color: var(--vorix-text-muted);
+  font-size: 13px;
+}
+
+.eventContent strong {
+  color: var(--vorix-text-secondary);
+  font-size: 13px;
+}
+
+.kicker {
+  color: var(--vorix-brand-green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.milestoneCard {
+  margin-bottom: 14px;
+  padding: 17px 18px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 11px;
+  background: var(--vorix-control-bg);
+}
+
+.milestoneTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.milestoneTop h3 {
+  margin: 7px 0 0;
+  color: var(--vorix-text);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badges span {
+  display: inline-flex;
+  min-height: 25px;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--vorix-surface-soft);
+  color: var(--vorix-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badges .doneBadge {
+  background: rgba(34,181,115,.11);
+  color: #22B573;
+}
+
+.badges .overdueBadge {
+  background: rgba(232,121,121,.10);
+  color: #E87979;
+}
+
+.badges .statusBadge {
+  background: rgba(214,196,160,.10);
+  color: var(--vorix-brand-champagne);
+}
+
+.itemActions {
+  display: flex;
+  gap: 6px;
+}
+
+.itemActions button {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+}
+
+.description {
+  max-width: 800px;
+  margin: 9px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 13px;
+}
+
+.meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--vorix-text-secondary);
+  font-size: 12px;
+}
+
+.empty {
+  display: grid;
+  min-height: 270px;
+  place-items: center;
+  align-content: center;
+  color: var(--vorix-text-muted);
+  text-align: center;
+}
+
+.empty h3 {
+  margin: 12px 0 0;
+  color: var(--vorix-text);
+  font-size: 17px;
+}
+
+.empty p {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+
+:global(html[data-theme="light"]) .stats article,
+:global(html[data-theme="light"]) .topbar,
+:global(html[data-theme="light"]) .editor,
+:global(html[data-theme="light"]) .timelineCard {
+  background: #FFFFFF;
+  box-shadow:
+    0 10px 28px
+    rgba(11,47,51,.055);
+}
+
+:global(html[data-theme="light"]) .milestoneCard {
+  background: #F7FAF8;
+}
+
+@media (max-width: 950px) {
+  .stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .topbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .full,
+  .checkbox {
+    grid-column: 1;
+  }
+
+  .milestoneTop {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline {
+    padding: 18px 14px 22px;
+  }
+
+  .fixedEvent,
+  .milestone {
+    grid-template-columns:
+      40px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .rail > span {
+    width: 35px;
+    height: 35px;
+  }
+}

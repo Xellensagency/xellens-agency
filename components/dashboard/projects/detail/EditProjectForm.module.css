@@ -1,0 +1,413 @@
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  padding: 23px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 14px;
+
+  background:
+    var(--vorix-card-bg);
+
+  box-shadow:
+    0 10px 30px
+    var(--vorix-shadow-soft);
+}
+
+.cardHeader {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+
+  margin-bottom: 21px;
+
+  padding-bottom: 17px;
+
+  border-bottom:
+    1px solid
+    var(--vorix-border);
+
+  color:
+    var(--vorix-brand-green);
+}
+
+.cardHeader h2 {
+  margin: 0;
+
+  color:
+    var(--vorix-text);
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cardHeader p {
+  margin: 5px 0 0;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+.threeColumns {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+.full {
+  grid-column:
+    1 / -1;
+}
+
+.grid label,
+.threeColumns label {
+  display: grid;
+
+  gap: 8px;
+}
+
+.grid label > span,
+.threeColumns label > span {
+  color:
+    var(--vorix-text-secondary);
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.grid input,
+.grid select,
+.grid textarea,
+.threeColumns input {
+  width: 100%;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 9px;
+
+  outline: 0;
+
+  background:
+    var(--vorix-input-bg);
+
+  color:
+    var(--vorix-text);
+
+  font: inherit;
+  font-size: 14px;
+}
+
+.grid input,
+.grid select,
+.threeColumns input {
+  min-height: 47px;
+
+  padding:
+    0 13px;
+}
+
+.grid textarea {
+  min-height: 135px;
+
+  padding: 13px;
+
+  line-height: 1.6;
+
+  resize: vertical;
+}
+
+.grid input:focus,
+.grid select:focus,
+.grid textarea:focus,
+.threeColumns input:focus {
+  border-color:
+    var(--vorix-brand-green);
+}
+
+
+/* PROGRESS */
+
+.progressField {
+  grid-column:
+    1 / -1;
+
+  padding: 16px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 10px;
+
+  background:
+    var(--vorix-control-bg);
+}
+
+.progressLabel {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.progressLabel span {
+  color:
+    var(--vorix-text-secondary);
+
+  font-size: 13px;
+}
+
+.progressLabel strong {
+  color:
+    var(--vorix-brand-green);
+
+  font-size: 19px;
+}
+
+.progressField input[type="range"] {
+  width: 100%;
+  height: auto;
+
+  margin-top: 13px;
+
+  padding: 0;
+}
+
+.progressTrack {
+  height: 6px;
+
+  overflow: hidden;
+
+  margin-top: 10px;
+
+  border-radius: 999px;
+
+  background:
+    var(--vorix-surface-soft);
+}
+
+.progressTrack span {
+  display: block;
+
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0F5D5B,
+      #22B573
+    );
+}
+
+
+/* MONEY */
+
+.moneyInput {
+  position: relative;
+}
+
+.moneyInput input {
+  padding-right:
+    60px;
+}
+
+.moneyInput > span {
+  position: absolute;
+
+  top: 50%;
+  right: 13px;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 12px;
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* MESSAGE */
+
+.message {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding:
+    13px 15px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+}
+
+.success {
+  border:
+    1px solid
+    rgba(34,181,115,.22);
+
+  background:
+    rgba(34,181,115,.08);
+
+  color:
+    var(--vorix-brand-green);
+}
+
+.error {
+  border:
+    1px solid
+    rgba(232,121,121,.25);
+
+  background:
+    rgba(232,121,121,.08);
+
+  color:
+    #E87979;
+}
+
+
+/* ACTIONS */
+
+.actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding-top: 4px;
+}
+
+.cancel,
+.save {
+  display: inline-flex;
+
+  min-height: 46px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding:
+    0 17px;
+
+  border-radius: 9px;
+
+  font: inherit;
+
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.cancel {
+  border:
+    1px solid
+    var(--vorix-border);
+
+  background:
+    var(--vorix-control-bg);
+
+  color:
+    var(--vorix-text-secondary);
+}
+
+.save {
+  border: 0;
+
+  background:
+    var(--vorix-brand-champagne);
+
+  color:
+    #0B2F33;
+}
+
+.save:disabled {
+  opacity: .55;
+
+  cursor: not-allowed;
+}
+
+
+/* LIGHT */
+
+:global(html[data-theme="light"]) .card {
+  background:
+    #FFFFFF;
+
+  box-shadow:
+    0 10px 28px
+    rgba(11,47,51,.055);
+}
+
+:global(html[data-theme="light"]) .progressField {
+  background:
+    #F7FAF8;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 760px) {
+  .grid,
+  .threeColumns {
+    grid-template-columns:
+      1fr;
+  }
+
+  .full,
+  .progressField {
+    grid-column: 1;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel,
+  .save {
+    width: 100%;
+  }
+}

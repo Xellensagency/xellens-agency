@@ -1,0 +1,341 @@
+.card {
+  padding: 22px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 14px;
+
+  background:
+    var(--vorix-card-bg);
+
+  box-shadow:
+    0 12px 34px
+    var(--vorix-shadow-soft);
+}
+
+.header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 17px;
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color:
+    var(--vorix-brand-green);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+.header h2 {
+  margin: 0;
+
+  color:
+    var(--vorix-text);
+
+  font-size: 20px;
+  font-weight: 600;
+
+  letter-spacing: -0.025em;
+}
+
+.header p {
+  margin:
+    5px 0 0;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 13px;
+}
+
+.counter {
+  display: grid;
+
+  min-width: 34px;
+  height: 34px;
+
+  padding:
+    0 9px;
+
+  place-items: center;
+
+  border:
+    1px solid
+    rgba(34, 181, 115, 0.18);
+
+  border-radius: 999px;
+
+  background:
+    rgba(34, 181, 115, 0.09);
+
+  color:
+    var(--vorix-brand-green);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+}
+
+.item {
+  display: flex;
+
+  min-width: 0;
+  min-height: 68px;
+
+  align-items: center;
+
+  gap: 11px;
+
+  padding:
+    10px 12px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 11px;
+
+  background:
+    var(--vorix-control-bg);
+
+  color: inherit;
+
+  text-decoration: none;
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.item:hover {
+  border-color:
+    rgba(34, 181, 115, 0.22);
+
+  background:
+    var(--vorix-hover);
+
+  transform:
+    translateY(-1px);
+}
+
+.icon {
+  display: grid;
+
+  width: 40px;
+  height: 40px;
+
+  flex:
+    0 0 40px;
+
+  place-items: center;
+
+  border-radius: 10px;
+}
+
+.danger {
+  background:
+    rgba(232, 121, 121, 0.12);
+
+  color:
+    #E87979;
+}
+
+.warning {
+  background:
+    rgba(214, 196, 160, 0.14);
+
+  color:
+    #D6C4A0;
+}
+
+.info {
+  background:
+    rgba(34, 181, 115, 0.12);
+
+  color:
+    #22B573;
+}
+
+.neutral {
+  background:
+    var(--vorix-surface-soft);
+
+  color:
+    var(--vorix-text-muted);
+}
+
+.text {
+  display: flex;
+
+  min-width: 0;
+  flex: 1;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.text strong {
+  overflow: hidden;
+
+  color:
+    var(--vorix-text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.text small {
+  overflow: hidden;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.action {
+  display: inline-flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color:
+    var(--vorix-brand-green);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.empty {
+  display: flex;
+
+  min-height: 85px;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding:
+    13px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 11px;
+
+  background:
+    var(--vorix-control-bg);
+}
+
+.emptyIcon {
+  display: grid;
+
+  width: 42px;
+  height: 42px;
+
+  flex:
+    0 0 42px;
+
+  place-items: center;
+
+  border-radius: 11px;
+
+  background:
+    rgba(34, 181, 115, 0.10);
+
+  color:
+    var(--vorix-brand-green);
+}
+
+.empty strong {
+  color:
+    var(--vorix-text);
+
+  font-size: 14px;
+}
+
+.empty p {
+  margin:
+    4px 0 0;
+
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 12px;
+}
+
+
+/* LIGHT */
+
+:global(html[data-theme="light"]) .card {
+  background:
+    #FFFFFF;
+}
+
+:global(html[data-theme="light"]) .item,
+:global(html[data-theme="light"]) .empty {
+  background:
+    #F7FAF8;
+}
+
+:global(html[data-theme="light"]) .warning {
+  color:
+    #8B6B2E;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 18px;
+  }
+
+  .action {
+    display: none;
+  }
+}

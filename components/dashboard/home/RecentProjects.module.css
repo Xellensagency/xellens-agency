@@ -1,4 +1,4 @@
-﻿.card {
+.card {
   min-width: 0;
   min-height: 338px;
   padding: 23px;
@@ -303,3 +303,97 @@
   font-size: 11px;
   line-height: 1.6;
 }
+
+
+/* VORIX LIGHT DASHBOARD START */
+
+:global(html[data-theme="light"]) .card {
+  border-color: rgba(11, 47, 51, 0.10);
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(34, 181, 115, 0.045),
+      transparent 38%
+    ),
+    #FFFFFF;
+
+  box-shadow:
+    0 10px 32px rgba(11, 47, 51, 0.055);
+}
+
+:global(html[data-theme="light"]) .header h2 {
+  color: #0B2F33;
+}
+
+:global(html[data-theme="light"]) .header a {
+  color: #16895D;
+}
+
+:global(html[data-theme="light"]) .project {
+  border-bottom-color: rgba(11, 47, 51, 0.08);
+}
+
+:global(html[data-theme="light"]) .projectInfo strong {
+  color: #0B2F33;
+}
+
+:global(html[data-theme="light"]) .projectInfo span,
+:global(html[data-theme="light"]) .deadline span {
+  color: #718486;
+}
+
+:global(html[data-theme="light"]) .deadline strong {
+  color: #52686A;
+}
+
+:global(html[data-theme="light"]) .owner {
+  border-color: rgba(11, 47, 51, 0.10);
+
+  background: #E6F4EF;
+
+  color: #0F5D5B;
+}
+
+:global(html[data-theme="light"]) .moreButton {
+  color: #64797B;
+}
+
+:global(html[data-theme="light"]) .moreButton:hover {
+  background: rgba(34, 181, 115, 0.08);
+  color: #16895D;
+}
+
+:global(html[data-theme="light"]) .emptyState {
+  color: #718486;
+}
+
+:global(html[data-theme="light"]) .emptyState strong {
+  color: #0B2F33;
+}
+
+/* VORIX LIGHT DASHBOARD END */
+
+/* VORIX-RECENTPROJECTS-TYPO-START */
+.header h2 {
+  font-size: 28px !important;
+}
+
+.header a {
+  font-size: 14px !important;
+}
+
+.projectInfo strong {
+  font-size: 16px !important;
+}
+
+.projectInfo span,
+.deadline span {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.deadline strong {
+  font-size: 14px !important;
+}
+/* VORIX-RECENTPROJECTS-TYPO-END */

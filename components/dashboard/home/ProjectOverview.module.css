@@ -1,4 +1,4 @@
-﻿.card {
+.card {
   min-width: 0;
   min-height: 345px;
   padding: 23px;
@@ -194,3 +194,95 @@
     display: none;
   }
 }
+
+
+/* VORIX LIGHT DASHBOARD START */
+
+:global(html[data-theme="light"]) .card {
+  border-color: rgba(11, 47, 51, 0.10);
+
+  background:
+    radial-gradient(
+      circle at 76% 20%,
+      rgba(34, 181, 115, 0.055),
+      transparent 42%
+    ),
+    #FFFFFF;
+
+  box-shadow:
+    0 10px 32px rgba(11, 47, 51, 0.055);
+}
+
+:global(html[data-theme="light"]) .header h2 {
+  color: #0B2F33;
+}
+
+:global(html[data-theme="light"]) .periodButton {
+  color: #64797B;
+}
+
+:global(html[data-theme="light"]) .periodButton:hover {
+  color: #22B573;
+}
+
+:global(html[data-theme="light"]) .donut {
+  box-shadow:
+    0 0 32px rgba(34, 181, 115, 0.06),
+    inset 0 0 14px rgba(11, 47, 51, 0.05);
+}
+
+:global(html[data-theme="light"]) .donut::before {
+  border-color: rgba(11, 47, 51, 0.08);
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(34, 181, 115, 0.06),
+      transparent 60%
+    ),
+    #F7FAF8;
+
+  box-shadow:
+    inset 0 0 28px rgba(11, 47, 51, 0.035),
+    0 0 0 2px rgba(11, 47, 51, 0.025);
+}
+
+:global(html[data-theme="light"]) .donutCenter strong,
+:global(html[data-theme="light"]) .legendRow strong {
+  color: #0B2F33;
+}
+
+:global(html[data-theme="light"]) .donutCenter span,
+:global(html[data-theme="light"]) .legendLabel {
+  color: #64797B;
+}
+
+/* VORIX LIGHT DASHBOARD END */
+
+/* VORIX-PROJECTOVERVIEW-TYPO-START */
+.header h2 {
+  font-size: 28px !important;
+}
+
+.periodButton {
+  font-size: 14px !important;
+}
+
+.donutCenter strong {
+  font-size: 28px !important;
+}
+
+.donutCenter span {
+  font-size: 14px !important;
+}
+
+.legendLabel,
+.legendRow span {
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+}
+
+.legendRow strong {
+  font-size: 16px !important;
+}
+/* VORIX-PROJECTOVERVIEW-TYPO-END */

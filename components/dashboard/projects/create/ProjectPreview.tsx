@@ -1,4 +1,4 @@
-﻿import {
+import {
   CalendarDays,
   Clock3,
   Crown,
@@ -89,7 +89,7 @@ function getInitials(value: string) {
       .slice(0, 2)
       .map((word) => word[0])
       .join("")
-      .toUpperCase() || "XA"
+      .toUpperCase() || "VO"
   );
 }
 
@@ -169,7 +169,7 @@ export default function ProjectPreview({
 
   const initials =
     getInitials(
-      draft.title || "Xellens Agency"
+      draft.title || "Vorix"
     );
 
   return (

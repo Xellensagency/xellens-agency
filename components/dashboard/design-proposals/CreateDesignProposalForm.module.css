@@ -1,4 +1,4 @@
-﻿.form {
+.form {
   display: grid;
   gap: 22px;
   margin-top: 26px;
@@ -262,3 +262,66 @@
     width: 100%;
   }
 }
+
+/* VORIX PROJECT DESIGN MODE START */
+
+.lockedProjectLabel {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color:
+    var(--vorix-text-secondary);
+
+  font-size: 13px;
+
+  font-weight: 500;
+}
+
+.lockedProject {
+  display: flex;
+
+  min-height: 58px;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding:
+    0 15px;
+
+  border:
+    1px solid
+    var(--vorix-border);
+
+  border-radius: 9px;
+
+  background:
+    var(--vorix-control-bg);
+}
+
+.lockedProject strong {
+  color:
+    var(--vorix-text);
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.lockedProject span {
+  color:
+    var(--vorix-text-muted);
+
+  font-size: 12px;
+}
+
+:global(html[data-theme="light"])
+.lockedProject {
+  background:
+    #F7FAF8;
+}
+
+/* VORIX PROJECT DESIGN MODE END */

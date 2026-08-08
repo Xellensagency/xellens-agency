@@ -1,4 +1,4 @@
-﻿.grid {
+.grid {
   display: grid;
   grid-template-columns:
     repeat(4, minmax(0, 1fr));
@@ -134,3 +134,202 @@
     padding: 20px 18px;
   }
 }
+
+/* VORIX PROJECT STATS V2 START */
+.grid {
+  gap: 16px !important;
+}
+
+.card {
+  min-height: 138px !important;
+
+  gap: 18px !important;
+
+  padding:
+    23px 22px !important;
+
+  border-color:
+    var(--vorix-border) !important;
+
+  border-radius:
+    14px !important;
+
+  background:
+    var(--vorix-card-bg) !important;
+
+  box-shadow:
+    0 12px 34px
+    var(--vorix-shadow-soft) !important;
+}
+
+.card:hover {
+  border-color:
+    rgba(34, 181, 115, 0.24) !important;
+
+  transform:
+    translateY(-2px) !important;
+}
+
+.iconBox {
+  width: 52px !important;
+  height: 52px !important;
+
+  flex-basis:
+    52px !important;
+
+  border-radius:
+    14px !important;
+}
+
+.cardContent p {
+  margin-top:
+    2px !important;
+
+  color:
+    var(--vorix-text-muted) !important;
+
+  font-size:
+    12px !important;
+
+  font-weight:
+    600 !important;
+
+  letter-spacing:
+    0.055em !important;
+}
+
+.cardContent > strong {
+  margin-top:
+    11px !important;
+
+  color:
+    var(--vorix-text) !important;
+
+  font-size:
+    30px !important;
+
+  font-weight:
+    500 !important;
+
+  line-height:
+    1 !important;
+}
+
+.change {
+  margin-top:
+    12px !important;
+
+  gap:
+    6px !important;
+}
+
+.change span {
+  color:
+    var(--vorix-brand-green) !important;
+
+  font-size:
+    12px !important;
+}
+
+.change small {
+  color:
+    var(--vorix-text-muted) !important;
+
+  font-size:
+    11px !important;
+
+  line-height:
+    1.4 !important;
+}
+
+
+/* VORIX COLORS */
+
+.green {
+  background:
+    rgba(34, 181, 115, 0.14) !important;
+
+  color:
+    #22B573 !important;
+}
+
+.purple {
+  background:
+    rgba(142, 105, 218, 0.14) !important;
+
+  color:
+    #AC8BEA !important;
+}
+
+.blue {
+  background:
+    rgba(78, 163, 229, 0.14) !important;
+
+  color:
+    #60AFE8 !important;
+}
+
+.orange {
+  background:
+    rgba(214, 162, 74, 0.14) !important;
+
+  color:
+    #D6A24A !important;
+}
+
+
+/* LIGHT */
+
+:global(html[data-theme="light"]) .card {
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(34, 181, 115, 0.045),
+      transparent 38%
+    ),
+    #FFFFFF !important;
+
+  box-shadow:
+    0 10px 32px
+    rgba(11, 47, 51, 0.055) !important;
+}
+
+:global(html[data-theme="light"]) .green {
+  background:
+    #E6F4EF !important;
+
+  color:
+    #16895D !important;
+}
+
+:global(html[data-theme="light"]) .purple {
+  color:
+    #7552B8 !important;
+}
+
+:global(html[data-theme="light"]) .blue {
+  color:
+    #2876A8 !important;
+}
+
+:global(html[data-theme="light"]) .orange {
+  color:
+    #9B6B16 !important;
+}
+
+
+@media (max-width: 650px) {
+  .card {
+    min-height:
+      122px !important;
+
+    padding:
+      19px !important;
+  }
+
+  .cardContent > strong {
+    font-size:
+      27px !important;
+  }
+}
+/* VORIX PROJECT STATS V2 END */
