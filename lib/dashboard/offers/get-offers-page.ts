@@ -1,4 +1,4 @@
-﻿import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 import type {
   OfferCustomerOption,
@@ -360,7 +360,6 @@ export async function getOffersPage(): Promise<OffersPageData> {
           getNullableString(row, [
             "sent_at",
             "published_at",
-            "created_at",
           ]),
 
         validUntil:

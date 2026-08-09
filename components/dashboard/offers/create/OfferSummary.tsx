@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   CircleDollarSign,
@@ -98,7 +98,7 @@ export default function OfferSummary({
     <aside className={styles.summaryColumn}>
       <section className={styles.summaryCard}>
         <div className={styles.summaryHeader}>
-          <h2>Offertöversikt</h2>
+          <h2>Live sammanställning</h2>
 
           <span>
             Steg {activeStep} av 4
@@ -249,12 +249,12 @@ export default function OfferSummary({
 
           <div>
             <strong>
-              Professionell offert
+              Vorix-offert
             </strong>
 
             <small>
-              Tydlig presentation i Xellens
-              Agency-design.
+              Professionell presentation i
+              Vorix design.
             </small>
           </div>
         </div>
@@ -265,11 +265,11 @@ export default function OfferSummary({
           </span>
 
           <div>
-            <strong>Snabb leverans</strong>
+            <strong>Digital leverans</strong>
 
             <small>
-              Skicka offerten digitalt till
-              kunden.
+              Skicka offerten digitalt och
+              följ när kunden öppnar den.
             </small>
           </div>
         </div>
@@ -281,12 +281,12 @@ export default function OfferSummary({
 
           <div>
             <strong>
-              Bättre uppföljning
+              Hela affären samlad
             </strong>
 
             <small>
-              Följ status och kundens svar i
-              realtid.
+              Följ status, kundens svar och
+              nästa steg från samma plats.
             </small>
           </div>
         </div>

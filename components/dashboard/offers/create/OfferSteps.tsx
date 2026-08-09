@@ -1,106 +1,161 @@
-﻿"use client";
+"use client";
 
 import {
   Check,
+  CircleDollarSign,
+  FileCheck2,
+  Layers3,
+  UserRound,
 } from "lucide-react";
 
 import styles from "./CreateOfferWizard.module.css";
 
+
 type OfferStepsProps = {
   activeStep: number;
-  onStepChange: (step: number) => void;
+  onStepChange: (
+    step: number
+  ) => void;
 };
+
 
 const steps = [
   {
     id: 1,
-    title: "Information",
-    subtitle: "Kund & projekt",
+    title: "Kund & uppdrag",
+    subtitle:
+      "Grundinformation",
+    icon: UserRound,
   },
   {
     id: 2,
     title: "Tjänster",
-    subtitle: "Välj tjänster",
+    subtitle:
+      "Omfattning & paket",
+    icon: Layers3,
   },
   {
     id: 3,
-    title: "Tillägg",
-    subtitle: "Extra funktioner",
+    title: "Pris & villkor",
+    subtitle:
+      "Tillägg & rabatt",
+    icon: CircleDollarSign,
   },
   {
     id: 4,
-    title: "Förhandsvisning",
-    subtitle: "Granska & skicka",
+    title: "Granska",
+    subtitle:
+      "Förhandsvisa & skicka",
+    icon: FileCheck2,
   },
 ];
+
 
 export default function OfferSteps({
   activeStep,
   onStepChange,
 }: OfferStepsProps) {
   return (
-    <div className={styles.steps}>
-      {steps.map((step, index) => {
-        const isActive =
-          step.id === activeStep;
+    <nav
+      className={
+        styles.steps
+      }
+      aria-label="Offertsteg"
+    >
+      {steps.map(
+        (
+          step,
+          index
+        ) => {
+          const Icon =
+            step.icon;
 
-        const isCompleted =
-          step.id < activeStep;
+          const active =
+            step.id ===
+            activeStep;
 
-        return (
-          <div
-            key={step.id}
-            className={styles.stepWrapper}
-          >
-            <button
-              type="button"
-              className={[
-                styles.step,
-                isActive
-                  ? styles.stepActive
-                  : "",
-                isCompleted
-                  ? styles.stepCompleted
-                  : "",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              onClick={() =>
-                onStepChange(step.id)
+          const completed =
+            step.id <
+            activeStep;
+
+          return (
+            <div
+              key={
+                step.id
+              }
+              className={
+                styles.stepWrapper
               }
             >
-              <span
-                className={
-                  styles.stepNumber
+              <button
+                type="button"
+                className={[
+                  styles.step,
+                  active
+                    ? styles.stepActive
+                    : "",
+                  completed
+                    ? styles.stepCompleted
+                    : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                onClick={() =>
+                  onStepChange(
+                    step.id
+                  )
                 }
               >
-                {isCompleted ? (
-                  <Check size={17} />
-                ) : (
-                  step.id
-                )}
-              </span>
+                <span
+                  className={
+                    styles.stepNumber
+                  }
+                >
+                  {completed ? (
+                    <Check
+                      size={16}
+                    />
+                  ) : (
+                    <Icon
+                      size={16}
+                    />
+                  )}
+                </span>
 
-              <span
-                className={
-                  styles.stepText
-                }
-              >
-                <strong>{step.title}</strong>
-                <small>{step.subtitle}</small>
-              </span>
-            </button>
+                <span
+                  className={
+                    styles.stepText
+                  }
+                >
+                  <small>
+                    STEG {step.id}
+                  </small>
 
-            {index < steps.length - 1 && (
-              <span
-                className={
-                  styles.stepLine
-                }
-              />
-            )}
-          </div>
-        );
-      })}
-    </div>
+                  <strong>
+                    {step.title}
+                  </strong>
+
+                  <em>
+                    {
+                      step.subtitle
+                    }
+                  </em>
+                </span>
+              </button>
+
+              {index <
+                steps.length -
+                  1 && (
+                <span
+                  className={
+                    styles.stepLine
+                  }
+                />
+              )}
+            </div>
+          );
+        }
+      )}
+    </nav>
   );
 }

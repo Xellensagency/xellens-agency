@@ -1,0 +1,58 @@
+.wrapper {
+  display: grid;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.button {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--vorix-brand-green);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 8.8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    opacity .15s ease,
+    transform .15s ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: .62;
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(190,80,80,.2);
+  border-radius: 6px;
+  background: rgba(190,80,80,.05);
+  color: #B95757;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.spinner {
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

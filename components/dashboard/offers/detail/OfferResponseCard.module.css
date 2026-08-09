@@ -1,0 +1,276 @@
+.card {
+  overflow: hidden;
+  border: 1px solid var(--vorix-border);
+  border-radius: 12px;
+  background: var(--vorix-card-bg);
+  box-shadow:
+    0 12px 34px
+    var(--vorix-shadow-soft);
+}
+
+.accepted {
+  border-color: rgba(34,181,115,.24);
+}
+
+.changes {
+  border-color: rgba(214,196,160,.40);
+}
+
+.rejected {
+  border-color: rgba(190,80,80,.22);
+}
+
+.header {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-bottom: 1px solid var(--vorix-border);
+}
+
+.icon {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(34,181,115,.08);
+  color: var(--vorix-brand-green);
+}
+
+.changes .icon {
+  background: rgba(214,196,160,.12);
+  color: var(--vorix-brand-champagne);
+}
+
+.rejected .icon {
+  background: rgba(190,80,80,.07);
+  color: #B95757;
+}
+
+.heading {
+  min-width: 0;
+}
+
+.heading small,
+.customer small,
+.comment small,
+.selectedOptions > small {
+  display: block;
+  color: var(--vorix-text-muted);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+.heading h3 {
+  margin: 3px 0 0;
+  color: var(--vorix-text);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.heading p {
+  margin: 3px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 8px;
+}
+
+.customer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 11px 12px 0;
+  padding: 10px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 8px;
+  background: var(--vorix-control-bg);
+  color: var(--vorix-brand-green);
+}
+
+.customer strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--vorix-text);
+  font-size: 9.5px;
+}
+
+.comment {
+  margin: 8px 12px 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--vorix-surface-soft);
+}
+
+.comment small {
+  color: var(--vorix-brand-champagne);
+}
+
+.comment p {
+  margin: 5px 0 0;
+  color: var(--vorix-text-secondary);
+  font-size: 9px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.priceSummary {
+  margin: 10px 12px 0;
+  padding: 10px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 8px;
+  background: var(--vorix-control-bg);
+}
+
+.priceSummary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.priceSummary > div:first-child {
+  margin-top: 0;
+}
+
+.priceSummary span,
+.priceSummary strong {
+  font-size: 8.5px;
+}
+
+.priceSummary span {
+  color: var(--vorix-text-muted);
+}
+
+.priceSummary strong {
+  color: var(--vorix-text-secondary);
+}
+
+.priceSummary .total {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--vorix-border);
+}
+
+.total span {
+  color: var(--vorix-text);
+  font-weight: 650;
+}
+
+.total strong {
+  color: var(--vorix-brand-green);
+  font-size: 12px;
+}
+
+.selectedOptions {
+  margin: 10px 12px 0;
+}
+
+.selectedOptions > div {
+  display: grid;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.selectedOptions article {
+  display: grid;
+  grid-template-columns:
+    16px
+    minmax(0, 1fr)
+    auto;
+  gap: 6px;
+  align-items: center;
+  padding: 7px 8px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 6px;
+  background: var(--vorix-control-bg);
+}
+
+.selectedOptions svg {
+  color: var(--vorix-brand-green);
+}
+
+.selectedOptions span,
+.selectedOptions strong {
+  font-size: 8px;
+}
+
+.selectedOptions span {
+  color: var(--vorix-text-secondary);
+}
+
+.selectedOptions strong {
+  color: var(--vorix-brand-green);
+}
+
+.actionArea {
+  display: grid;
+  gap: 10px;
+  margin: 11px 12px 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(214,196,160,.07);
+}
+
+.actionArea > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: var(--vorix-brand-champagne);
+}
+
+.actionArea p {
+  margin: 0;
+  color: var(--vorix-text-muted);
+  font-size: 8.5px;
+  line-height: 1.5;
+}
+
+.primaryAction {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: 7px;
+  background: var(--vorix-brand-champagne);
+  color: #0B2F33;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nextStep {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 11px 12px 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--vorix-surface-soft);
+  color: var(--vorix-brand-green);
+}
+
+.nextStep strong {
+  display: block;
+  color: var(--vorix-text);
+  font-size: 9px;
+}
+
+.nextStep p {
+  margin: 3px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+:global(html[data-theme="light"]) .card {
+  background: #FFFFFF;
+}
+/* VORIX PROJECT FROM OFFER */
+
+.nextStepContent {
+  min-width: 0;
+  flex: 1;
+}

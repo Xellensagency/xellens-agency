@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import {
@@ -124,11 +124,11 @@ export default function OfferInformation({
             </span>
 
             <div>
-              <h2>Kundinformation</h2>
+              <h2>Vem gäller offerten?</h2>
 
               <p>
-                Välj en befintlig kund eller
-                ange en ny kund.
+                Koppla offerten till kundregistret
+                eller skapa en ny kund direkt.
               </p>
             </div>
           </div>
@@ -158,10 +158,10 @@ export default function OfferInformation({
             </span>
 
             <span>
-              <strong>Befintlig kund</strong>
+              <strong>Från kundregistret</strong>
 
               <small>
-                Välj från kundregistret.
+                Använd en kund som redan finns i Vorix.
               </small>
             </span>
           </button>
@@ -188,11 +188,10 @@ export default function OfferInformation({
             </span>
 
             <span>
-              <strong>Ny kund</strong>
+              <strong>Skapa ny kund</strong>
 
               <small>
-                Lägg till kund direkt i
-                offerten.
+                Lägg till kunden samtidigt som offerten skapas.
               </small>
             </span>
           </button>
@@ -435,11 +434,11 @@ export default function OfferInformation({
             </span>
 
             <div>
-              <h2>Offertinformation</h2>
+              <h2>Vad ska vi offerera?</h2>
 
               <p>
-                Beskriv projektet eller
-                uppdraget som offerten gäller.
+                Ge offerten en tydlig titel och
+                beskriv kundens behov och omfattning.
               </p>
             </div>
           </div>
@@ -494,14 +493,14 @@ export default function OfferInformation({
             ].join(" ")}
           >
             <span>
-              Offert- eller projekttitel{" "}
+              Offertens titel{" "}
               <em>*</em>
             </span>
 
             <input
               type="text"
               value={draft.title}
-              placeholder="Exempel: Ny hemsida"
+              placeholder="Exempel: Ny webbplats för företaget"
               onChange={(event) =>
                 onChange(
                   "title",
@@ -517,12 +516,12 @@ export default function OfferInformation({
               styles.gridFull,
             ].join(" ")}
           >
-            <span>Projektbeskrivning</span>
+            <span>Uppdrag & omfattning</span>
 
             <textarea
               rows={4}
               value={draft.description}
-              placeholder="Beskriv projektets mål, omfattning och kundens önskemål."
+              placeholder="Beskriv vad kunden behöver, målet med uppdraget och vad som ska ingå."
               onChange={(event) =>
                 onChange(
                   "description",
@@ -533,7 +532,7 @@ export default function OfferInformation({
           </label>
 
           <label className={styles.field}>
-            <span>Projektkategori</span>
+            <span>Kategori</span>
 
             <select
               value={draft.categoryId}
@@ -562,7 +561,7 @@ export default function OfferInformation({
           </label>
 
           <label className={styles.field}>
-            <span>Önskat startdatum</span>
+            <span>Önskad projektstart</span>
 
             <input
               type="date"
@@ -591,7 +590,7 @@ export default function OfferInformation({
             <textarea
               rows={3}
               value={draft.internalNote}
-              placeholder="Endast synlig internt."
+              placeholder="Anteckningar för Vorix-teamet. Kunden ser inte detta."
               onChange={(event) =>
                 onChange(
                   "internalNote",

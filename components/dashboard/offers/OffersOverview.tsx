@@ -1,28 +1,25 @@
-﻿"use client";
+"use client";
 
-import Link from "next/link";
 import {
-  FormEvent,
   useEffect,
   useMemo,
   useState,
 } from "react";
+
+import Link from "next/link";
+
 import {
-  Archive,
+  AlertCircle,
+  ArrowUpRight,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  CircleX,
-  Download,
-  Eye,
-  FileCheck2,
+  Clock3,
   FileText,
-  MoreHorizontal,
-  Pencil,
   Plus,
   Search,
   Send,
-  SlidersHorizontal,
+  Trophy,
 } from "lucide-react";
 
 import type {
@@ -33,21 +30,29 @@ import type {
 
 import styles from "./OffersOverview.module.css";
 
-type OffersOverviewProps = {
+
+type Props = {
   data: OffersPageData;
   initialSearch: string;
 };
 
-const PAGE_SIZE = 10;
 
-const currencyFormatter =
-  new Intl.NumberFormat("sv-SE", {
-    style: "currency",
-    currency: "SEK",
-    maximumFractionDigits: 0,
-  });
+const PAGE_SIZE = 8;
 
-const statusLabels: Record<
+
+const currency =
+  new Intl.NumberFormat(
+    "sv-SE",
+    {
+      style: "currency",
+      currency: "SEK",
+      maximumFractionDigits: 0,
+    }
+  );
+
+
+const statusLabels:
+Record<
   OfferListStatus,
   string
 > = {
@@ -61,101 +66,128 @@ const statusLabels: Record<
   archived: "Arkiverad",
 };
 
+
 function formatDate(
   value: string | null
 ) {
   if (!value) {
-    return "Ej angivet";
+    return "—";
   }
 
-  const date = new Date(value);
+  const date =
+    new Date(value);
 
-  if (Number.isNaN(date.getTime())) {
-    return "Ej angivet";
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return "—";
   }
 
   return new Intl.DateTimeFormat(
     "sv-SE",
     {
-      year: "numeric",
-      month: "short",
       day: "numeric",
+      month: "short",
+      year: "numeric",
     }
   ).format(date);
 }
 
-function matchesStatusGroup(
-  offer: OfferListItem,
-  filter: string
+
+function getStatusClass(
+  status:
+    OfferListStatus
 ) {
-  if (filter === "all") {
-    return true;
-  }
+  switch (status) {
+    case "accepted":
+      return styles.statusAccepted;
 
-  if (filter === "sent") {
-    return [
-      "sent",
-      "viewed",
-    ].includes(offer.status);
-  }
+    case "declined":
+      return styles.statusDeclined;
 
-  if (filter === "answered") {
-    return offer.status === "answered";
-  }
+    case "expired":
+      return styles.statusExpired;
 
-  if (filter === "accepted") {
-    return offer.status === "accepted";
-  }
+    case "archived":
+      return styles.statusArchived;
 
-  if (filter === "declined") {
-    return offer.status === "declined";
-  }
+    case "sent":
+    case "viewed":
+    case "answered":
+      return styles.statusActive;
 
-  if (filter === "archived") {
-    return offer.status === "archived";
+    default:
+      return styles.statusDraft;
   }
-
-  if (filter === "draft") {
-    return offer.status === "draft";
-  }
-
-  return offer.status === filter;
 }
+
+
+function isActiveOffer(
+  offer: OfferListItem
+) {
+  return [
+    "sent",
+    "viewed",
+    "answered",
+  ].includes(
+    offer.status
+  );
+}
+
 
 export default function OffersOverview({
   data,
   initialSearch,
-}: OffersOverviewProps) {
-  const [search, setSearch] =
-    useState(initialSearch);
+}: Props) {
+  const [
+    search,
+    setSearch,
+  ] =
+    useState(
+      initialSearch
+    );
 
-  const [statusFilter, setStatusFilter] =
+  const [
+    statusFilter,
+    setStatusFilter,
+  ] =
     useState("all");
 
   const [
     customerFilter,
     setCustomerFilter,
-  ] = useState("all");
+  ] =
+    useState("all");
 
   const [
     projectFilter,
     setProjectFilter,
-  ] = useState("all");
+  ] =
+    useState("all");
 
-  const [minimumAmount, setMinimumAmount] =
-    useState("");
-
-  const [maximumAmount, setMaximumAmount] =
-    useState("");
-
-  const [sortOrder, setSortOrder] =
+  const [
+    sortOrder,
+    setSortOrder,
+  ] =
     useState("newest");
 
-  const [page, setPage] = useState(1);
+  const [
+    page,
+    setPage,
+  ] =
+    useState(1);
+
 
   useEffect(() => {
-    setSearch(initialSearch);
-  }, [initialSearch]);
+    setSearch(
+      initialSearch
+    );
+  }, [
+    initialSearch,
+  ]);
+
 
   useEffect(() => {
     setPage(1);
@@ -164,831 +196,1137 @@ export default function OffersOverview({
     statusFilter,
     customerFilter,
     projectFilter,
-    minimumAmount,
-    maximumAmount,
     sortOrder,
   ]);
 
-  const answeredCount =
+
+  const drafts =
     data.offers.filter(
       (offer) =>
-        offer.status === "answered"
-    ).length;
-
-  const sentCount =
-    data.offers.filter((offer) =>
-      [
-        "sent",
-        "viewed",
-      ].includes(offer.status)
-    ).length;
-
-  const filteredOffers = useMemo(() => {
-    const cleanSearch =
-      search.trim().toLowerCase();
-
-    const minimum = Number(
-      minimumAmount || 0
+        offer.status ===
+        "draft"
     );
 
-    const maximum = maximumAmount
-      ? Number(maximumAmount)
-      : Number.POSITIVE_INFINITY;
 
-    const filtered = data.offers.filter(
-      (offer) => {
+  const activeOffers =
+    data.offers.filter(
+      isActiveOffer
+    );
+
+
+  const waiting =
+    data.offers.filter(
+      (offer) =>
+        [
+          "sent",
+          "viewed",
+        ].includes(
+          offer.status
+        )
+    );
+
+
+  const won =
+    data.offers.filter(
+      (offer) =>
+        offer.status ===
+        "accepted"
+    );
+
+
+  const wonValue =
+    won.reduce(
+      (
+        total,
+        offer
+      ) =>
+        total +
+        offer.totalIncVat,
+      0
+    );
+
+
+  const attention =
+    useMemo(() => {
+      const items: {
+        id: string;
+        type: "viewed" | "expiry";
+        title: string;
+        subtitle: string;
+      }[] = [];
+
+      const now =
+        Date.now();
+
+      for (
+        const offer of
+        data.offers
+      ) {
         if (
-          !matchesStatusGroup(
-            offer,
-            statusFilter
-          )
+          offer.status ===
+          "viewed"
         ) {
-          return false;
+          items.push({
+            id:
+              `viewed-${offer.id}`,
+
+            type:
+              "viewed",
+
+            title:
+              `${offer.offerNumber} har öppnats`,
+
+            subtitle:
+              `${offer.customerName} har sett offerten men ännu inte svarat.`,
+          });
         }
 
         if (
-          customerFilter !== "all" &&
-          offer.customerId !==
-            customerFilter
+          !isActiveOffer(
+            offer
+          ) ||
+          !offer.validUntil
         ) {
-          return false;
+          continue;
         }
+
+        const deadline =
+          new Date(
+            offer.validUntil
+          ).getTime();
+
+        const days =
+          Math.ceil(
+            (
+              deadline -
+              now
+            ) /
+            86400000
+          );
 
         if (
-          projectFilter !== "all" &&
-          offer.projectId !== projectFilter
+          days >= 0 &&
+          days <= 7
         ) {
-          return false;
-        }
+          items.push({
+            id:
+              `expiry-${offer.id}`,
 
-        if (
-          offer.totalIncVat < minimum ||
-          offer.totalIncVat > maximum
-        ) {
-          return false;
-        }
+            type:
+              "expiry",
 
-        if (!cleanSearch) {
-          return true;
-        }
+            title:
+              days === 0
+                ? `${offer.offerNumber} går ut idag`
+                : `${offer.offerNumber} går ut om ${days} dagar`,
 
-        const searchable = [
-          offer.offerNumber,
-          offer.customerName,
-          offer.projectTitle,
-          offer.title,
-          statusLabels[offer.status],
-        ]
-          .join(" ")
+            subtitle:
+              `${offer.customerName} · ${currency.format(
+                offer.totalIncVat
+              )}`,
+          });
+        }
+      }
+
+      return items.slice(
+        0,
+        4
+      );
+    }, [
+      data.offers,
+    ]);
+
+
+  const filtered =
+    useMemo(() => {
+      const needle =
+        search
+          .trim()
           .toLowerCase();
 
-        return searchable.includes(
-          cleanSearch
-        );
-      }
-    );
+      const result =
+        data.offers.filter(
+          (offer) => {
+            if (
+              statusFilter !==
+                "all" &&
+              offer.status !==
+                statusFilter
+            ) {
+              return false;
+            }
 
-    return [...filtered].sort(
-      (first, second) => {
-        if (sortOrder === "oldest") {
-          return (
-            new Date(
-              first.sentAt ??
+            if (
+              customerFilter !==
+                "all" &&
+              offer.customerId !==
+                customerFilter
+            ) {
+              return false;
+            }
+
+            if (
+              projectFilter !==
+                "all" &&
+              offer.projectId !==
+                projectFilter
+            ) {
+              return false;
+            }
+
+            if (!needle) {
+              return true;
+            }
+
+            return [
+              offer.offerNumber,
+              offer.customerName,
+              offer.projectTitle,
+              offer.title,
+              statusLabels[
+                offer.status
+              ],
+            ]
+              .join(" ")
+              .toLowerCase()
+              .includes(
+                needle
+              );
+          }
+        );
+
+
+      return [
+        ...result,
+      ].sort(
+        (
+          first,
+          second
+        ) => {
+          if (
+            sortOrder ===
+            "oldest"
+          ) {
+            return (
+              new Date(
                 first.createdAt ??
                 0
-            ).getTime() -
-            new Date(
-              second.sentAt ??
+              ).getTime() -
+              new Date(
                 second.createdAt ??
                 0
+              ).getTime()
+            );
+          }
+
+          if (
+            sortOrder ===
+            "amount_high"
+          ) {
+            return (
+              second.totalIncVat -
+              first.totalIncVat
+            );
+          }
+
+          if (
+            sortOrder ===
+            "amount_low"
+          ) {
+            return (
+              first.totalIncVat -
+              second.totalIncVat
+            );
+          }
+
+          return (
+            new Date(
+              second.createdAt ??
+              0
+            ).getTime() -
+            new Date(
+              first.createdAt ??
+              0
             ).getTime()
           );
         }
+      );
+    }, [
+      customerFilter,
+      data.offers,
+      projectFilter,
+      search,
+      sortOrder,
+      statusFilter,
+    ]);
 
-        if (sortOrder === "amount_high") {
-          return (
-            second.totalIncVat -
-            first.totalIncVat
-          );
-        }
 
-        if (sortOrder === "amount_low") {
-          return (
-            first.totalIncVat -
-            second.totalIncVat
-          );
-        }
-
-        return (
-          new Date(
-            second.sentAt ??
-              second.createdAt ??
-              0
-          ).getTime() -
-          new Date(
-            first.sentAt ??
-              first.createdAt ??
-              0
-          ).getTime()
-        );
-      }
-    );
-  }, [
-    data.offers,
-    search,
-    statusFilter,
-    customerFilter,
-    projectFilter,
-    minimumAmount,
-    maximumAmount,
-    sortOrder,
-  ]);
-
-  const pageCount = Math.max(
-    1,
-    Math.ceil(
-      filteredOffers.length / PAGE_SIZE
-    )
-  );
-
-  const safePage = Math.min(
-    page,
-    pageCount
-  );
-
-  const visibleOffers =
-    filteredOffers.slice(
-      (safePage - 1) * PAGE_SIZE,
-      safePage * PAGE_SIZE
+  const pageCount =
+    Math.max(
+      1,
+      Math.ceil(
+        filtered.length /
+        PAGE_SIZE
+      )
     );
 
-  function handleSearch(
-    event: FormEvent<HTMLFormElement>
-  ) {
-    event.preventDefault();
-    setPage(1);
-  }
 
-  function clearFilters() {
-    setSearch("");
-    setStatusFilter("all");
-    setCustomerFilter("all");
-    setProjectFilter("all");
-    setMinimumAmount("");
-    setMaximumAmount("");
-    setSortOrder("newest");
-    setPage(1);
-  }
+  const safePage =
+    Math.min(
+      page,
+      pageCount
+    );
 
-  const statCards = [
-    {
-      label: "Skickade",
-      value: sentCount,
-      subtitle: "Aktiva offerter",
-      icon: Send,
-      className: styles.statSent,
-    },
-    {
-      label: "Besvarade",
-      value: answeredCount,
-      subtitle: "Kunden har svarat",
-      icon: FileCheck2,
-      className:
-        styles.statAnswered,
-    },
-    {
-      label: "Vunna",
-      value: data.stats.accepted,
-      subtitle: "Accepterade offerter",
-      icon: CheckCircle2,
-      className:
-        styles.statAccepted,
-    },
-    {
-      label: "Avböjda",
-      value: data.stats.declined,
-      subtitle: "Ej accepterade",
-      icon: CircleX,
-      className:
-        styles.statDeclined,
-    },
-    {
-      label: "Arkiverade",
-      value: data.stats.archived,
-      subtitle: "Totalt arkiverade",
-      icon: Archive,
-      className:
-        styles.statArchived,
-    },
-  ];
+
+  const visible =
+    filtered.slice(
+      (
+        safePage -
+        1
+      ) *
+        PAGE_SIZE,
+      safePage *
+        PAGE_SIZE
+    );
+
 
   return (
-    <div className={styles.page}>
-      <div className={styles.toolbar}>
+    <div
+      className={
+        styles.page
+      }
+    >
+      <header
+        className={
+          styles.pageHeader
+        }
+      >
         <div>
-          <span className={styles.eyebrow}>
-            Offerter / Översikt
+          <span
+            className={
+              styles.eyebrow
+            }
+          >
+            FÖRSÄLJNING & OFFERTER
           </span>
 
+          <h1>
+            Offerter
+          </h1>
+
           <p>
-            {data.stats.total} offerter finns
-            registrerade.
+            Skapa, skicka och följ
+            affären från första
+            offert till accepterat
+            projekt.
           </p>
         </div>
 
-        <div className={styles.toolbarActions}>
-          <button
-            type="button"
-            className={styles.exportButton}
-            disabled
-            title="Exportfunktionen byggs senare"
+
+        <Link
+          href="/dashboard/offerter/ny"
+          className={
+            styles.primaryAction
+          }
+        >
+          <Plus
+            size={17}
+          />
+
+          Ny offert
+        </Link>
+      </header>
+
+
+      <section
+        className={
+          styles.stats
+        }
+      >
+        <article>
+          <span
+            className={
+              styles.statIcon
+            }
           >
-            <Download size={17} />
-            Exportera
-          </button>
+            <FileText
+              size={20}
+            />
+          </span>
 
-          <Link
-            href="/dashboard/offerter/ny"
-            className={styles.createButton}
+          <div>
+            <small>
+              Utkast
+            </small>
+
+            <strong>
+              {drafts.length}
+            </strong>
+
+            <p>
+              offerter som inte
+              skickats
+            </p>
+          </div>
+        </article>
+
+
+        <article>
+          <span
+            className={
+              styles.statIcon
+            }
           >
-            <Plus size={18} />
-            Skapa ny offert
-          </Link>
-        </div>
-      </div>
+            <Send
+              size={20}
+            />
+          </span>
 
-      <section className={styles.stats}>
-        {statCards.map((card) => {
-          const Icon = card.icon;
+          <div>
+            <small>
+              Aktiva offerter
+            </small>
 
-          return (
-            <article
-              key={card.label}
-              className={card.className}
-            >
-              <span className={styles.statIcon}>
-                <Icon size={23} />
-              </span>
+            <strong>
+              {activeOffers.length}
+            </strong>
 
-              <div>
-                <small>{card.label}</small>
-                <strong>{card.value}</strong>
-                <span>
-                  {card.subtitle}
-                </span>
-              </div>
-            </article>
-          );
-        })}
+            <p>
+              skickade eller
+              besvarade
+            </p>
+          </div>
+        </article>
+
+
+        <article>
+          <span
+            className={
+              styles.statIcon
+            }
+          >
+            <Clock3
+              size={20}
+            />
+          </span>
+
+          <div>
+            <small>
+              Väntar på svar
+            </small>
+
+            <strong>
+              {waiting.length}
+            </strong>
+
+            <p>
+              hos kund just nu
+            </p>
+          </div>
+        </article>
+
+
+        <article>
+          <span
+            className={
+              styles.statIcon
+            }
+          >
+            <Trophy
+              size={20}
+            />
+          </span>
+
+          <div>
+            <small>
+              Vunna
+            </small>
+
+            <strong>
+              {won.length}
+            </strong>
+
+            <p>
+              {currency.format(
+                wonValue
+              )}
+              {" "}i totalt värde
+            </p>
+          </div>
+        </article>
       </section>
 
-      <div className={styles.contentGrid}>
-        <section className={styles.offersCard}>
-          <header className={styles.cardHeader}>
-            <div>
-              <h2>Alla offerter</h2>
 
-              <p>
-                Sök och följ upp företagets
-                offerter.
-              </p>
-            </div>
+      <section
+        className={
+          styles.focus
+        }
+      >
+        <header>
+          <div>
+            <span>
+              UPPFÖLJNING
+            </span>
 
-            <form
-              className={styles.search}
-              onSubmit={handleSearch}
-            >
-              <Search size={17} />
+            <h2>
+              Kräver din
+              uppmärksamhet
+            </h2>
 
-              <input
-                type="search"
-                value={search}
-                placeholder="Sök offert..."
-                onChange={(event) =>
-                  setSearch(
-                    event.target.value
-                  )
-                }
-              />
-            </form>
-          </header>
-
-          <div className={styles.statusTabs}>
-            {[
-              ["all", "Alla"],
-              ["draft", "Utkast"],
-              ["sent", "Skickade"],
-              ["answered", "Besvarade"],
-              ["accepted", "Vunna"],
-              ["declined", "Avböjda"],
-              ["archived", "Arkiverade"],
-            ].map(([value, label]) => (
-              <button
-                key={value}
-                type="button"
-                className={
-                  statusFilter === value
-                    ? styles.activeTab
-                    : ""
-                }
-                onClick={() =>
-                  setStatusFilter(value)
-                }
-              >
-                {label}
-              </button>
-            ))}
+            <p>
+              Offerter som kan
+              behöva följas upp.
+            </p>
           </div>
 
-          {visibleOffers.length === 0 ? (
-            <div className={styles.emptyState}>
-              <FileText size={38} />
+          <strong>
+            {attention.length}
+          </strong>
+        </header>
 
+
+        {attention.length >
+          0 ? (
+          <div
+            className={
+              styles.attentionList
+            }
+          >
+            {attention.map(
+              (item) => (
+                <div
+                  key={
+                    item.id
+                  }
+                  className={
+                    styles.attentionItem
+                  }
+                >
+                  <span>
+                    {item.type ===
+                    "expiry" ? (
+                      <Clock3
+                        size={17}
+                      />
+                    ) : (
+                      <AlertCircle
+                        size={17}
+                      />
+                    )}
+                  </span>
+
+                  <div>
+                    <strong>
+                      {item.title}
+                    </strong>
+
+                    <p>
+                      {
+                        item.subtitle
+                      }
+                    </p>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        ) : (
+          <div
+            className={
+              styles.allGood
+            }
+          >
+            <CheckCircle2
+              size={19}
+            />
+
+            <div>
               <strong>
-                Inga offerter hittades
+                Inget akut att
+                följa upp
               </strong>
 
-              <span>
-                Skapa den första offerten
-                eller ändra dina filter.
-              </span>
-
-              <Link href="/dashboard/offerter/ny">
-                <Plus size={16} />
-                Skapa ny offert
-              </Link>
+              <p>
+                Det finns inga
+                öppnade eller snart
+                utgående offerter
+                som kräver åtgärd.
+              </p>
             </div>
-          ) : (
-            <>
-              <div className={styles.tableWrap}>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Offertnummer</th>
-                      <th>Kund</th>
-                      <th>Projekt / typ</th>
-                      <th>Skickad</th>
-                      <th>Giltig t.o.m.</th>
-                      <th>Belopp</th>
-                      <th>Status</th>
-                      <th>Åtgärder</th>
-                    </tr>
-                  </thead>
+          </div>
+        )}
+      </section>
 
-                  <tbody>
-                    {visibleOffers.map(
-                      (offer) => (
-                        <tr key={offer.id}>
-                          <td>
-                            <strong
-                              className={
-                                styles.offerNumber
+
+      <section
+        className={
+          styles.offersPanel
+        }
+      >
+        <header
+          className={
+            styles.panelHeader
+          }
+        >
+          <div>
+            <span>
+              REGISTER
+            </span>
+
+            <h2>
+              Alla offerter
+            </h2>
+
+            <p>
+              {data.stats.total}
+              {" "}offerter finns
+              registrerade.
+            </p>
+          </div>
+
+          <strong>
+            {filtered.length}
+            <small>
+              {" "}visas
+            </small>
+          </strong>
+        </header>
+
+
+        <div
+          className={
+            styles.filters
+          }
+        >
+          <label
+            className={
+              styles.search
+            }
+          >
+            <Search
+              size={17}
+            />
+
+            <input
+              type="search"
+              value={search}
+              onChange={(
+                event
+              ) =>
+                setSearch(
+                  event.target.value
+                )
+              }
+              placeholder="Sök offert, kund eller projekt..."
+            />
+          </label>
+
+
+          <select
+            value={
+              statusFilter
+            }
+            onChange={(
+              event
+            ) =>
+              setStatusFilter(
+                event.target.value
+              )
+            }
+          >
+            <option value="all">
+              Alla statusar
+            </option>
+
+            <option value="draft">
+              Utkast
+            </option>
+
+            <option value="sent">
+              Skickade
+            </option>
+
+            <option value="viewed">
+              Öppnade
+            </option>
+
+            <option value="answered">
+              Besvarade
+            </option>
+
+            <option value="accepted">
+              Vunna
+            </option>
+
+            <option value="declined">
+              Avböjda
+            </option>
+
+            <option value="expired">
+              Utgångna
+            </option>
+
+            <option value="archived">
+              Arkiverade
+            </option>
+          </select>
+
+
+          <select
+            value={
+              customerFilter
+            }
+            onChange={(
+              event
+            ) =>
+              setCustomerFilter(
+                event.target.value
+              )
+            }
+          >
+            <option value="all">
+              Alla kunder
+            </option>
+
+            {data.customers.map(
+              (customer) => (
+                <option
+                  key={
+                    customer.id
+                  }
+                  value={
+                    customer.id
+                  }
+                >
+                  {
+                    customer.name
+                  }
+                </option>
+              )
+            )}
+          </select>
+
+
+          <select
+            value={
+              projectFilter
+            }
+            onChange={(
+              event
+            ) =>
+              setProjectFilter(
+                event.target.value
+              )
+            }
+          >
+            <option value="all">
+              Alla projekt
+            </option>
+
+            {data.projects.map(
+              (project) => (
+                <option
+                  key={
+                    project.id
+                  }
+                  value={
+                    project.id
+                  }
+                >
+                  {
+                    project.title
+                  }
+                </option>
+              )
+            )}
+          </select>
+
+
+          <select
+            value={
+              sortOrder
+            }
+            onChange={(
+              event
+            ) =>
+              setSortOrder(
+                event.target.value
+              )
+            }
+          >
+            <option value="newest">
+              Senast skapad
+            </option>
+
+            <option value="oldest">
+              Äldst först
+            </option>
+
+            <option value="amount_high">
+              Högst belopp
+            </option>
+
+            <option value="amount_low">
+              Lägst belopp
+            </option>
+          </select>
+        </div>
+
+
+        {visible.length ===
+          0 ? (
+          <div
+            className={
+              styles.empty
+            }
+          >
+            <FileText
+              size={31}
+            />
+
+            <h3>
+              Inga offerter
+              hittades
+            </h3>
+
+            <p>
+              Ändra filtreringen
+              eller skapa din första
+              offert.
+            </p>
+
+            <Link
+              href="/dashboard/offerter/ny"
+            >
+              <Plus
+                size={16}
+              />
+
+              Ny offert
+            </Link>
+          </div>
+        ) : (
+          <>
+            <div
+              className={
+                styles.tableWrap
+              }
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      Offert
+                    </th>
+
+                    <th>
+                      Kund
+                    </th>
+
+                    <th>
+                      Belopp
+                    </th>
+
+                    <th>
+                      Status
+                    </th>
+
+                    <th>
+                      Skickad
+                    </th>
+
+                    <th>
+                      Giltig t.o.m.
+                    </th>
+
+                    <th />
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {visible.map(
+                    (offer) => (
+                      <tr
+                        key={
+                          offer.id
+                        }
+                      >
+                        <td>
+                          <div
+                            className={
+                              styles.offerCell
+                            }
+                          >
+                            <strong>
+                              {
+                                offer.offerNumber
                               }
-                            >
-                              {offer.offerNumber}
                             </strong>
-                          </td>
 
-                          <td>
-                            <div
-                              className={
-                                styles.customerCell
+                            <span>
+                              {
+                                offer.title
                               }
-                            >
-                              <strong>
-                                {offer.customerName}
-                              </strong>
+                            </span>
 
-                              <span>
-                                {offer.customerId
-                                  ? "Registrerad kund"
-                                  : "Fristående kund"}
-                              </span>
-                            </div>
-                          </td>
-
-                          <td>
-                            <div
-                              className={
-                                styles.projectCell
+                            <small>
+                              {
+                                offer.projectTitle
                               }
-                            >
-                              <strong>
-                                {offer.projectTitle}
-                              </strong>
+                            </small>
+                          </div>
+                        </td>
 
-                              <span>
-                                {offer.title}
-                              </span>
-                            </div>
-                          </td>
+                        <td>
+                          <strong
+                            className={
+                              styles.customer
+                            }
+                          >
+                            {
+                              offer.customerName
+                            }
+                          </strong>
+                        </td>
 
-                          <td>
-                            {formatDate(
-                              offer.sentAt
-                            )}
-                          </td>
-
-                          <td>
-                            {formatDate(
-                              offer.validUntil
-                            )}
-                          </td>
-
-                          <td>
-                            <strong
-                              className={
-                                styles.amount
-                              }
-                            >
-                              {currencyFormatter.format(
+                        <td>
+                          <div
+                            className={
+                              styles.amount
+                            }
+                          >
+                            <strong>
+                              {currency.format(
                                 offer.totalIncVat
                               )}
                             </strong>
-                          </td>
 
-                          <td>
-                            <span
-                              className={[
-                                styles.status,
-                                styles[
-                                  `status_${offer.status}`
-                                ] ?? "",
-                              ]
-                                .filter(Boolean)
-                                .join(" ")}
-                            >
-                              {statusLabels[
-                                offer.status
-                              ]}
-                            </span>
-                          </td>
+                            <small>
+                              {currency.format(
+                                offer.subtotalExVat
+                              )}
+                              {" "}exkl. moms
+                            </small>
+                          </div>
+                        </td>
 
-                          <td>
-                            <div
-                              className={
-                                styles.rowActions
-                              }
-                            >
-                              <button
-                                type="button"
-                                disabled
-                                title="Offertdetaljen byggs senare"
-                                aria-label="Visa offert"
-                              >
-                                <Eye size={15} />
-                              </button>
-
-                              <button
-                                type="button"
-                                disabled
-                                title="Redigering byggs senare"
-                                aria-label="Redigera offert"
-                              >
-                                <Pencil size={15} />
-                              </button>
-
-                              <button
-                                type="button"
-                                disabled
-                                title="Fler åtgärder byggs senare"
-                                aria-label="Fler åtgärder"
-                              >
-                                <MoreHorizontal
-                                  size={16}
-                                />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className={styles.mobileList}>
-                {visibleOffers.map(
-                  (offer) => (
-                    <article
-                      key={offer.id}
-                      className={
-                        styles.mobileCard
-                      }
-                    >
-                      <div
-                        className={
-                          styles.mobileHeader
-                        }
-                      >
-                        <div>
-                          <strong>
-                            {offer.offerNumber}
-                          </strong>
-
-                          <span>
-                            {offer.customerName}
-                          </span>
-                        </div>
-
-                        <span
-                          className={[
-                            styles.status,
-                            styles[
-                              `status_${offer.status}`
-                            ] ?? "",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
-                        >
-                          {
-                            statusLabels[
+                        <td>
+                          <span
+                            className={`${styles.status} ${getStatusClass(
                               offer.status
-                            ]
+                            )}`}
+                          >
+                            {
+                              statusLabels[
+                                offer.status
+                              ]
+                            }
+                          </span>
+                        </td>
+
+                        <td>
+                          {formatDate(
+                            offer.sentAt
+                          )}
+                        </td>
+
+                        <td>
+                          {formatDate(
+                            offer.validUntil
+                          )}
+                        </td>
+
+                        <td>
+                          <Link
+                            href={`/dashboard/offerter/${offer.id}`}
+                            className={
+                              styles.open
+                            }
+                          >
+                            Öppna
+
+                            <ArrowUpRight
+                              size={15}
+                            />
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+
+            <div
+              className={
+                styles.mobileList
+              }
+            >
+              {visible.map(
+                (offer) => (
+                  <article
+                    key={
+                      offer.id
+                    }
+                  >
+                    <header>
+                      <div>
+                        <strong>
+                          {
+                            offer.offerNumber
+                          }
+                        </strong>
+
+                        <span>
+                          {
+                            offer.customerName
                           }
                         </span>
                       </div>
 
-                      <dl>
-                        <div>
-                          <dt>Projekt</dt>
-                          <dd>
-                            {offer.projectTitle}
-                          </dd>
-                        </div>
+                      <span
+                        className={`${styles.status} ${getStatusClass(
+                          offer.status
+                        )}`}
+                      >
+                        {
+                          statusLabels[
+                            offer.status
+                          ]
+                        }
+                      </span>
+                    </header>
 
-                        <div>
-                          <dt>Belopp</dt>
-                          <dd>
-                            {currencyFormatter.format(
-                              offer.totalIncVat
-                            )}
-                          </dd>
-                        </div>
+                    <h3>
+                      {
+                        offer.title
+                      }
+                    </h3>
 
-                        <div>
-                          <dt>Skickad</dt>
-                          <dd>
-                            {formatDate(
-                              offer.sentAt
-                            )}
-                          </dd>
-                        </div>
+                    <p>
+                      {
+                        offer.projectTitle
+                      }
+                    </p>
 
-                        <div>
-                          <dt>Giltig till</dt>
-                          <dd>
-                            {formatDate(
-                              offer.validUntil
-                            )}
-                          </dd>
-                        </div>
-                      </dl>
-                    </article>
-                  )
-                )}
-              </div>
-            </>
-          )}
+                    <div
+                      className={
+                        styles.mobileMeta
+                      }
+                    >
+                      <span>
+                        <small>
+                          Belopp
+                        </small>
 
-          <footer className={styles.pagination}>
-            <span>
-              Visar{" "}
-              {filteredOffers.length === 0
-                ? 0
-                : (safePage - 1) *
-                    PAGE_SIZE +
-                  1}
-              –
-              {Math.min(
-                safePage * PAGE_SIZE,
-                filteredOffers.length
-              )}{" "}
-              av {filteredOffers.length}
-              offerter
-            </span>
+                        <strong>
+                          {currency.format(
+                            offer.totalIncVat
+                          )}
+                        </strong>
+                      </span>
 
-            <div>
-              <button
-                type="button"
-                disabled={safePage <= 1}
-                onClick={() =>
-                  setPage(
-                    Math.max(
-                      safePage - 1,
-                      1
-                    )
-                  )
-                }
-                aria-label="Föregående sida"
-              >
-                <ChevronLeft size={17} />
-              </button>
+                      <span>
+                        <small>
+                          Giltig till
+                        </small>
 
+                        <strong>
+                          {formatDate(
+                            offer.validUntil
+                          )}
+                        </strong>
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/dashboard/offerter/${offer.id}`}
+                    >
+                      Öppna offert
+
+                      <ArrowUpRight
+                        size={15}
+                      />
+                    </Link>
+                  </article>
+                )
+              )}
+            </div>
+
+
+            <footer
+              className={
+                styles.pagination
+              }
+            >
               <span>
-                {safePage} / {pageCount}
+                Visar{" "}
+                {filtered.length ===
+                0
+                  ? 0
+                  : (
+                      safePage -
+                      1
+                    ) *
+                      PAGE_SIZE +
+                    1}
+                –
+                {Math.min(
+                  safePage *
+                    PAGE_SIZE,
+                  filtered.length
+                )}
+                {" "}av{" "}
+                {filtered.length}
               </span>
 
-              <button
-                type="button"
-                disabled={
-                  safePage >= pageCount
-                }
-                onClick={() =>
-                  setPage(
-                    Math.min(
-                      safePage + 1,
-                      pageCount
+              <div>
+                <button
+                  type="button"
+                  disabled={
+                    safePage <= 1
+                  }
+                  onClick={() =>
+                    setPage(
+                      safePage -
+                      1
                     )
-                  )
-                }
-                aria-label="Nästa sida"
-              >
-                <ChevronRight size={17} />
-              </button>
-            </div>
-          </footer>
-        </section>
+                  }
+                >
+                  <ChevronLeft
+                    size={16}
+                  />
+                </button>
 
-        <aside className={styles.filterCard}>
-          <div className={styles.filterHeader}>
-            <SlidersHorizontal size={19} />
+                <strong>
+                  {safePage}
+                  {" / "}
+                  {pageCount}
+                </strong>
 
-            <div>
-              <h2>Filter</h2>
-              <p>Förfina offertlistan</p>
-            </div>
-          </div>
-
-          <label className={styles.field}>
-            <span>Status</span>
-
-            <select
-              value={statusFilter}
-              onChange={(event) =>
-                setStatusFilter(
-                  event.target.value
-                )
-              }
-            >
-              <option value="all">
-                Alla statusar
-              </option>
-              <option value="draft">
-                Utkast
-              </option>
-              <option value="sent">
-                Skickade
-              </option>
-              <option value="answered">
-                Besvarade
-              </option>
-              <option value="accepted">
-                Vunna
-              </option>
-              <option value="declined">
-                Avböjda
-              </option>
-              <option value="archived">
-                Arkiverade
-              </option>
-            </select>
-          </label>
-
-          <label className={styles.field}>
-            <span>Kund</span>
-
-            <select
-              value={customerFilter}
-              onChange={(event) =>
-                setCustomerFilter(
-                  event.target.value
-                )
-              }
-            >
-              <option value="all">
-                Alla kunder
-              </option>
-
-              {data.customers.map(
-                (customer) => (
-                  <option
-                    key={customer.id}
-                    value={customer.id}
-                  >
-                    {customer.name}
-                  </option>
-                )
-              )}
-            </select>
-          </label>
-
-          <label className={styles.field}>
-            <span>Projekt / typ</span>
-
-            <select
-              value={projectFilter}
-              onChange={(event) =>
-                setProjectFilter(
-                  event.target.value
-                )
-              }
-            >
-              <option value="all">
-                Alla projekt
-              </option>
-
-              {data.projects.map(
-                (project) => (
-                  <option
-                    key={project.id}
-                    value={project.id}
-                  >
-                    {project.title}
-                  </option>
-                )
-              )}
-            </select>
-          </label>
-
-          <div className={styles.amountFields}>
-            <label className={styles.field}>
-              <span>Belopp från</span>
-
-              <input
-                type="number"
-                min="0"
-                value={minimumAmount}
-                placeholder="0"
-                onChange={(event) =>
-                  setMinimumAmount(
-                    event.target.value
-                  )
-                }
-              />
-            </label>
-
-            <label className={styles.field}>
-              <span>Belopp till</span>
-
-              <input
-                type="number"
-                min="0"
-                value={maximumAmount}
-                placeholder="Valfritt"
-                onChange={(event) =>
-                  setMaximumAmount(
-                    event.target.value
-                  )
-                }
-              />
-            </label>
-          </div>
-
-          <label className={styles.field}>
-            <span>Sortera efter</span>
-
-            <select
-              value={sortOrder}
-              onChange={(event) =>
-                setSortOrder(
-                  event.target.value
-                )
-              }
-            >
-              <option value="newest">
-                Senast skapad
-              </option>
-              <option value="oldest">
-                Äldst först
-              </option>
-              <option value="amount_high">
-                Högst belopp
-              </option>
-              <option value="amount_low">
-                Lägst belopp
-              </option>
-            </select>
-          </label>
-
-          <button
-            type="button"
-            className={styles.filterButton}
-            onClick={() => setPage(1)}
-          >
-            <SlidersHorizontal size={16} />
-            Filtrera
-          </button>
-
-          <button
-            type="button"
-            className={styles.clearButton}
-            onClick={clearFilters}
-          >
-            Rensa filter
-          </button>
-        </aside>
-      </div>
+                <button
+                  type="button"
+                  disabled={
+                    safePage >=
+                    pageCount
+                  }
+                  onClick={() =>
+                    setPage(
+                      safePage +
+                      1
+                    )
+                  }
+                >
+                  <ChevronRight
+                    size={16}
+                  />
+                </button>
+              </div>
+            </footer>
+          </>
+        )}
+      </section>
     </div>
   );
 }

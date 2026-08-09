@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 
@@ -30,6 +30,9 @@ import type {
   OfferServiceDraft,
 } from "@/lib/dashboard/offers/create-offer-types";
 
+import type {
+  OfferEditData,
+} from "@/lib/dashboard/offers/get-offer-edit-data";
 import OfferAddons from "./OfferAddons";
 import OfferInformation from "./OfferInformation";
 import OfferPreview from "./OfferPreview";
@@ -41,6 +44,8 @@ import styles from "./CreateOfferWizard.module.css";
 
 type CreateOfferWizardProps = {
   options: CreateOfferOptions;
+  initialOffer?: OfferEditData | null;
+  mode?: "create" | "edit";
 };
 
 type Feedback = {
@@ -86,8 +91,14 @@ const initialDraft: OfferDraft = {
 
 export default function CreateOfferWizard({
   options,
+  initialOffer = null,
+  mode = "create",
 }: CreateOfferWizardProps) {
   const router = useRouter();
+
+  const isEditMode =
+    mode === "edit" &&
+    Boolean(initialOffer);
 
   const [
     isSaving,
@@ -101,7 +112,8 @@ export default function CreateOfferWizard({
 
   const [draft, setDraft] =
     useState<OfferDraft>(
-      initialDraft
+      initialOffer?.draft ??
+        initialDraft
     );
 
   const [
@@ -109,36 +121,48 @@ export default function CreateOfferWizard({
     setSelectedServices,
   ] = useState<
     OfferServiceDraft[]
-  >([]);
+  >(
+    initialOffer?.services ??
+      []
+  );
 
   const [
     selectedAddons,
     setSelectedAddons,
   ] = useState<
     OfferAddonDraft[]
-  >([]);
+  >(
+    initialOffer?.addons ??
+      []
+  );
 
   const [
     discount,
     setDiscount,
-  ] = useState<OfferDiscountDraft>({
-    mode: "none",
-    value: 0,
-    label: "",
-    code: "",
-  });
+  ] = useState<OfferDiscountDraft>(
+    initialOffer?.discount ?? {
+      mode: "none",
+      value: 0,
+      label: "",
+      code: "",
+    }
+  );
 
   const [
     savedOfferId,
     setSavedOfferId,
   ] = useState<string | null>(
-    null
+    initialOffer?.offerId ??
+      null
   );
 
   const [
     savedOfferNumber,
     setSavedOfferNumber,
-  ] = useState("");
+  ] = useState(
+    initialOffer?.offerNumber ??
+      ""
+  );
 
   const [
     feedback,
@@ -286,10 +310,20 @@ export default function CreateOfferWizard({
         setFeedback({
           type: "success",
           message:
-            result.offerNumber
-              ? `Utkast ${result.offerNumber} är sparat.`
-              : "Offertutkastet är sparat.",
+            isEditMode
+              ? `Ändringarna i ${
+                  result.offerNumber ||
+                  savedOfferNumber ||
+                  "offerten"
+                } är sparade.`
+              : result.offerNumber
+                ? `Utkast ${result.offerNumber} är sparat.`
+                : "Offertutkastet är sparat.",
         });
+
+        if (isEditMode) {
+          router.refresh();
+        }
       })();
     });
   }
@@ -326,14 +360,62 @@ export default function CreateOfferWizard({
 
   return (
     <div className={styles.page}>
+      <header className={styles.createHeader}>
+        <div>
+          <Link
+            href="/dashboard/offerter"
+            className={styles.headerBack}
+          >
+            <ArrowLeft size={16} />
+            Offerter
+          </Link>
+
+          <span className={styles.headerEyebrow}>
+            FÖRSÄLJNING & OFFERTER
+          </span>
+
+          <h1>
+            Ny offert
+          </h1>
+
+          <p>
+            Bygg ett tydligt offertförslag,
+            välj tjänster och skicka det
+            direkt till kunden.
+          </p>
+        </div>
+
+        <div className={styles.headerStatus}>
+          <span>
+            {savedOfferNumber
+              ? savedOfferNumber
+              : "NY OFFERT"}
+          </span>
+
+          <strong>
+            {savedOfferId
+              ? "Utkast sparat"
+              : "Ej sparad"}
+          </strong>
+        </div>
+      </header>
+
       <div className={styles.topActions}>
-        <Link
-          href="/dashboard/offerter"
-          className={styles.backButton}
-        >
-          <ArrowLeft size={17} />
-          Till offerter
-        </Link>
+        <div className={styles.stepContext}>
+          <span>
+            Steg {activeStep} av 4
+          </span>
+
+          <strong>
+            {activeStep === 1
+              ? "Kund & uppdrag"
+              : activeStep === 2
+                ? "Tjänster & omfattning"
+                : activeStep === 3
+                  ? "Pris & villkor"
+                  : "Granska & skicka"}
+          </strong>
+        </div>
 
         <div>
           {savedOfferNumber && (
@@ -476,6 +558,9 @@ export default function CreateOfferWizard({
                 selectedAddons
               }
               discount={discount}
+              offerNumber={
+                savedOfferNumber
+              }
               onDraftChange={
                 updateDraft
               }

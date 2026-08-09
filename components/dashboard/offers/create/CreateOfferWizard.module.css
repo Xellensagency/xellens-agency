@@ -1,4 +1,4 @@
-﻿.page {
+.page {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -800,3 +800,722 @@
 .feedback span {
   line-height: 1.5;
 }
+
+/* VORIX OFFER CREATE V2 START */
+
+.page {
+  display: grid;
+  gap: 16px;
+  padding-bottom: 48px;
+  color: var(--vorix-text);
+}
+
+.createHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 4px;
+}
+
+.headerBack {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 11px;
+  color: var(--vorix-text-muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.headerBack:hover {
+  color: var(--vorix-text);
+}
+
+.headerEyebrow {
+  display: block;
+  color: var(--vorix-brand-green);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.createHeader h1 {
+  margin: 7px 0 0;
+  color: var(--vorix-text);
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 650;
+  letter-spacing: -.035em;
+}
+
+.createHeader p {
+  max-width: 610px;
+  margin: 7px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.headerStatus {
+  display: grid;
+  min-width: 155px;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 10px;
+  background: var(--vorix-card-bg);
+}
+
+.headerStatus span {
+  color: var(--vorix-brand-green);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+.headerStatus strong {
+  color: var(--vorix-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.topActions {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 14px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 11px;
+  background: var(--vorix-card-bg);
+}
+
+.topActions > div {
+  display: flex;
+  gap: 8px;
+}
+
+.stepContext {
+  display: grid !important;
+  gap: 2px !important;
+}
+
+.stepContext span {
+  color: var(--vorix-brand-green);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.stepContext strong {
+  color: var(--vorix-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.backButton {
+  display: none;
+}
+
+.draftButton,
+.nextButton,
+.secondaryButton {
+  min-height: 39px;
+  border-radius: 8px;
+  padding: 0 13px;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.draftButton,
+.secondaryButton {
+  border: 1px solid var(--vorix-border);
+  background: var(--vorix-control-bg);
+  color: var(--vorix-text-secondary);
+}
+
+.nextButton {
+  border: 0;
+  background: var(--vorix-brand-champagne);
+  color: #0B2F33;
+}
+
+.nextButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.steps {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 8px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 12px;
+  background: var(--vorix-card-bg);
+}
+
+.stepWrapper {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex: 1;
+}
+
+.step {
+  display: flex;
+  min-width: 0;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--vorix-text-muted);
+}
+
+.step:hover {
+  background: var(--vorix-hover);
+}
+
+.stepActive {
+  background: rgba(34, 181, 115, .075);
+  color: var(--vorix-text);
+}
+
+.stepNumber {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
+  place-items: center;
+  border: 1px solid var(--vorix-border);
+  border-radius: 9px;
+  background: var(--vorix-control-bg);
+  color: var(--vorix-text-muted);
+}
+
+.stepActive .stepNumber {
+  border-color: rgba(34,181,115,.34);
+  background: rgba(34,181,115,.12);
+  color: var(--vorix-brand-green);
+  box-shadow: none;
+}
+
+.stepCompleted .stepNumber {
+  border-color: rgba(34,181,115,.25);
+  background: var(--vorix-brand-green);
+  color: #06291F;
+  box-shadow: none;
+}
+
+.stepCompleted {
+  color: var(--vorix-text-secondary);
+}
+
+.stepText {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.stepText small {
+  color: var(--vorix-brand-green);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+.stepText strong {
+  overflow: hidden;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stepText em {
+  overflow: hidden;
+  color: var(--vorix-text-muted);
+  font-size: 9px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stepLine {
+  height: 1px;
+  min-width: 12px;
+  margin: 0 5px;
+  flex: 1;
+  background: var(--vorix-border);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    300px;
+  align-items: start;
+  gap: 14px;
+}
+
+.mainColumn,
+.formStack,
+.summaryColumn {
+  gap: 12px;
+}
+
+.formCard,
+.summaryCard,
+.benefitCard,
+.placeholderCard {
+  border: 1px solid var(--vorix-border);
+  border-radius: 13px;
+  background: var(--vorix-card-bg);
+  box-shadow:
+    0 12px 34px
+    var(--vorix-shadow-soft);
+}
+
+.formCard,
+.placeholderCard {
+  padding: 20px;
+}
+
+.cardHeader {
+  margin-bottom: 16px;
+}
+
+.cardHeader > div {
+  gap: 11px;
+}
+
+.cardNumber {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(34,181,115,.10);
+  color: var(--vorix-brand-green);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  color: var(--vorix-text);
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.cardHeader p {
+  margin: 4px 0 0;
+  color: var(--vorix-text-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.modeCards {
+  gap: 9px;
+}
+
+.modeCard {
+  min-height: 72px;
+  gap: 11px;
+  padding: 12px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 10px;
+  background: var(--vorix-control-bg);
+  color: var(--vorix-text-secondary);
+}
+
+.modeCard:hover {
+  border-color: var(--vorix-border-strong);
+  background: var(--vorix-hover);
+}
+
+.modeCardActive {
+  border-color: rgba(34,181,115,.42);
+  background: rgba(34,181,115,.075);
+  color: var(--vorix-text);
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(34,181,115,.05);
+}
+
+.modeIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: rgba(34,181,115,.09);
+  color: var(--vorix-brand-green);
+}
+
+.modeCard strong {
+  color: var(--vorix-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.modeCard small {
+  color: var(--vorix-text-muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.formGrid {
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.field {
+  gap: 7px;
+}
+
+.field > span {
+  color: var(--vorix-text-secondary);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.field em {
+  color: var(--vorix-brand-green);
+}
+
+.field input,
+.field select,
+.field textarea {
+  min-height: 43px;
+  border: 1px solid var(--vorix-border);
+  border-radius: 8px;
+  background: var(--vorix-input-bg);
+  color: var(--vorix-text);
+  font-size: 11px;
+}
+
+.field textarea {
+  min-height: 108px;
+  line-height: 1.55;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: rgba(34,181,115,.5);
+  box-shadow:
+    0 0 0 3px
+    rgba(34,181,115,.07);
+}
+
+.customerTypeButtons {
+  border-color: var(--vorix-border);
+}
+
+.customerTypeButtons button {
+  background: var(--vorix-control-bg);
+  color: var(--vorix-text-muted);
+}
+
+.customerTypeButtons .selectedType {
+  background: rgba(34,181,115,.09);
+  color: var(--vorix-brand-green);
+}
+
+.selectedCustomer {
+  border: 1px solid rgba(34,181,115,.20);
+  background: rgba(34,181,115,.055);
+}
+
+.customerAvatar {
+  background: rgba(34,181,115,.10);
+  color: var(--vorix-brand-green);
+}
+
+.selectedCustomer strong {
+  color: var(--vorix-text);
+}
+
+.selectedCustomer span {
+  color: var(--vorix-text-muted);
+}
+
+.selectedCustomer a {
+  color: var(--vorix-brand-green);
+}
+
+.summaryColumn {
+  position: sticky;
+  top: 92px;
+}
+
+.summaryCard,
+.benefitCard {
+  padding: 16px;
+}
+
+.summaryHeader h2 {
+  color: var(--vorix-text);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.summaryHeader span {
+  color: var(--vorix-brand-green);
+}
+
+.summaryHero {
+  margin-top: 13px;
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(34,181,115,.11),
+      transparent 48%
+    ),
+    var(--vorix-control-bg);
+}
+
+.summaryHero > span {
+  background: rgba(34,181,115,.10);
+  color: var(--vorix-brand-green);
+}
+
+.summaryHero small,
+.summaryHero em,
+.summaryDetails dt {
+  color: var(--vorix-text-muted);
+}
+
+.summaryHero strong,
+.summaryDetails dd {
+  color: var(--vorix-text);
+}
+
+.summaryServices {
+  border-top: 1px solid var(--vorix-border);
+}
+
+.priceSummary {
+  border-top-color: var(--vorix-border);
+}
+
+.priceSummary div {
+  color: var(--vorix-text-muted);
+}
+
+.priceSummary div:last-child {
+  border-top-color: var(--vorix-border);
+  color: var(--vorix-text);
+}
+
+.priceSummary div:last-child strong {
+  color: var(--vorix-brand-green);
+}
+
+.benefitCard > div > span {
+  background: rgba(34,181,115,.08);
+  color: var(--vorix-brand-green);
+}
+
+.benefitCard strong {
+  color: var(--vorix-text);
+  font-size: 10px;
+}
+
+.benefitCard small {
+  color: var(--vorix-text-muted);
+}
+
+.footer {
+  position: sticky;
+  bottom: 10px;
+  z-index: 5;
+  border: 1px solid var(--vorix-border);
+  background:
+    color-mix(
+      in srgb,
+      var(--vorix-card-bg) 94%,
+      transparent
+    );
+  backdrop-filter: blur(14px);
+}
+
+:global(html[data-theme="light"]) .formCard,
+:global(html[data-theme="light"]) .summaryCard,
+:global(html[data-theme="light"]) .benefitCard,
+:global(html[data-theme="light"]) .steps,
+:global(html[data-theme="light"]) .topActions,
+:global(html[data-theme="light"]) .headerStatus {
+  background: #FFFFFF;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryColumn {
+    position: static;
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .createHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .headerStatus {
+    min-width: 0;
+  }
+
+  .steps {
+    overflow-x: auto;
+  }
+
+  .stepWrapper {
+    min-width: 195px;
+  }
+
+  .stepLine {
+    min-width: 20px;
+  }
+}
+
+@media (max-width: 680px) {
+  .topActions {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .topActions > div:last-child {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modeCards,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .gridFull {
+    grid-column: auto;
+  }
+
+  .summaryColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer > :first-child {
+    grid-column: 1 / -1;
+    margin-right: 0;
+  }
+}
+
+/* VORIX OFFER CREATE V2 END */
+/* VORIX OFFER SUMMARY READABILITY */
+
+.benefitCard {
+  gap: 17px;
+  padding: 18px;
+}
+
+.benefitCard > div {
+  gap: 12px;
+}
+
+.benefitCard > div > span {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 10px;
+}
+
+.benefitCard strong {
+  color: var(--vorix-text);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.benefitCard small {
+  display: block;
+  margin-top: 3px;
+  color: var(--vorix-text-muted);
+  font-size: 10.5px;
+  line-height: 1.55;
+}
+
+.summaryDetails dt,
+.summaryDetails dd {
+  font-size: 10px;
+}
+
+.summaryHero small {
+  font-size: 9px;
+}
+
+.summaryHero strong {
+  font-size: 14px;
+}
+
+.summaryHero em {
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+/* VORIX OFFER SUMMARY READABILITY END */
+/* VORIX OFFER ACTION BUTTONS V3 */
+
+.footer {
+  min-height: 68px;
+  gap: 10px;
+  padding: 11px 13px;
+}
+
+.footer button,
+.footer a,
+.draftButton,
+.nextButton,
+.secondaryButton {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.footer button svg,
+.footer a svg,
+.draftButton svg,
+.nextButton svg,
+.secondaryButton svg {
+  width: 16px;
+  height: 16px;
+}
+
+.nextButton {
+  min-width: 118px;
+}
+
+.draftButton {
+  min-width: 124px;
+}
+
+/* VORIX OFFER ACTION BUTTONS V3 END */

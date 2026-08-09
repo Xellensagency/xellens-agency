@@ -11,6 +11,7 @@
   "dependencies": {
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.1.0",
+    "@react-pdf/renderer": "^4.5.1",
     "@supabase/ssr": "^0.12.2",
     "@supabase/supabase-js": "^2.110.5",
     "lucide-react": "^1.24.0",

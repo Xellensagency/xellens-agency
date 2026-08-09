@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   Check,
@@ -29,18 +29,25 @@ import type {
 
 import styles from "./OfferServices.module.css";
 
+
 type OfferServicesProps = {
   options: CreateOfferOptions;
-  services: OfferServiceDraft[];
+
+  services:
+    OfferServiceDraft[];
+
   onChange: (
-    services: OfferServiceDraft[]
+    services:
+      OfferServiceDraft[]
   ) => void;
 };
+
 
 type ActiveView =
   | "catalog"
   | "packages"
   | "custom";
+
 
 type CustomServiceForm = {
   name: string;
@@ -53,14 +60,20 @@ type CustomServiceForm = {
   vatRate: string;
 };
 
-const currencyFormatter =
-  new Intl.NumberFormat("sv-SE", {
-    style: "currency",
-    currency: "SEK",
-    maximumFractionDigits: 0,
-  });
 
-const initialCustomService: CustomServiceForm = {
+const currencyFormatter =
+  new Intl.NumberFormat(
+    "sv-SE",
+    {
+      style: "currency",
+      currency: "SEK",
+      maximumFractionDigits: 0,
+    }
+  );
+
+
+const initialCustomService:
+CustomServiceForm = {
   name: "",
   description: "",
   categoryId: "",
@@ -71,227 +84,372 @@ const initialCustomService: CustomServiceForm = {
   vatRate: "25",
 };
 
+
 function createId() {
   return crypto.randomUUID();
 }
 
-function calculateSubtotal(
-  service: OfferServiceDraft
+
+function calculateGross(
+  service:
+    OfferServiceDraft
 ) {
   return (
     service.quantity *
-    service.unitPriceExVat *
-    (1 - service.discountPercent / 100)
+    service.unitPriceExVat
   );
 }
+
+
+function calculateSubtotal(
+  service:
+    OfferServiceDraft
+) {
+  return (
+    calculateGross(
+      service
+    ) *
+    (
+      1 -
+      service.discountPercent /
+        100
+    )
+  );
+}
+
 
 function combineDiscounts(
   firstDiscount: number,
   secondDiscount: number
 ) {
   const multiplier =
-    (1 - firstDiscount / 100) *
-    (1 - secondDiscount / 100);
+    (
+      1 -
+      firstDiscount / 100
+    ) *
+    (
+      1 -
+      secondDiscount / 100
+    );
 
   return (
     Math.round(
-      (1 - multiplier) * 10000
+      (
+        1 -
+        multiplier
+      ) *
+        10000
     ) / 100
   );
 }
 
+
 function createServiceDraft(
-  service: CreateProjectService
+  service:
+    CreateProjectService
 ): OfferServiceDraft {
   return {
-    id: createId(),
-    sourceServiceId: service.id,
-    sourcePackageId: null,
-    categoryId: service.category_id,
-    name: service.name,
+    id:
+      createId(),
+
+    sourceServiceId:
+      service.id,
+
+    sourcePackageId:
+      null,
+
+    categoryId:
+      service.category_id,
+
+    name:
+      service.name,
+
     description:
       service.description ??
       service.short_description ??
       "",
+
     pricingModel:
       service.pricing_model,
-    unitCode: service.unit_code,
+
+    unitCode:
+      service.unit_code,
+
     quantity:
-      Number(service.quantity) || 1,
+      Number(
+        service.quantity
+      ) || 1,
+
     unitPriceExVat:
       Number(
         service.unit_price_ex_vat
       ) || 0,
-    discountPercent: 0,
+
+    discountPercent:
+      0,
+
     vatRate:
-      Number(service.vat_rate) || 25,
+      Number(
+        service.vat_rate
+      ) || 25,
+
     customerVisible:
       service.customer_visible,
-    isOptional: false,
+
+    isOptional:
+      false,
   };
 }
 
+
 function createPackageItemDraft(
-  item: CreateProjectPackageItem,
-  packageData: CreateProjectPackage
+  item:
+    CreateProjectPackageItem,
+  packageData:
+    CreateProjectPackage
 ): OfferServiceDraft {
   return {
-    id: createId(),
+    id:
+      createId(),
+
     sourceServiceId:
-      item.service_id || null,
-    sourcePackageId: packageData.id,
-    categoryId: item.category_id,
-    name: item.service_name,
+      item.service_id ||
+      null,
+
+    sourcePackageId:
+      packageData.id,
+
+    categoryId:
+      item.category_id,
+
+    name:
+      item.service_name,
+
     description:
-      item.description ?? "",
+      item.description ??
+      "",
+
     pricingModel:
-      item.unit_code === "fixed"
+      item.unit_code ===
+      "fixed"
         ? "fixed"
         : "quantity",
-    unitCode: item.unit_code,
+
+    unitCode:
+      item.unit_code,
+
     quantity:
-      Number(item.quantity) || 1,
+      Number(
+        item.quantity
+      ) || 1,
+
     unitPriceExVat:
       Number(
         item.unit_price_ex_vat
       ) || 0,
+
     discountPercent:
       combineDiscounts(
         Number(
           packageData.discount_percent
         ) || 0,
+
         Number(
           item.discount_percent
         ) || 0
       ),
+
     vatRate:
-      Number(item.vat_rate) || 25,
-    customerVisible: true,
-    isOptional: item.is_optional,
+      Number(
+        item.vat_rate
+      ) || 25,
+
+    customerVisible:
+      true,
+
+    isOptional:
+      item.is_optional,
   };
 }
 
+
 function createPackageDrafts(
-  packageData: CreateProjectPackage
+  packageData:
+    CreateProjectPackage
 ): OfferServiceDraft[] {
   if (
-    packageData.price_mode === "fixed" &&
-    packageData.fixed_price_ex_vat != null
+    packageData.price_mode ===
+      "fixed" &&
+    packageData.fixed_price_ex_vat !=
+      null
   ) {
     return [
       {
-        id: createId(),
-        sourceServiceId: null,
+        id:
+          createId(),
+
+        sourceServiceId:
+          null,
+
         sourcePackageId:
           packageData.id,
-        categoryId: null,
-        name: packageData.name,
+
+        categoryId:
+          null,
+
+        name:
+          packageData.name,
+
         description:
           packageData.description ??
           packageData.short_description ??
           "",
-        pricingModel: "fixed",
-        unitCode: "fixed",
-        quantity: 1,
+
+        pricingModel:
+          "fixed",
+
+        unitCode:
+          "fixed",
+
+        quantity:
+          1,
+
         unitPriceExVat:
           Number(
             packageData.fixed_price_ex_vat
           ) || 0,
+
         discountPercent:
           Number(
             packageData.discount_percent
           ) || 0,
-        vatRate: 25,
-        customerVisible: true,
-        isOptional: false,
+
+        vatRate:
+          25,
+
+        customerVisible:
+          true,
+
+        isOptional:
+          false,
       },
     ];
   }
 
-  return packageData.items.map(
-    (item) =>
-      createPackageItemDraft(
-        item,
-        packageData
-      )
+  return (
+    packageData.items.map(
+      (item) =>
+        createPackageItemDraft(
+          item,
+          packageData
+        )
+    )
   );
 }
+
 
 export default function OfferServices({
   options,
   services,
   onChange,
 }: OfferServicesProps) {
-  const [activeView, setActiveView] =
-    useState<ActiveView>("catalog");
+  const [
+    activeView,
+    setActiveView,
+  ] =
+    useState<ActiveView>(
+      "catalog"
+    );
 
-  const [search, setSearch] =
+  const [
+    search,
+    setSearch,
+  ] =
     useState("");
 
   const [
     categoryFilter,
     setCategoryFilter,
-  ] = useState("all");
+  ] =
+    useState("all");
 
   const [
     customService,
     setCustomService,
-  ] = useState<CustomServiceForm>(
-    initialCustomService
-  );
+  ] =
+    useState<CustomServiceForm>(
+      initialCustomService
+    );
 
-  const filteredServices = useMemo(
-    () => {
+
+  const filteredServices =
+    useMemo(() => {
       const cleanSearch =
-        search.trim().toLowerCase();
+        search
+          .trim()
+          .toLowerCase();
 
-      return options.services.filter(
-        (service) => {
-          if (
-            categoryFilter !== "all" &&
-            service.category_id !==
-              categoryFilter
-          ) {
-            return false;
+      return (
+        options.services.filter(
+          (service) => {
+            if (
+              categoryFilter !==
+                "all" &&
+              service.category_id !==
+                categoryFilter
+            ) {
+              return false;
+            }
+
+            if (
+              !cleanSearch
+            ) {
+              return true;
+            }
+
+            return [
+              service.name,
+              service.short_description ??
+                "",
+              service.description ??
+                "",
+              service.category_name ??
+                "",
+            ]
+              .join(" ")
+              .toLowerCase()
+              .includes(
+                cleanSearch
+              );
           }
-
-          if (!cleanSearch) {
-            return true;
-          }
-
-          return [
-            service.name,
-            service.short_description ??
-              "",
-            service.description ?? "",
-            service.category_name ?? "",
-          ]
-            .join(" ")
-            .toLowerCase()
-            .includes(cleanSearch);
-        }
+        )
       );
-    },
-    [
+    }, [
       options.services,
       search,
       categoryFilter,
-    ]
-  );
+    ]);
+
 
   function findSelectedService(
-    sourceServiceId: string
+    sourceServiceId:
+      string
   ) {
-    return services.find(
-      (service) =>
-        service.sourceServiceId ===
-          sourceServiceId &&
-        service.sourcePackageId == null
+    return (
+      services.find(
+        (service) =>
+          service.sourceServiceId ===
+            sourceServiceId &&
+          service.sourcePackageId ==
+            null
+      )
     );
   }
 
+
   function toggleCatalogService(
-    sourceService: CreateProjectService
+    sourceService:
+      CreateProjectService
   ) {
     const selected =
       findSelectedService(
@@ -302,7 +460,8 @@ export default function OfferServices({
       onChange(
         services.filter(
           (service) =>
-            service.id !== selected.id
+            service.id !==
+            selected.id
         )
       );
 
@@ -317,26 +476,59 @@ export default function OfferServices({
     ]);
   }
 
-  function updateQuantity(
+
+  function updateService(
     id: string,
-    change: number
+    patch:
+      Partial<
+        OfferServiceDraft
+      >
   ) {
     onChange(
-      services.map((service) =>
-        service.id === id
-          ? {
-              ...service,
-              quantity: Math.max(
-                1,
-                service.quantity + change
-              ),
-            }
-          : service
+      services.map(
+        (service) =>
+          service.id === id
+            ? {
+                ...service,
+                ...patch,
+              }
+            : service
       )
     );
   }
 
-  function removeService(id: string) {
+
+  function updateQuantity(
+    id: string,
+    change: number
+  ) {
+    const current =
+      services.find(
+        (service) =>
+          service.id === id
+      );
+
+    if (!current) {
+      return;
+    }
+
+    updateService(
+      id,
+      {
+        quantity:
+          Math.max(
+            1,
+            current.quantity +
+              change
+          ),
+      }
+    );
+  }
+
+
+  function removeService(
+    id: string
+  ) {
     onChange(
       services.filter(
         (service) =>
@@ -345,17 +537,19 @@ export default function OfferServices({
     );
   }
 
+
   function addPackage(
-    packageData: CreateProjectPackage
+    packageData:
+      CreateProjectPackage
   ) {
-    const packageAlreadyAdded =
+    const alreadyAdded =
       services.some(
         (service) =>
           service.sourcePackageId ===
           packageData.id
       );
 
-    if (packageAlreadyAdded) {
+    if (alreadyAdded) {
       onChange(
         services.filter(
           (service) =>
@@ -375,60 +569,104 @@ export default function OfferServices({
     ]);
   }
 
+
   function addCustomService() {
     const cleanName =
-      customService.name.trim();
+      customService.name
+        .trim();
 
-    const price = Number(
-      customService.unitPriceExVat
-    );
+    const price =
+      Number(
+        customService
+          .unitPriceExVat
+      );
 
     if (
       !cleanName ||
-      !Number.isFinite(price)
+      !Number.isFinite(
+        price
+      )
     ) {
       return;
     }
 
-    const service: OfferServiceDraft = {
-      id: createId(),
-      sourceServiceId: null,
-      sourcePackageId: null,
-      categoryId:
-        customService.categoryId ||
-        null,
-      name: cleanName,
-      description:
-        customService.description.trim(),
-      pricingModel:
-        customService.unitCode ===
-        "fixed"
-          ? "fixed"
-          : "quantity",
-      unitCode:
-        customService.unitCode,
-      quantity: Math.max(
-        1,
-        Number(
-          customService.quantity
-        ) || 1
-      ),
-      unitPriceExVat: price,
-      discountPercent: Math.max(
-        0,
-        Number(
-          customService.discountPercent
-        ) || 0
-      ),
-      vatRate: Math.max(
-        0,
-        Number(
-          customService.vatRate
-        ) || 25
-      ),
-      customerVisible: true,
-      isOptional: false,
-    };
+    const service:
+      OfferServiceDraft = {
+        id:
+          createId(),
+
+        sourceServiceId:
+          null,
+
+        sourcePackageId:
+          null,
+
+        categoryId:
+          customService
+            .categoryId ||
+          null,
+
+        name:
+          cleanName,
+
+        description:
+          customService
+            .description
+            .trim(),
+
+        pricingModel:
+          customService
+            .unitCode ===
+          "fixed"
+            ? "fixed"
+            : "quantity",
+
+        unitCode:
+          customService
+            .unitCode,
+
+        quantity:
+          Math.max(
+            1,
+            Number(
+              customService
+                .quantity
+            ) || 1
+          ),
+
+        unitPriceExVat:
+          Math.max(
+            0,
+            price
+          ),
+
+        discountPercent:
+          Math.min(
+            100,
+            Math.max(
+              0,
+              Number(
+                customService
+                  .discountPercent
+              ) || 0
+            )
+          ),
+
+        vatRate:
+          Math.max(
+            0,
+            Number(
+              customService
+                .vatRate
+            ) || 25
+          ),
+
+        customerVisible:
+          true,
+
+        isOptional:
+          false,
+      };
 
     onChange([
       ...services,
@@ -439,105 +677,261 @@ export default function OfferServices({
       initialCustomService
     );
 
-    setActiveView("catalog");
+    setActiveView(
+      "catalog"
+    );
   }
 
-  const subtotal = services.reduce(
-    (sum, service) =>
-      sum +
-      calculateSubtotal(service),
-    0
-  );
+
+  function getUnitLabel(
+    code: string
+  ) {
+    return (
+      options.units.find(
+        (unit) =>
+          unit.code === code
+      )?.short_label ||
+      options.units.find(
+        (unit) =>
+          unit.code === code
+      )?.label ||
+      code
+    );
+  }
+
+
+  const grossSubtotal =
+    services.reduce(
+      (
+        sum,
+        service
+      ) =>
+        sum +
+        calculateGross(
+          service
+        ),
+      0
+    );
+
+
+  const subtotal =
+    services.reduce(
+      (
+        sum,
+        service
+      ) =>
+        sum +
+        calculateSubtotal(
+          service
+        ),
+      0
+    );
+
+
+  const discountAmount =
+    Math.max(
+      0,
+      grossSubtotal -
+        subtotal
+    );
+
 
   return (
-    <section className={styles.card}>
-      <header className={styles.header}>
+    <section
+      className={
+        styles.card
+      }
+    >
+      <header
+        className={
+          styles.header
+        }
+      >
         <div>
-          <span>Steg 2</span>
+          <span>
+            STEG 2 · TJÄNSTER
+          </span>
 
-          <h2>Välj tjänster</h2>
+          <h2>
+            Bygg offertens
+            omfattning
+          </h2>
 
           <p>
-            Lägg till tjänster, paket eller
-            skapa en egen offertrad.
+            Välj färdiga tjänster,
+            använd ett paket eller
+            skapa egna offertrader.
           </p>
         </div>
 
-        <strong>
-          {services.length} valda
-        </strong>
+        <div
+          className={
+            styles.headerSummary
+          }
+        >
+          <div>
+            <small>
+              OFFERTRADER
+            </small>
+
+            <strong>
+              {services.length} st
+            </strong>
+          </div>
+
+          <div>
+            <small>
+              DELSUMMA
+            </small>
+
+            <strong>
+              {currencyFormatter.format(
+                subtotal
+              )}
+            </strong>
+          </div>
+        </div>
       </header>
 
-      <div className={styles.viewTabs}>
+
+      <div
+        className={
+          styles.viewTabs
+        }
+      >
         <button
           type="button"
           className={
-            activeView === "catalog"
+            activeView ===
+            "catalog"
               ? styles.activeView
               : ""
           }
           onClick={() =>
-            setActiveView("catalog")
+            setActiveView(
+              "catalog"
+            )
           }
         >
-          <Wrench size={16} />
-          Tjänstekatalog
+          <Wrench
+            size={17}
+          />
+
+          <span>
+            <strong>
+              Tjänster
+            </strong>
+
+            <small>
+              Från katalogen
+            </small>
+          </span>
         </button>
+
 
         <button
           type="button"
           className={
-            activeView === "packages"
+            activeView ===
+            "packages"
               ? styles.activeView
               : ""
           }
           onClick={() =>
-            setActiveView("packages")
+            setActiveView(
+              "packages"
+            )
           }
         >
-          <PackageOpen size={16} />
-          Paket
+          <PackageOpen
+            size={17}
+          />
+
+          <span>
+            <strong>
+              Paket
+            </strong>
+
+            <small>
+              Färdiga upplägg
+            </small>
+          </span>
         </button>
+
 
         <button
           type="button"
           className={
-            activeView === "custom"
+            activeView ===
+            "custom"
               ? styles.activeView
               : ""
           }
           onClick={() =>
-            setActiveView("custom")
+            setActiveView(
+              "custom"
+            )
           }
         >
-          <Plus size={16} />
-          Egen tjänst
+          <Plus
+            size={17}
+          />
+
+          <span>
+            <strong>
+              Egen offertrad
+            </strong>
+
+            <small>
+              Anpassat innehåll
+            </small>
+          </span>
         </button>
       </div>
 
-      {activeView === "catalog" && (
+
+      {activeView ===
+        "catalog" && (
         <>
-          <div className={styles.catalogTools}>
-            <label className={styles.search}>
-              <Search size={17} />
+          <div
+            className={
+              styles.catalogTools
+            }
+          >
+            <label
+              className={
+                styles.search
+              }
+            >
+              <Search
+                size={17}
+              />
 
               <input
                 type="search"
                 value={search}
-                placeholder="Sök tjänst..."
-                onChange={(event) =>
+                placeholder="Sök bland tjänster..."
+                onChange={(
+                  event
+                ) =>
                   setSearch(
-                    event.target.value
+                    event.target
+                      .value
                   )
                 }
               />
             </label>
 
             <select
-              value={categoryFilter}
-              onChange={(event) =>
+              value={
+                categoryFilter
+              }
+              onChange={(
+                event
+              ) =>
                 setCategoryFilter(
-                  event.target.value
+                  event.target
+                    .value
                 )
               }
             >
@@ -546,36 +940,59 @@ export default function OfferServices({
               </option>
 
               {options.categories.map(
-                (category) => (
+                (
+                  category
+                ) => (
                   <option
-                    key={category.id}
-                    value={category.id}
+                    key={
+                      category.id
+                    }
+                    value={
+                      category.id
+                    }
                   >
-                    {category.name}
+                    {
+                      category.name
+                    }
                   </option>
                 )
               )}
             </select>
           </div>
 
-          {filteredServices.length === 0 ? (
-            <div className={styles.emptyState}>
-              <Wrench size={30} />
+
+          {filteredServices.length ===
+          0 ? (
+            <div
+              className={
+                styles.emptyState
+              }
+            >
+              <Wrench
+                size={30}
+              />
 
               <strong>
-                Inga tjänster hittades
+                Inga tjänster
+                hittades
               </strong>
 
               <span>
-                Skapa tjänster under Mallar
-                & Paket eller lägg till en
-                egen tjänst.
+                Ändra sökningen
+                eller skapa en egen
+                offertrad.
               </span>
             </div>
           ) : (
-            <div className={styles.serviceList}>
+            <div
+              className={
+                styles.serviceList
+              }
+            >
               {filteredServices.map(
-                (service) => {
+                (
+                  service
+                ) => {
                   const selected =
                     findSelectedService(
                       service.id
@@ -583,22 +1000,30 @@ export default function OfferServices({
 
                   return (
                     <article
-                      key={service.id}
+                      key={
+                        service.id
+                      }
                       className={[
                         styles.serviceCard,
                         selected
                           ? styles.selectedCard
                           : "",
                       ]
-                        .filter(Boolean)
-                        .join(" ")}
+                        .filter(
+                          Boolean
+                        )
+                        .join(
+                          " "
+                        )}
                     >
                       <span
                         className={
                           styles.serviceIcon
                         }
                       >
-                        <Layers3 size={21} />
+                        <Layers3
+                          size={20}
+                        />
                       </span>
 
                       <div
@@ -606,20 +1031,57 @@ export default function OfferServices({
                           styles.serviceInfo
                         }
                       >
-                        <strong>
-                          {service.name}
-                        </strong>
+                        <div
+                          className={
+                            styles.serviceTitle
+                          }
+                        >
+                          <strong>
+                            {
+                              service.name
+                            }
+                          </strong>
+
+                          {selected && (
+                            <em>
+                              VALD
+                            </em>
+                          )}
+                        </div>
 
                         <p>
                           {service.short_description ??
                             service.description ??
-                            "Ingen beskrivning."}
+                            "Ingen beskrivning har lagts till."}
                         </p>
 
-                        <small>
-                          {service.category_name ??
-                            "Ingen kategori"}
-                        </small>
+                        <div
+                          className={
+                            styles.serviceMeta
+                          }
+                        >
+                          <span>
+                            {service.category_name ??
+                              "Ingen kategori"}
+                          </span>
+
+                          <i />
+
+                          <span>
+                            {getUnitLabel(
+                              service.unit_code
+                            )}
+                          </span>
+
+                          <i />
+
+                          <span>
+                            {
+                              service.vat_rate
+                            }
+                            % moms
+                          </span>
+                        </div>
                       </div>
 
                       {selected && (
@@ -637,11 +1099,15 @@ export default function OfferServices({
                               )
                             }
                           >
-                            <Minus size={14} />
+                            <Minus
+                              size={14}
+                            />
                           </button>
 
                           <span>
-                            {selected.quantity}
+                            {
+                              selected.quantity
+                            }
                           </span>
 
                           <button
@@ -653,7 +1119,9 @@ export default function OfferServices({
                               )
                             }
                           >
-                            <Plus size={14} />
+                            <Plus
+                              size={14}
+                            />
                           </button>
                         </div>
                       )}
@@ -665,7 +1133,9 @@ export default function OfferServices({
                       >
                         <strong>
                           {currencyFormatter.format(
-                            service.unit_price_ex_vat
+                            Number(
+                              service.unit_price_ex_vat
+                            ) || 0
                           )}
                         </strong>
 
@@ -682,8 +1152,12 @@ export default function OfferServices({
                             ? styles.removeButton
                             : "",
                         ]
-                          .filter(Boolean)
-                          .join(" ")}
+                          .filter(
+                            Boolean
+                          )
+                          .join(
+                            " "
+                          )}
                         onClick={() =>
                           toggleCatalogService(
                             service
@@ -696,9 +1170,13 @@ export default function OfferServices({
                         }
                       >
                         {selected ? (
-                          <Check size={17} />
+                          <Check
+                            size={17}
+                          />
                         ) : (
-                          <Plus size={17} />
+                          <Plus
+                            size={17}
+                          />
                         )}
                       </button>
                     </article>
@@ -710,27 +1188,45 @@ export default function OfferServices({
         </>
       )}
 
-      {activeView === "packages" && (
-        <div className={styles.packageGrid}>
-          {options.packages.length === 0 ? (
-            <div className={styles.emptyState}>
-              <PackageOpen size={30} />
+
+      {activeView ===
+        "packages" && (
+        <div
+          className={
+            styles.packageGrid
+          }
+        >
+          {options.packages.length ===
+          0 ? (
+            <div
+              className={
+                styles.emptyState
+              }
+            >
+              <PackageOpen
+                size={30}
+              />
 
               <strong>
-                Inga paket skapade
+                Inga paket
+                skapade
               </strong>
 
               <span>
-                Färdiga paket skapas under
-                Mallar & Paket.
+                Färdiga paket skapas
+                under Mallar & Paket.
               </span>
             </div>
           ) : (
             options.packages.map(
-              (packageData) => {
+              (
+                packageData
+              ) => {
                 const selected =
                   services.some(
-                    (service) =>
+                    (
+                      service
+                    ) =>
                       service.sourcePackageId ===
                       packageData.id
                   );
@@ -744,7 +1240,10 @@ export default function OfferServices({
                         packageData.fixed_price_ex_vat
                       )
                     : packageData.items.reduce(
-                        (sum, item) =>
+                        (
+                          sum,
+                          item
+                        ) =>
                           sum +
                           Number(
                             item.quantity
@@ -752,54 +1251,99 @@ export default function OfferServices({
                             Number(
                               item.unit_price_ex_vat
                             ) *
-                            (1 -
+                            (
+                              1 -
                               Number(
                                 item.discount_percent
                               ) /
-                                100),
+                                100
+                            ),
                         0
                       );
 
                 return (
                   <article
-                    key={packageData.id}
+                    key={
+                      packageData.id
+                    }
                     className={[
                       styles.packageCard,
                       selected
                         ? styles.selectedPackage
                         : "",
                     ]
-                      .filter(Boolean)
-                      .join(" ")}
+                      .filter(
+                        Boolean
+                      )
+                      .join(
+                        " "
+                      )}
                   >
-                    <span
+                    <div
                       className={
-                        styles.packageIcon
+                        styles.packageTop
                       }
                     >
-                      <PackageOpen
-                        size={23}
-                      />
-                    </span>
+                      <span
+                        className={
+                          styles.packageIcon
+                        }
+                      >
+                        <PackageOpen
+                          size={22}
+                        />
+                      </span>
 
-                    <div>
-                      <strong>
-                        {packageData.name}
-                      </strong>
+                      <div>
+                        <span>
+                          PAKET
+                        </span>
 
-                      <p>
-                        {packageData.short_description ??
-                          packageData.description ??
-                          `${packageData.items.length} tjänster`}
-                      </p>
+                        <h3>
+                          {
+                            packageData.name
+                          }
+                        </h3>
+                      </div>
 
-                      <small>
+                      {selected && (
+                        <em>
+                          VALT
+                        </em>
+                      )}
+                    </div>
+
+                    <p>
+                      {packageData.short_description ??
+                        packageData.description ??
+                        "Färdigt paket med flera tjänster."}
+                    </p>
+
+                    <div
+                      className={
+                        styles.packageMeta
+                      }
+                    >
+                      <span>
                         {
                           packageData.items
                             .length
-                        }{" "}
+                        }
+                        {" "}
                         tjänster
-                      </small>
+                      </span>
+
+                      {Number(
+                        packageData.discount_percent
+                      ) >
+                        0 && (
+                        <span>
+                          {
+                            packageData.discount_percent
+                          }
+                          % paketrabatt
+                        </span>
+                      )}
                     </div>
 
                     <div
@@ -807,23 +1351,50 @@ export default function OfferServices({
                         styles.packageFooter
                       }
                     >
-                      <strong>
-                        {currencyFormatter.format(
-                          packagePrice
-                        )}
-                      </strong>
+                      <div>
+                        <small>
+                          Paketpris
+                        </small>
+
+                        <strong>
+                          {currencyFormatter.format(
+                            packagePrice
+                          )}
+                        </strong>
+
+                        <span>
+                          exkl. moms
+                        </span>
+                      </div>
 
                       <button
                         type="button"
+                        className={
+                          selected
+                            ? styles.packageRemove
+                            : ""
+                        }
                         onClick={() =>
                           addPackage(
                             packageData
                           )
                         }
                       >
-                        {selected
-                          ? "Ta bort paket"
-                          : "Lägg till paket"}
+                        {selected ? (
+                          <>
+                            <Check
+                              size={15}
+                            />
+                            Tillagd
+                          </>
+                        ) : (
+                          <>
+                            <Plus
+                              size={15}
+                            />
+                            Lägg till
+                          </>
+                        )}
                       </button>
                     </div>
                   </article>
@@ -834,55 +1405,98 @@ export default function OfferServices({
         </div>
       )}
 
-      {activeView === "custom" && (
-        <div className={styles.customForm}>
-          <div className={styles.customHeader}>
-            <Plus size={20} />
+
+      {activeView ===
+        "custom" && (
+        <div
+          className={
+            styles.customForm
+          }
+        >
+          <div
+            className={
+              styles.customHeader
+            }
+          >
+            <span>
+              <Plus
+                size={20}
+              />
+            </span>
 
             <div>
-              <h3>Skapa egen tjänst</h3>
+              <small>
+                ANPASSAD OFFERTRAD
+              </small>
+
+              <h3>
+                Lägg till egen
+                tjänst
+              </h3>
 
               <p>
-                Lägg till en anpassad
-                offertrad för denna offert.
+                Skapa en tjänst som
+                bara ska finnas i
+                den här offerten.
               </p>
             </div>
           </div>
 
-          <div className={styles.formGrid}>
+
+          <div
+            className={
+              styles.formGrid
+            }
+          >
             <label>
               <span>
-                Tjänstens namn *
+                Namn *
               </span>
 
               <input
                 type="text"
-                value={customService.name}
-                onChange={(event) =>
+                value={
+                  customService.name
+                }
+                placeholder="Exempel: Extra integrationsarbete"
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       name:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               />
             </label>
 
+
             <label>
-              <span>Kategori</span>
+              <span>
+                Kategori
+              </span>
 
               <select
                 value={
                   customService.categoryId
                 }
-                onChange={(event) =>
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       categoryId:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
@@ -892,74 +1506,110 @@ export default function OfferServices({
                 </option>
 
                 {options.categories.map(
-                  (category) => (
+                  (
+                    category
+                  ) => (
                     <option
-                      key={category.id}
-                      value={category.id}
+                      key={
+                        category.id
+                      }
+                      value={
+                        category.id
+                      }
                     >
-                      {category.name}
+                      {
+                        category.name
+                      }
                     </option>
                   )
                 )}
               </select>
             </label>
+
 
             <label
               className={
                 styles.gridFull
               }
             >
-              <span>Beskrivning</span>
+              <span>
+                Beskrivning
+              </span>
 
               <textarea
-                rows={3}
+                rows={4}
                 value={
                   customService.description
                 }
-                onChange={(event) =>
+                placeholder="Beskriv vad som ingår i tjänsten."
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       description:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               />
             </label>
 
+
             <label>
-              <span>Enhet</span>
+              <span>
+                Enhet
+              </span>
 
               <select
                 value={
                   customService.unitCode
                 }
-                onChange={(event) =>
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       unitCode:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               >
                 {options.units.map(
-                  (unit) => (
+                  (
+                    unit
+                  ) => (
                     <option
-                      key={unit.code}
-                      value={unit.code}
+                      key={
+                        unit.code
+                      }
+                      value={
+                        unit.code
+                      }
                     >
-                      {unit.label}
+                      {
+                        unit.label
+                      }
                     </option>
                   )
                 )}
               </select>
             </label>
 
+
             <label>
-              <span>Antal</span>
+              <span>
+                Antal
+              </span>
 
               <input
                 type="number"
@@ -968,21 +1618,27 @@ export default function OfferServices({
                 value={
                   customService.quantity
                 }
-                onChange={(event) =>
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       quantity:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               />
             </label>
 
+
             <label>
               <span>
-                Pris exkl. moms *
+                Á-pris exkl. moms *
               </span>
 
               <input
@@ -991,20 +1647,29 @@ export default function OfferServices({
                 value={
                   customService.unitPriceExVat
                 }
-                onChange={(event) =>
+                placeholder="0"
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       unitPriceExVat:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               />
             </label>
 
+
             <label>
-              <span>Rabatt %</span>
+              <span>
+                Rabatt %
+              </span>
 
               <input
                 type="number"
@@ -1013,20 +1678,28 @@ export default function OfferServices({
                 value={
                   customService.discountPercent
                 }
-                onChange={(event) =>
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       discountPercent:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               />
             </label>
 
+
             <label>
-              <span>Moms %</span>
+              <span>
+                Moms %
+              </span>
 
               <input
                 type="number"
@@ -1034,18 +1707,24 @@ export default function OfferServices({
                 value={
                   customService.vatRate
                 }
-                onChange={(event) =>
+                onChange={(
+                  event
+                ) =>
                   setCustomService(
-                    (current) => ({
+                    (
+                      current
+                    ) => ({
                       ...current,
                       vatRate:
-                        event.target.value,
+                        event.target
+                          .value,
                     })
                   )
                 }
               />
             </label>
           </div>
+
 
           <button
             type="button"
@@ -1056,75 +1735,421 @@ export default function OfferServices({
               !customService.name.trim() ||
               !customService.unitPriceExVat
             }
-            onClick={addCustomService}
+            onClick={
+              addCustomService
+            }
           >
-            <Plus size={17} />
-            Lägg till tjänsten
+            <Plus
+              size={17}
+            />
+
+            Lägg till i offerten
           </button>
         </div>
       )}
 
-      {services.length > 0 && (
-        <div className={styles.selectedSection}>
-          <div
+
+      {services.length >
+        0 && (
+        <section
+          className={
+            styles.selectedSection
+          }
+        >
+          <header
             className={
               styles.selectedHeader
             }
           >
             <div>
-              <h3>Valda tjänster</h3>
-
               <span>
-                {services.length} offertrader
+                OFFERTINNEHÅLL
               </span>
+
+              <h3>
+                Valda tjänster
+              </h3>
+
+              <p>
+                Finjustera pris,
+                antal och vad kunden
+                ska kunna se.
+              </p>
             </div>
 
-            <strong>
-              {currencyFormatter.format(
-                subtotal
-              )}
-            </strong>
-          </div>
-
-          <div className={styles.selectedList}>
-            {services.map((service) => (
-              <div key={service.id}>
-                <div>
-                  <strong>
-                    {service.name}
-                  </strong>
-
-                  <span>
-                    {service.quantity} ×{" "}
-                    {currencyFormatter.format(
-                      service.unitPriceExVat
-                    )}
-                  </span>
-                </div>
-
-                <strong>
+            <div
+              className={
+                styles.selectedTotals
+              }
+            >
+              {discountAmount >
+                0 && (
+                <span>
+                  Rabatt{" "}
                   {currencyFormatter.format(
-                    calculateSubtotal(
-                      service
-                    )
+                    discountAmount
                   )}
-                </strong>
+                </span>
+              )}
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    removeService(
-                      service.id
-                    )
+              <strong>
+                {currencyFormatter.format(
+                  subtotal
+                )}
+              </strong>
+
+              <small>
+                exkl. moms
+              </small>
+            </div>
+          </header>
+
+
+          <div
+            className={
+              styles.selectedList
+            }
+          >
+            {services.map(
+              (
+                service,
+                index
+              ) => (
+                <article
+                  key={
+                    service.id
                   }
-                  aria-label={`Ta bort ${service.name}`}
+                  className={
+                    styles.selectedItem
+                  }
                 >
-                  <Trash2 size={15} />
-                </button>
-              </div>
-            ))}
+                  <div
+                    className={
+                      styles.selectedItemHeader
+                    }
+                  >
+                    <div
+                      className={
+                        styles.lineNumber
+                      }
+                    >
+                      {String(
+                        index + 1
+                      ).padStart(
+                        2,
+                        "0"
+                      )}
+                    </div>
+
+                    <div
+                      className={
+                        styles.selectedTitle
+                      }
+                    >
+                      <strong>
+                        {
+                          service.name
+                        }
+                      </strong>
+
+                      <span>
+                        {service.sourcePackageId
+                          ? "Från paket"
+                          : service.sourceServiceId
+                            ? "Från tjänstekatalog"
+                            : "Egen offertrad"}
+                      </span>
+                    </div>
+
+                    <strong
+                      className={
+                        styles.lineTotal
+                      }
+                    >
+                      {currencyFormatter.format(
+                        calculateSubtotal(
+                          service
+                        )
+                      )}
+                    </strong>
+
+                    <button
+                      type="button"
+                      className={
+                        styles.deleteLine
+                      }
+                      onClick={() =>
+                        removeService(
+                          service.id
+                        )
+                      }
+                      aria-label={`Ta bort ${service.name}`}
+                    >
+                      <Trash2
+                        size={16}
+                      />
+                    </button>
+                  </div>
+
+
+                  <div
+                    className={
+                      styles.lineFields
+                    }
+                  >
+                    <label>
+                      <span>
+                        Antal
+                      </span>
+
+                      <input
+                        type="number"
+                        min="1"
+                        step="1"
+                        value={
+                          service.quantity
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              quantity:
+                                Math.max(
+                                  1,
+                                  Number(
+                                    event.target
+                                      .value
+                                  ) || 1
+                                ),
+                            }
+                          )
+                        }
+                      />
+                    </label>
+
+
+                    <label>
+                      <span>
+                        Enhet
+                      </span>
+
+                      <select
+                        value={
+                          service.unitCode
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              unitCode:
+                                event.target
+                                  .value,
+                            }
+                          )
+                        }
+                      >
+                        {options.units.map(
+                          (
+                            unit
+                          ) => (
+                            <option
+                              key={
+                                unit.code
+                              }
+                              value={
+                                unit.code
+                              }
+                            >
+                              {
+                                unit.label
+                              }
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </label>
+
+
+                    <label>
+                      <span>
+                        Á-pris exkl.
+                      </span>
+
+                      <input
+                        type="number"
+                        min="0"
+                        value={
+                          service.unitPriceExVat
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              unitPriceExVat:
+                                Math.max(
+                                  0,
+                                  Number(
+                                    event.target
+                                      .value
+                                  ) || 0
+                                ),
+                            }
+                          )
+                        }
+                      />
+                    </label>
+
+
+                    <label>
+                      <span>
+                        Rabatt %
+                      </span>
+
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={
+                          service.discountPercent
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              discountPercent:
+                                Math.min(
+                                  100,
+                                  Math.max(
+                                    0,
+                                    Number(
+                                      event.target
+                                        .value
+                                    ) || 0
+                                  )
+                                ),
+                            }
+                          )
+                        }
+                      />
+                    </label>
+
+
+                    <label>
+                      <span>
+                        Moms %
+                      </span>
+
+                      <input
+                        type="number"
+                        min="0"
+                        value={
+                          service.vatRate
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              vatRate:
+                                Math.max(
+                                  0,
+                                  Number(
+                                    event.target
+                                      .value
+                                  ) || 0
+                                ),
+                            }
+                          )
+                        }
+                      />
+                    </label>
+                  </div>
+
+
+                  <div
+                    className={
+                      styles.lineOptions
+                    }
+                  >
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={
+                          service.customerVisible
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              customerVisible:
+                                event.target
+                                  .checked,
+                            }
+                          )
+                        }
+                      />
+
+                      <span>
+                        <strong>
+                          Visa för kund
+                        </strong>
+
+                        <small>
+                          Offertraden visas
+                          i kundens offert.
+                        </small>
+                      </span>
+                    </label>
+
+
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={
+                          service.isOptional
+                        }
+                        onChange={(
+                          event
+                        ) =>
+                          updateService(
+                            service.id,
+                            {
+                              isOptional:
+                                event.target
+                                  .checked,
+                            }
+                          )
+                        }
+                      />
+
+                      <span>
+                        <strong>
+                          Valfri tjänst
+                        </strong>
+
+                        <small>
+                          Markera posten som
+                          ett valbart tillägg.
+                        </small>
+                      </span>
+                    </label>
+                  </div>
+                </article>
+              )
+            )}
           </div>
-        </div>
+        </section>
       )}
     </section>
   );
